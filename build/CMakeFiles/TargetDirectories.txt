@@ -1,0 +1,3 @@
+D:/codings/Dictinoary/build/CMakeFiles/Dict.dir
+D:/codings/Dictinoary/build/CMakeFiles/edit_cache.dir
+D:/codings/Dictinoary/build/CMakeFiles/rebuild_cache.dir

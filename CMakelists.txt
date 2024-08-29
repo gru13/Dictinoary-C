@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(Dict VERSION 0.1.0 LANGUAGES C)
+
+add_executable(Dict ./src/main.c ./src/menu.c ./src/dataHandle.c ./src/Movement.c)
+
+target_link_libraries(Dict ncurses pthread)
+
+set_target_properties(Dict PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "../out"
+)
+# set_target_properties(Dict PROPERTIES
+#     RUNTIME_OUTPUT_DIRECTORY "../src"
+# )
+
+target_include_directories(Dict PRIVATE ${PROJECT_SOURCE_DIR}/src)
+
+# Copy data.txt to the output directory
+file(COPY ${PROJECT_SOURCE_DIR}/src/data.txt DESTINATION ${CMAKE_BINARY_DIR}/../out)

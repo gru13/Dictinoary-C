@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\Dict.dir/objects.a
+C:\MinGW\bin\ar.exe qc CMakeFiles\Dict.dir/objects.a @CMakeFiles\Dict.dir\objects1.rsp
+C:\MinGW\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\Dict.dir/objects.a -Wl,--no-whole-archive -o D:\codings\Dictinoary\out\Dict.exe -Wl,--out-implib,libDict.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Dict.dir\linkLibs.rsp

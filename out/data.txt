@@ -1,0 +1,14 @@
+@A-2,2,2,
+^Apple 
+~It is a furit
+~It is Red in color
+^Air
+~this Air
+~Thus Air
+@B-2,2,2,
+^Bat 
+~It is a playing tool
+~It is used in Cricket, Baseball
+^Byte
+~Unit of measurement
+~comes after Bit

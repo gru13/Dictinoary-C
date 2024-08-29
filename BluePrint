@@ -1,0 +1,25 @@
+placement of dictonary
+
+@A-2,2,2,
+^Apple 
+~It is a furit
+~It is Red in color
+^Air
+~this Air
+~Thus Air
+@B-2,2,2,
+^Bat 
+~It is a playing tool
+~It is used in Cricket, Baseball
+^Byte
+~Unit of measurement
+~comes after Bit
+
+menu 
+
+Search for Word
+Create a Word and Meaning
+Add Meaning to Word
+Remove Word and Meaning
+Remove a Meaning
+Exit
