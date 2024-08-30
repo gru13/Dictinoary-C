@@ -104,16 +104,54 @@ int search(WINDOW* win){
         Sleep(2000);
         return 1;
     }
+    mvwprintw(win,ySearch,x,"Meaning for '%s' :",key);
+    int X_mean = x+strlen(Word)+18, cursor = 0;
+    char Meaning[nofMeaning[indexOfWord]][X+X];
     for(int i = 0;i<nofMeaning[indexOfWord];i++){
-        char Meaning[X+X];
-        nextMeaning(fp,Meaning);
-        mvwprintw(win,ySearch+i+1,x+strlen(Word)+1,"[%d] %s",i+1,Meaning);
+        nextMeaning(fp,Meaning[i]);
     }
-    choice = wgetch(win);
-    if(choice == enter){
-        return 1;
-    }else if(choice == ESC){
-        return 0;
+    int ofset = 0;
+    while(TRUE){
+        for(int i =0 ;i<nofMeaning[indexOfWord] && i < Y-ySearch-4;i++){
+            mvwprintw(win,ySearch+2+i,X_mean,"[%02d] %s",i+1+ofset,Meaning[i+ofset]);
+        }
+        mvwprintw(win,ySearch+2+cursor,X_mean-3,"->");
+        wrefresh(win);
+        choice = wgetch(win);
+        switch (choice){
+            case enter:
+                return 1;
+            case ESC:
+                return 0;
+            default:
+                break;
+            case down:
+                mvwprintw(win,ySearch+2+cursor,X_mean-3,"  ");
+                cursor++;
+                if(cursor >= Y-ySearch-4){
+                    cursor--;
+                    ofset++;
+                    if(ofset + cursor >=  nofMeaning[indexOfWord]){
+                        ofset--;
+                    }
+                }
+                mvwprintw(win,ySearch+2+cursor,X_mean-3,"->");
+                wrefresh(win);
+                break;
+            case up:
+                mvwprintw(win,ySearch+2+cursor,X_mean-3,"  ");
+                cursor--;
+                if(cursor <= -1){
+                    cursor++;
+                    ofset--;
+                    if(ofset <= 0){
+                        ofset = 0;
+                    }
+                }
+                mvwprintw(win,ySearch+2+cursor,X_mean-3,"->");
+                wrefresh(win);
+                break;
+        }
     }
     return 0;
 }
