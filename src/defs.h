@@ -16,6 +16,7 @@
 #define down 'P' // down
 #define up 'H' // up
 #define rigth 'M' // rigth
+#define ESC 27  
 #define left 'K' // left
 
 #define DATA "D:\\codings\\Dictinoary\\src\\data.txt"
@@ -49,5 +50,5 @@ int search(WINDOW* win);
 */
 
 char nextLetter(FILE* fp);
-int nextWord(FILE* fp);
-int nextMeaning(FILE* fp);
+int nextWord(FILE* fp, char words[X]);
+int nextMeaning(FILE* fp, char sent[X]);
