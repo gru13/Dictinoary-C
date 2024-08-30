@@ -54,6 +54,10 @@ int menu(WINDOW* win){
                 mvwprintw(win,y+i,x-3,"->");
             }
             break;
+        case ESC:
+            choice = '\n';
+            i = NOP-1;
+            break;
         default:
             if(choice >= 49 && choice <= 48 + NOP){
                 mvwprintw(win,y+i,x-3,"  ");
@@ -66,5 +70,5 @@ int menu(WINDOW* win){
     }while(choice != '\n');
     box(win,0,0);
     wrefresh(win);
-    return i ;
+    return i;
 }

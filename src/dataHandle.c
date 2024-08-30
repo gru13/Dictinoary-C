@@ -25,7 +25,9 @@ int search(WINDOW* win){
     // getting word
     do{
         choice = wgetch(win);
-        if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-'){
+        if(index == 0 && choice == ' '){
+            continue;
+        }else if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-'){
             Word[index] = (char)choice;
             mvwaddch(win,y,locX+index,Word[index]);
             wrefresh(win);
@@ -38,8 +40,9 @@ int search(WINDOW* win){
             mvwaddch(win,y,locX+index,' ');
             wrefresh(win);
             Word[index] = '\0';
-        }else if(choice == 10 && strlen(Word) == 0){
-            mvwprintw(win, ySearch, x, "Enter Word to search");
+        }else if(choice == 10 && index == 0){
+            mvwprintw(win, ySearch, x, "Before Pressing Enter, Enter words for searching");
+            wrefresh(win);
             Sleep(1000);
             search(win);
         }else if(choice == ESC){
@@ -76,12 +79,20 @@ int search(WINDOW* win){
         fscanf(fp,"%d,", &nofMeaning[i]);
     } 
     fgetc(fp); // skipping the '\n'
-    for(int i = 0 ;i < nof_words; i++){
+    int indexOfWord = 0;
+    for(;indexOfWord < nof_words; indexOfWord++){
         nextWord(fp,key);
         mvwprintw(win,ySearch,x,"%s",key);
         wrefresh(win);
         Sleep(300);
-        mvwhline(win, ySearch,x,_SPACE,X-x-2);
+        if(strcmp(Word,key) == 0){
+            // // debug  
+            // mvwprintw(win,ySearch+2,x+strlen(Word),"%d",nofMeaning[indexOfWord]);
+            // wrefresh(win);
+            Sleep(5000);
+            break;
+        }
+        mvwhline(win, ySearch,x,' ',X-x-2);
         wrefresh(win);
         Sleep(300);
     }

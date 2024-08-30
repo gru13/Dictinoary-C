@@ -6,7 +6,7 @@ char nextLetter(FILE* fp){
     while (TRUE){
         p = fgetc(fp);
         if(p == EOF){
-            perror("cant print");
+            perror("reached end of file");
         }
         if(p == '@'){
             break;
@@ -20,7 +20,7 @@ int nextWord(FILE* fp, char words[X]){
     while(TRUE){
         p = fgetc(fp);
         if(p == EOF){
-            perror("cant print");
+            perror("reached end of file");
         }
         if(p == '^'){
             break;
