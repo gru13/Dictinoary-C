@@ -40,11 +40,11 @@ int search(WINDOW* win){
             mvwaddch(win,y,locX+index,' ');
             wrefresh(win);
             Word[index] = '\0';
-        }else if(choice == 10 && index == 0){
+        }else if(choice == 10 &&(index == 0 || strlen(Word) == 0)){
             mvwprintw(win, ySearch, x, "Before Pressing Enter, Enter words for searching");
             wrefresh(win);
             Sleep(1000);
-            search(win);
+            return 1;
         }else if(choice == ESC){
             curs_set(FALSE);
             return 0;
@@ -69,17 +69,17 @@ int search(WINDOW* win){
     // mvwprintw(win, 21,20,"%d",nof_words);
     // wrefresh(win);
     if(nof_words == 0){
-        mvwprintw(win,ySearch,x,"No Words Found , please add the Words to view");
+        mvwprintw(win,ySearch,x,"No Words Found in %c, please add the Words to view",Word[0]);
         wrefresh(win);  
         Sleep(1000);
-        search(win);
+        return 1;
     }
     int nofMeaning[nof_words];
     for(int i = 0;i<nof_words;i++){
         fscanf(fp,"%d,", &nofMeaning[i]);
     } 
     fgetc(fp); // skipping the '\n'
-    int indexOfWord = 0;
+    int indexOfWord = 0, wordFound = FALSE;
     for(;indexOfWord < nof_words; indexOfWord++){
         nextWord(fp,key);
         mvwprintw(win,ySearch,x,"%s",key);
@@ -89,12 +89,31 @@ int search(WINDOW* win){
             // // debug  
             // mvwprintw(win,ySearch+2,x+strlen(Word),"%d",nofMeaning[indexOfWord]);
             // wrefresh(win);
-            Sleep(5000);
+            // Sleep(5000);
+            wordFound = TRUE;
             break;
+        }else{
+            mvwhline(win, ySearch,x,' ',X-x-2);
+            wrefresh(win);
+            Sleep(300);
         }
-        mvwhline(win, ySearch,x,' ',X-x-2);
-        wrefresh(win);
-        Sleep(300);
+    }
+    if(wordFound == FALSE){
+        mvwprintw(win,ySearch,x,"'%s' Not Found in '%c' Letter, please add the Word to view",Word, Word[0]);
+        wrefresh(win);  
+        Sleep(2000);
+        return 1;
+    }
+    for(int i = 0;i<nofMeaning[indexOfWord];i++){
+        char Meaning[X+X];
+        nextMeaning(fp,Meaning);
+        mvwprintw(win,ySearch+i+1,x+strlen(Word)+1,"[%d] %s",i+1,Meaning);
+    }
+    choice = wgetch(win);
+    if(choice == enter){
+        return 1;
+    }else if(choice == ESC){
+        return 0;
     }
     return 0;
 }

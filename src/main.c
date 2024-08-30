@@ -22,7 +22,7 @@ int main(){
         int choice = menu(win);
         switch (choice){
         case 0:
-            search(win);
+            while(search(win)){}
             break;
         case 5:
             Exit = 0;
