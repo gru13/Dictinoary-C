@@ -105,17 +105,32 @@ int search(WINDOW* win){
         return 1;
     }
     mvwprintw(win,ySearch,x,"Meaning for '%s' :",key);
-    int X_mean = x+strlen(Word)+18, cursor = 0;
+    int X_mean = x+strlen(Word)+18, cursorY = 0,cursorX =0;
     char Meaning[nofMeaning[indexOfWord]][X+X];
     for(int i = 0;i<nofMeaning[indexOfWord];i++){
         nextMeaning(fp,Meaning[i]);
     }
-    int ofset = 0;
+    int ofsetY = 0,ofsetX = 0;
     while(TRUE){
         for(int i =0 ;i<nofMeaning[indexOfWord] && i < Y-ySearch-4;i++){
-            mvwprintw(win,ySearch+2+i,X_mean,"[%02d] %s",i+1+ofset,Meaning[i+ofset]);
+
+            if(cursorY == i && strlen(Meaning[i+ofsetY]) >= X-X_mean-5){
+                mvwprintw(win,ySearch+2+i,X_mean, "[%02d]",i+1+ofsetY);
+                for(int j = 0;j<strlen(Meaning[i+ofsetY]) && j+X_mean+5 < X - 5;j++){
+                    mvwprintw(win,ySearch+2+i,X_mean+5+j,"%c",Meaning[i+ofsetY][j+ofsetX]);
+                }
+            }else if(strlen(Meaning[i+ofsetY]) >= X-X_mean-5){
+                mvwprintw(win,ySearch+2+i,X_mean, "[%02d]",i+1+ofsetY);
+                for(int j = 0;j<strlen(Meaning[i+ofsetY]) && j+X_mean+5 < X - 5;j++){
+                    mvwprintw(win,ySearch+2+i,X_mean+5+j,"%c",Meaning[i+ofsetY][j]);
+                }
+            }else{
+                mvwprintw(win,ySearch+2+i,X_mean,"[%02d] %s",i+1+ofsetY,Meaning[i+ofsetY]);
+            }
+
         }
-        mvwprintw(win,ySearch+2+cursor,X_mean-3,"->");
+
+        mvwprintw(win,ySearch+2+cursorY,X_mean-3,"->");
         wrefresh(win);
         choice = wgetch(win);
         switch (choice){
@@ -126,30 +141,52 @@ int search(WINDOW* win){
             default:
                 break;
             case down:
-                mvwprintw(win,ySearch+2+cursor,X_mean-3,"  ");
-                cursor++;
-                if(cursor >= Y-ySearch-4){
-                    cursor--;
-                    ofset++;
-                    if(ofset + cursor >=  nofMeaning[indexOfWord]){
-                        ofset--;
+                ofsetX = 0;
+                mvwprintw(win,ySearch+2+cursorY,X_mean-3,"  ");
+                cursorY++;
+                if(cursorY >= Y-ySearch-4){
+                    cursorY--;
+                    ofsetY++;
+                    if(ofsetY + cursorY >=  nofMeaning[indexOfWord]){
+                        ofsetY--;
                     }
                 }
-                mvwprintw(win,ySearch+2+cursor,X_mean-3,"->");
+                mvwprintw(win,ySearch+2+cursorY,X_mean-3,"->");
                 wrefresh(win);
                 break;
             case up:
-                mvwprintw(win,ySearch+2+cursor,X_mean-3,"  ");
-                cursor--;
-                if(cursor <= -1){
-                    cursor++;
-                    ofset--;
-                    if(ofset <= 0){
-                        ofset = 0;
+                ofsetX = 0;
+                mvwprintw(win,ySearch+2+cursorY,X_mean-3,"  ");
+                cursorY--;
+                if(cursorY <= -1){
+                    cursorY++;
+                    ofsetY--;
+                    if(ofsetY <= 0){
+                        ofsetY = 0;
                     }
                 }
-                mvwprintw(win,ySearch+2+cursor,X_mean-3,"->");
+                mvwprintw(win,ySearch+2+cursorY,X_mean-3,"->");
                 wrefresh(win);
+                break;
+            case rigth:
+                cursorX++;
+                if(cursorX+X_mean+5 < X-3){
+                    cursorX--;
+                    ofsetX++;
+                    if(ofsetX + cursorX >= strlen(Meaning[cursorY+ofsetY])){
+                        ofsetX--;
+                    }
+                }
+                break;
+            case left:
+                cursorX--;
+                if(cursorX < 0){
+                    cursorX++;
+                    ofsetX--;
+                    if(ofsetX <=0){
+                        ofsetX = 0; 
+                    }
+                }
                 break;
         }
     }
