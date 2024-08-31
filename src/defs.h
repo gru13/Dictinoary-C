@@ -18,7 +18,7 @@
 #define rigth 'M' // rigth
 #define ESC 27  
 #define left 'K' // left
-
+#define bsc 8
 #define DATA "D:\\codings\\Dictinoary\\src\\data.txt"
 #define NOP 6
 #define Y 30
@@ -42,7 +42,7 @@ void initTemplate(WINDOW* win, const char* heading);
         this contains the menu controls 
 */
 int search(WINDOW* win);
-
+int CreatePair(WINDOW* win);
 
 /*
     Defined in Movement.c

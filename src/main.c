@@ -24,6 +24,9 @@ int main(){
         case 0:
             while(search(win)){}
             break;
+        case 1:
+            while(CreatePair(win)){}
+            break;
         case 5:
             Exit = 0;
             break;
