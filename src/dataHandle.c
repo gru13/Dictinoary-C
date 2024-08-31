@@ -14,12 +14,12 @@ int search(WINDOW* win){
     mvwprintw(win,y,x,Query);
     mvwhline(win,y+2,1,WA_HORIZONTAL,X-2);
     wrefresh(win);
-    
+
     char Word[X];int index = 0;
     Word[0] = '\0';
     int choice = 0;
     int locX = x + strlen(Query);
-    int ySearch = y + 5;  
+    int ySearch = y + 5;
     curs_set(TRUE);
     wmove(win,y,locX);
     // getting word
@@ -57,7 +57,7 @@ int search(WINDOW* win){
         p = nextLetter(fp);
         mvwprintw(win,ySearch,x,"%c",p);
         wrefresh(win);
-        Sleep(100); 
+        Sleep(100);
         if(p == tolower(Word[0])){
             break;
         }
@@ -69,14 +69,14 @@ int search(WINDOW* win){
     // wrefresh(win);
     if(nof_words == 0){
         mvwprintw(win,ySearch,x,"No Words Found in %c, please add the Words to view",Word[0]);
-        wrefresh(win);  
+        wrefresh(win);
         Sleep(1000);
         return 1;
     }
     int nofMeaning[nof_words];
     for(int i = 0;i<nof_words;i++){
         fscanf(fp,"%d,", &nofMeaning[i]);
-    } 
+    }
     fgetc(fp); // skipping the '\n'
     int indexOfWord = 0, wordFound = FALSE;
     for(;indexOfWord < nof_words; indexOfWord++){
@@ -85,7 +85,7 @@ int search(WINDOW* win){
         wrefresh(win);
         Sleep(300);
         if(strcmp(Word,key) == 0){
-            // // debug  
+            // // debug
             // mvwprintw(win,ySearch+2,x+strlen(Word),"%d",nofMeaning[indexOfWord]);
             // wrefresh(win);
             // Sleep(5000);
@@ -99,7 +99,7 @@ int search(WINDOW* win){
     }
     if(wordFound == FALSE){
         mvwprintw(win,ySearch,x,"'%s' Not Found in '%c' Letter, please add the Word to view",Word, Word[0]);
-        wrefresh(win);  
+        wrefresh(win);
         Sleep(2000);
         return 1;
     }
@@ -120,14 +120,14 @@ int search(WINDOW* win){
                     mvwprintw(win,ySearch+2+i,X_mean+5+j,"%c",Meaning[i+ofsetY][j+ofsetX]);
                 }
 
-            }else 
+            }else
             if(strlen(Meaning[i+ofsetY]) >= X-X_mean-5){
                 mvwprintw(win,ySearch+2+i,X_mean, "[%02d]",i+1+ofsetY);
 
                 for(int j = 0;j<strlen(Meaning[i+ofsetY]) && j+X_mean+5 < X - 5;j++){
                     mvwprintw(win,ySearch+2+i,X_mean+5+j,"%c",Meaning[i+ofsetY][j]);
                 }
-                
+
             }else{
                 mvwprintw(win,ySearch+2+i,X_mean,"[%02d] %s",i+1+ofsetY,Meaning[i+ofsetY]);
             }
@@ -187,7 +187,7 @@ int search(WINDOW* win){
 
 int CreatePair(WINDOW* win){
     initTemplate(win, "Insert Word with Meaning");
-    
+
     int x = X/20;
     int y = Y/2 - 5;
     char WordQuery[] = "Enter Word        : ";
@@ -201,32 +201,90 @@ int CreatePair(WINDOW* win){
     curs_set(TRUE);
     wmove(win,cursorY,cursorX);
     wrefresh(win);
-    
+
     char Word[X];
-    int index = 0;
+    int Wordindex = 0;
     Word[0] = '\0';
-    while(strlen(Word) == 0 && choice != enter){
+    // getting word
+    do{
         choice = wgetch(win);
-        switch (choice){
-        case ESC:
+        if(Wordindex == 0 && choice == ' '){
+            continue;
+        }else if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-'){
+            Word[Wordindex] = (char)choice;
+            mvwaddch(win,y,cursorX+Wordindex,Word[Wordindex]);
+            wrefresh(win);
+            Wordindex++;
+            Word[Wordindex] = '\0';
+        }else if(choice == bsc){
+            Wordindex--;
+            Wordindex = (Wordindex>=0)?Wordindex:0;
+            mvwaddch(win,y,cursorX+Wordindex,' ');
+            wrefresh(win);
+            Word[Wordindex] = '\0';
+        }else if(choice == 10 &&(Wordindex == 0 || strlen(Word) == 0)){
+            mvwprintw(win, cursorY + 12, x, "Enter Something in Word");
+            wrefresh(win);
+            Sleep(1000);
+            curs_set(FALSE);
+            return 1;
+        }else if(choice == ESC){
+            curs_set(FALSE);
             return 0;
-            break;
-        case bsc:
-            index = (index < 0)?0:index-1;
-            mvwaddch(win,cursorY,cursorX+index,' ');
-            break;
-        default:
-            if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-'){
-                Word[index] = (char)choice;
-                mvwaddch(win,y,cursorX+index,Word[index]);
-                wrefresh(win);
-                index++;
-                Word[index] = '\0';
-            }
+        }
+    }while(choice != enter);
+    Word[Wordindex] = '\0';
+    
+    char Meaning[X+x];
+    Meaning[0] ='\0';
+    curs_set(TRUE);
+    wmove(win,y+2,cursorX);
+    wrefresh(win);
+    int Meaningindex = 0;
+    // getting Meaing
+    do{
+        if(Meaningindex == X+X-2){
             break;
         }
-    }
-
-    Sleep(5000);
+        choice = wgetch(win);
+        if(Meaningindex == 0 && choice == ' '){
+            continue;
+        }else if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-'){
+            Meaning[Meaningindex] = (char)choice;
+            if(cursorX + Meaningindex < X - 5){
+                mvwaddch(win,y+2,Meaningindex + cursorX,Meaning[Meaningindex]);
+                wrefresh(win);
+            }else{
+                mvwaddch(win,y+3,Meaningindex - (X-6-cursorX) + cursorX,Meaning[Meaningindex]);
+                wrefresh(win);
+            }
+            Meaningindex++;
+            Meaning[Meaningindex] = '\0';
+        }else if(choice == bsc){
+            if(Meaningindex == 0){
+                continue;
+            }
+            Meaningindex--;
+            if(cursorX + Meaningindex < X - 5){
+                mvwaddch(win,y+2,cursorX+Meaningindex,' ');
+                wrefresh(win);
+            }else{
+                mvwaddch(win,y+3,Meaningindex - (X-6-cursorX) + cursorX,' ');
+                wrefresh(win);
+            }
+            Meaning[Meaningindex] = '\0';
+        }else if(choice == 10 &&(Meaningindex == 0 || strlen(Meaning) == 0)){
+            mvwprintw(win, cursorY + 12, x, "Enter Something in Meaning");
+            wrefresh(win);
+            Sleep(1000);
+            mvwprintw(win, cursorY + 12, x, "                          ");
+            wrefresh(win);
+        }else if(choice == ESC){
+            curs_set(FALSE);
+            return 0;
+        }
+    }while(choice != enter);
+    Meaning[Meaningindex] = '\0';
+    curs_set(FALSE);
     return 0;
 }
