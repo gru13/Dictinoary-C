@@ -152,29 +152,29 @@ src/Movement.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Movement.c.s
 .PHONY : src/Movement.c.s
 
-src/dataHandle.obj: src/dataHandle.c.obj
-.PHONY : src/dataHandle.obj
+src/create.obj: src/create.c.obj
+.PHONY : src/create.obj
 
 # target to build an object file
-src/dataHandle.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/dataHandle.c.obj
-.PHONY : src/dataHandle.c.obj
+src/create.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/create.c.obj
+.PHONY : src/create.c.obj
 
-src/dataHandle.i: src/dataHandle.c.i
-.PHONY : src/dataHandle.i
+src/create.i: src/create.c.i
+.PHONY : src/create.i
 
 # target to preprocess a source file
-src/dataHandle.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/dataHandle.c.i
-.PHONY : src/dataHandle.c.i
+src/create.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/create.c.i
+.PHONY : src/create.c.i
 
-src/dataHandle.s: src/dataHandle.c.s
-.PHONY : src/dataHandle.s
+src/create.s: src/create.c.s
+.PHONY : src/create.s
 
 # target to generate assembly for a file
-src/dataHandle.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/dataHandle.c.s
-.PHONY : src/dataHandle.c.s
+src/create.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/create.c.s
+.PHONY : src/create.c.s
 
 src/main.obj: src/main.c.obj
 .PHONY : src/main.obj
@@ -224,6 +224,30 @@ src/menu.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/menu.c.s
 .PHONY : src/menu.c.s
 
+src/search.obj: src/search.c.obj
+.PHONY : src/search.obj
+
+# target to build an object file
+src/search.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/search.c.obj
+.PHONY : src/search.c.obj
+
+src/search.i: src/search.c.i
+.PHONY : src/search.i
+
+# target to preprocess a source file
+src/search.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/search.c.i
+.PHONY : src/search.c.i
+
+src/search.s: src/search.c.s
+.PHONY : src/search.s
+
+# target to generate assembly for a file
+src/search.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/search.c.s
+.PHONY : src/search.c.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -236,15 +260,18 @@ help:
 	@echo ... src/Movement.obj
 	@echo ... src/Movement.i
 	@echo ... src/Movement.s
-	@echo ... src/dataHandle.obj
-	@echo ... src/dataHandle.i
-	@echo ... src/dataHandle.s
+	@echo ... src/create.obj
+	@echo ... src/create.i
+	@echo ... src/create.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
 	@echo ... src/menu.obj
 	@echo ... src/menu.i
 	@echo ... src/menu.s
+	@echo ... src/search.obj
+	@echo ... src/search.i
+	@echo ... src/search.s
 .PHONY : help
 
 

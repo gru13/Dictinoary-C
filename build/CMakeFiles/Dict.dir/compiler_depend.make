@@ -75,8 +75,7 @@ CMakeFiles/Dict.dir/src/Movement.c.obj: D:/codings/Dictinoary/src/Movement.c \
   C:/MinGW/lib/gcc/mingw32/6.3.0/include/stdarg.h \
   C:/MinGW/lib/gcc/mingw32/6.3.0/include/stddef.h
 
-CMakeFiles/Dict.dir/src/dataHandle.c.obj: D:/codings/Dictinoary/src/dataHandle.c \
-  D:/codings/Dictinoary/src/defs.h \
+CMakeFiles/Dict.dir/src/create.c.obj: D:/codings/Dictinoary/src/create.c \
   C:/MinGW/include/_mingw.h \
   C:/MinGW/include/_winsock.h \
   C:/MinGW/include/basetsd.h \
@@ -147,7 +146,8 @@ CMakeFiles/Dict.dir/src/dataHandle.c.obj: D:/codings/Dictinoary/src/dataHandle.c
   C:/MinGW/include/winver.h \
   C:/MinGW/include/wtypes.h \
   C:/MinGW/lib/gcc/mingw32/6.3.0/include/stdarg.h \
-  C:/MinGW/lib/gcc/mingw32/6.3.0/include/stddef.h
+  C:/MinGW/lib/gcc/mingw32/6.3.0/include/stddef.h \
+  D:/codings/Dictinoary/src/defs.h
 
 CMakeFiles/Dict.dir/src/main.c.obj: D:/codings/Dictinoary/src/main.c \
   D:/codings/Dictinoary/src/defs.h \
@@ -444,7 +444,7 @@ C:/MinGW/lib/gcc/mingw32/6.3.0/include/stdarg.h:
 
 C:/MinGW/lib/gcc/mingw32/6.3.0/include/stddef.h:
 
-D:/codings/Dictinoary/src/dataHandle.c:
+D:/codings/Dictinoary/src/create.c:
 
 D:/codings/Dictinoary/src/main.c:
 

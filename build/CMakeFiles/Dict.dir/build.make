@@ -98,20 +98,20 @@ CMakeFiles/Dict.dir/src/menu.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/Dict.dir/src/menu.c.s"
 	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\codings\Dictinoary\src\menu.c -o CMakeFiles\Dict.dir\src\menu.c.s
 
-CMakeFiles/Dict.dir/src/dataHandle.c.obj: CMakeFiles/Dict.dir/flags.make
-CMakeFiles/Dict.dir/src/dataHandle.c.obj: CMakeFiles/Dict.dir/includes_C.rsp
-CMakeFiles/Dict.dir/src/dataHandle.c.obj: D:/codings/Dictinoary/src/dataHandle.c
-CMakeFiles/Dict.dir/src/dataHandle.c.obj: CMakeFiles/Dict.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\codings\Dictinoary\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Dict.dir/src/dataHandle.c.obj"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Dict.dir/src/dataHandle.c.obj -MF CMakeFiles\Dict.dir\src\dataHandle.c.obj.d -o CMakeFiles\Dict.dir\src\dataHandle.c.obj -c D:\codings\Dictinoary\src\dataHandle.c
+CMakeFiles/Dict.dir/src/search.c.obj: CMakeFiles/Dict.dir/flags.make
+CMakeFiles/Dict.dir/src/search.c.obj: CMakeFiles/Dict.dir/includes_C.rsp
+CMakeFiles/Dict.dir/src/search.c.obj: D:/codings/Dictinoary/src/search.c
+CMakeFiles/Dict.dir/src/search.c.obj: CMakeFiles/Dict.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\codings\Dictinoary\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Dict.dir/src/search.c.obj"
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Dict.dir/src/search.c.obj -MF CMakeFiles\Dict.dir\src\search.c.obj.d -o CMakeFiles\Dict.dir\src\search.c.obj -c D:\codings\Dictinoary\src\search.c
 
-CMakeFiles/Dict.dir/src/dataHandle.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/Dict.dir/src/dataHandle.c.i"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\codings\Dictinoary\src\dataHandle.c > CMakeFiles\Dict.dir\src\dataHandle.c.i
+CMakeFiles/Dict.dir/src/search.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/Dict.dir/src/search.c.i"
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\codings\Dictinoary\src\search.c > CMakeFiles\Dict.dir\src\search.c.i
 
-CMakeFiles/Dict.dir/src/dataHandle.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/Dict.dir/src/dataHandle.c.s"
-	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\codings\Dictinoary\src\dataHandle.c -o CMakeFiles\Dict.dir\src\dataHandle.c.s
+CMakeFiles/Dict.dir/src/search.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/Dict.dir/src/search.c.s"
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\codings\Dictinoary\src\search.c -o CMakeFiles\Dict.dir\src\search.c.s
 
 CMakeFiles/Dict.dir/src/Movement.c.obj: CMakeFiles/Dict.dir/flags.make
 CMakeFiles/Dict.dir/src/Movement.c.obj: CMakeFiles/Dict.dir/includes_C.rsp
@@ -128,25 +128,42 @@ CMakeFiles/Dict.dir/src/Movement.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/Dict.dir/src/Movement.c.s"
 	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\codings\Dictinoary\src\Movement.c -o CMakeFiles\Dict.dir\src\Movement.c.s
 
+CMakeFiles/Dict.dir/src/create.c.obj: CMakeFiles/Dict.dir/flags.make
+CMakeFiles/Dict.dir/src/create.c.obj: CMakeFiles/Dict.dir/includes_C.rsp
+CMakeFiles/Dict.dir/src/create.c.obj: D:/codings/Dictinoary/src/create.c
+CMakeFiles/Dict.dir/src/create.c.obj: CMakeFiles/Dict.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\codings\Dictinoary\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/Dict.dir/src/create.c.obj"
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/Dict.dir/src/create.c.obj -MF CMakeFiles\Dict.dir\src\create.c.obj.d -o CMakeFiles\Dict.dir\src\create.c.obj -c D:\codings\Dictinoary\src\create.c
+
+CMakeFiles/Dict.dir/src/create.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/Dict.dir/src/create.c.i"
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\codings\Dictinoary\src\create.c > CMakeFiles\Dict.dir\src\create.c.i
+
+CMakeFiles/Dict.dir/src/create.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/Dict.dir/src/create.c.s"
+	C:\MinGW\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S D:\codings\Dictinoary\src\create.c -o CMakeFiles\Dict.dir\src\create.c.s
+
 # Object files for target Dict
 Dict_OBJECTS = \
 "CMakeFiles/Dict.dir/src/main.c.obj" \
 "CMakeFiles/Dict.dir/src/menu.c.obj" \
-"CMakeFiles/Dict.dir/src/dataHandle.c.obj" \
-"CMakeFiles/Dict.dir/src/Movement.c.obj"
+"CMakeFiles/Dict.dir/src/search.c.obj" \
+"CMakeFiles/Dict.dir/src/Movement.c.obj" \
+"CMakeFiles/Dict.dir/src/create.c.obj"
 
 # External object files for target Dict
 Dict_EXTERNAL_OBJECTS =
 
 D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/src/main.c.obj
 D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/src/menu.c.obj
-D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/src/dataHandle.c.obj
+D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/src/search.c.obj
 D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/src/Movement.c.obj
+D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/src/create.c.obj
 D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/build.make
 D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/linkLibs.rsp
 D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/objects1.rsp
 D:/codings/Dictinoary/out/Dict.exe: CMakeFiles/Dict.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\codings\Dictinoary\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable D:\codings\Dictinoary\out\Dict.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\codings\Dictinoary\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C executable D:\codings\Dictinoary\out\Dict.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Dict.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

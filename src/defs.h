@@ -38,10 +38,15 @@ void initTemplate(WINDOW* win, const char* heading);
 
 
 /*
-    Defined in dataHandle.c
-        this contains the menu controls 
+    Defined in search.c
+        this contains the search controls 
 */
 int search(WINDOW* win);
+
+/*
+    Defined in create.c
+        this contains the creating part
+*/
 int CreatePair(WINDOW* win);
 
 /*
