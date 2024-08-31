@@ -64,4 +64,4 @@ int nextMeaning(FILE* fp, char sent[X]);
 
 void initTemplate(WINDOW* win, const char* heading);
 int get1LineInput(WINDOW* win, char output[X], const char Query[X], int x, int y);
-int get2LineInput(WINDOW* win, char output[X+X], const char query[X], int x, int y);
+int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y);
