@@ -15,42 +15,26 @@ int search(WINDOW* win){
     mvwhline(win,y+2,1,WA_HORIZONTAL,X-2);
     wrefresh(win);
 
+
     char Word[X];int index = 0;
     Word[0] = '\0';
     int choice = 0;
     int locX = x + strlen(Query);
     int ySearch = y + 5;
-    curs_set(TRUE);
-    wmove(win,y,locX);
-    // getting word
-    do{
-        choice = wgetch(win);
-        if(index == 0 && choice == ' '){
-            continue;
-        }else if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-'){
-            Word[index] = (char)choice;
-            mvwaddch(win,y,locX+index,Word[index]);
-            wrefresh(win);
-            index++;
-            Word[index] = '\0';
-        }else if(choice == bsc){
-            index--;
-            index = (index>=0)?index:0;
-            mvwaddch(win,y,locX+index,' ');
-            wrefresh(win);
-            Word[index] = '\0';
-        }else if(choice == 10 &&(index == 0 || strlen(Word) == 0)){
-            mvwprintw(win, ySearch, x, "Before Pressing Enter, Enter words for searching");
-            wrefresh(win);
-            Sleep(1000);
+    switch(get1LineInput(win, Word, Query,x,y)){
+        case 0:
+            // sucessfully got input
+            break;
+        case 1:
+            // no input so repeat from first
             return 1;
-        }else if(choice == ESC){
-            curs_set(FALSE);
+            break;
+        case -1:
+            // esc is pressed
             return 0;
-        }
-    }while(choice != enter);
-    Word[index] = '\0';
-    curs_set(FALSE);
+            break;
+    }
+
     rewind(fp);
     char p;
     while(!feof(fp)){

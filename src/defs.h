@@ -34,7 +34,6 @@ extern char options[NOP][X];
 */
 int maxlenoption();
 int menu(WINDOW* win);
-void initTemplate(WINDOW* win, const char* heading);
 
 
 /*
@@ -57,3 +56,12 @@ int CreatePair(WINDOW* win);
 char nextLetter(FILE* fp);
 int nextWord(FILE* fp, char words[X]);
 int nextMeaning(FILE* fp, char sent[X]);
+
+/*
+    defined in helper.c
+    helper function
+*/
+
+void initTemplate(WINDOW* win, const char* heading);
+int get1LineInput(WINDOW* win, char output[X], const char Query[X], int x, int y);
+int get2LineInput(WINDOW* win, char output[X+X], const char query[X], int x, int y);

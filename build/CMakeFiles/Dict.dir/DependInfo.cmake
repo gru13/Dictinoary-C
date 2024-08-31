@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/codings/Dictinoary/src/Movement.c" "CMakeFiles/Dict.dir/src/Movement.c.obj" "gcc" "CMakeFiles/Dict.dir/src/Movement.c.obj.d"
   "D:/codings/Dictinoary/src/create.c" "CMakeFiles/Dict.dir/src/create.c.obj" "gcc" "CMakeFiles/Dict.dir/src/create.c.obj.d"
+  "D:/codings/Dictinoary/src/helper.c" "CMakeFiles/Dict.dir/src/helper.c.obj" "gcc" "CMakeFiles/Dict.dir/src/helper.c.obj.d"
   "D:/codings/Dictinoary/src/main.c" "CMakeFiles/Dict.dir/src/main.c.obj" "gcc" "CMakeFiles/Dict.dir/src/main.c.obj.d"
   "D:/codings/Dictinoary/src/menu.c" "CMakeFiles/Dict.dir/src/menu.c.obj" "gcc" "CMakeFiles/Dict.dir/src/menu.c.obj.d"
   "D:/codings/Dictinoary/src/search.c" "CMakeFiles/Dict.dir/src/search.c.obj" "gcc" "CMakeFiles/Dict.dir/src/search.c.obj.d"

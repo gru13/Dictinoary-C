@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Dict.dir/src/Movement.c.obj.d"
   "CMakeFiles/Dict.dir/src/create.c.obj"
   "CMakeFiles/Dict.dir/src/create.c.obj.d"
+  "CMakeFiles/Dict.dir/src/helper.c.obj"
+  "CMakeFiles/Dict.dir/src/helper.c.obj.d"
   "CMakeFiles/Dict.dir/src/main.c.obj"
   "CMakeFiles/Dict.dir/src/main.c.obj.d"
   "CMakeFiles/Dict.dir/src/menu.c.obj"

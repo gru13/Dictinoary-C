@@ -1,11 +1,5 @@
 #include <defs.h>
 
-void initTemplate(WINDOW* win, const char* heading){
-    wclear(win);
-    box(win,0,0);
-    mvwprintw(win,1,X/2-strlen(heading)/2, heading);
-    mvwhline(win,2,1,WA_HORIZONTAL,X-2);
-}
 
 
 int maxlenoption(){

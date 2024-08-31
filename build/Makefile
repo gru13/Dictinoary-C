@@ -176,6 +176,30 @@ src/create.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/create.c.s
 .PHONY : src/create.c.s
 
+src/helper.obj: src/helper.c.obj
+.PHONY : src/helper.obj
+
+# target to build an object file
+src/helper.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/helper.c.obj
+.PHONY : src/helper.c.obj
+
+src/helper.i: src/helper.c.i
+.PHONY : src/helper.i
+
+# target to preprocess a source file
+src/helper.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/helper.c.i
+.PHONY : src/helper.c.i
+
+src/helper.s: src/helper.c.s
+.PHONY : src/helper.s
+
+# target to generate assembly for a file
+src/helper.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/helper.c.s
+.PHONY : src/helper.c.s
+
 src/main.obj: src/main.c.obj
 .PHONY : src/main.obj
 
@@ -263,6 +287,9 @@ help:
 	@echo ... src/create.obj
 	@echo ... src/create.i
 	@echo ... src/create.s
+	@echo ... src/helper.obj
+	@echo ... src/helper.i
+	@echo ... src/helper.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
