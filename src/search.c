@@ -34,64 +34,43 @@ int search(WINDOW* win){
             break;
     }
     y += 5;
-    char p;
-    while(!feof(fp)){
-        p = nextLetter(fp);
-        mvwprintw(win,y,x,"%c",p);
-        wrefresh(win);
-        Sleep(100);
-        if(p == tolower(Word[0])){
+    int nof_words,nofMeaning[X];
+    switch(toLetter(win,fp,Word[0],&nof_words,nofMeaning)){
+        case 0:
+            // run sucessfully and move to letter 
             break;
-        }
-    }
-    char key[X];
-    int nof_words;
-    fscanf(fp,"-%d,",&nof_words);
-    // mvwprintw(win, 21,20,"%d",nof_words);
-    // wrefresh(win);
-    if(nof_words == 0){
-        mvwprintw(win,y,x,"No Words Found in %c, please add the Words to view",Word[0]);
-        wrefresh(win);
-        Sleep(1000);
-        return 1;
-    }
-    int nofMeaning[nof_words];
-    for(int i = 0;i<nof_words;i++){
-        fscanf(fp,"%d,", &nofMeaning[i]);
-    }
-    fgetc(fp); // skipping the '\n'
-    int indexOfWord = 0, wordFound = FALSE;
-    for(;indexOfWord < nof_words; indexOfWord++){
-        nextWord(fp,key);
-        mvwprintw(win,y,x,"%s",key);
-        wrefresh(win);
-        Sleep(300);
-        if(strcmp(Word,key) == 0){
-            // // debug
-            // mvwprintw(win,y+2,x+strlen(Word),"%d",nofMeaning[indexOfWord]);
-            // wrefresh(win);
-            // Sleep(5000);
-            wordFound = TRUE;
-            break;
-        }else{
-            mvwhline(win, y,x,' ',X-x-2);
+        case 1:
+            // letter not found
+            mvwprintw(win,y,x,"Letter '%c' not found", Word[0]);
             wrefresh(win);
-            Sleep(300);
-        }
+            Sleep(1000);
+            return 1;
+            break;
+        case 2:
+            // no Word found
+            mvwprintw(win,y,x,"No Words Found in %c, please add the Words to view",Word[0]);
+            wrefresh(win);
+            Sleep(1000);
+            return 1;
+
     }
-    if(wordFound == FALSE){
-        mvwprintw(win,y,x,"'%s' Not Found in '%c' Letter, please add the Word to view",Word, Word[0]);
-        wrefresh(win);
-        Sleep(2000);
-        return 1;
+    char Meaning[X][X+X];
+    int indexOfWord = toWord(win,fp,Word,nof_words,nofMeaning,Meaning);
+    switch (indexOfWord){
+        case -1:
+            // Word not found
+            mvwprintw(win,y,x,"'%s' Not Found in '%c' Letter, please add the Word to view",Word, Word[0]);
+            wrefresh(win);
+            Sleep(1000);
+            return 1;
+            break;
+        default:
+            // Word found , index found
+            break;
     }
-    mvwprintw(win,y,x,"Meaning for '%s' :",key);
+    mvwprintw(win,y,x,"Meaning for '%s' :",Word);
     int X_mean = x+strlen(Word)+18;
     int cursorY = 0;
-    char Meaning[nofMeaning[indexOfWord]][X+X];
-    for(int i = 0;i<nofMeaning[indexOfWord];i++){
-        nextMeaning(fp,Meaning[i]);
-    }
     int ofsetY = 0,ofsetX = 0;
     while(TRUE){
         for(int i =0 ;i<nofMeaning[indexOfWord] && i < Y-y-4;i++){
@@ -102,10 +81,8 @@ int search(WINDOW* win){
                     mvwprintw(win,y+2+i,X_mean+5+j,"%c",Meaning[i+ofsetY][j+ofsetX]);
                 }
 
-            }else
-            if(strlen(Meaning[i+ofsetY]) >= X-X_mean-5){
+            }else if(strlen(Meaning[i+ofsetY]) >= X-X_mean-5){
                 mvwprintw(win,y+2+i,X_mean, "[%02d]",i+1+ofsetY);
-
                 for(int j = 0;j<strlen(Meaning[i+ofsetY]) && j+X_mean+5 < X - 5;j++){
                     mvwprintw(win,y+2+i,X_mean+5+j,"%c",Meaning[i+ofsetY][j]);
                 }

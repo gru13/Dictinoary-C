@@ -27,6 +27,9 @@ int main(){
         case 1:
             while(CreatePair(win)){}
             break;
+        case 2:
+            while(CreatePair(win)){}
+            break;
         case 5:
             Exit = 0;
             break;

@@ -26,7 +26,7 @@
 #define TITLE "DICTIONARY"
 #define SEARCH "Searching Meaning for the Word"
 extern char options[NOP][X];
-
+extern FILE* fp;
 
 /*
     Defined in menu.c
@@ -56,6 +56,9 @@ int CreatePair(WINDOW* win);
 char nextLetter(FILE* fp);
 int nextWord(FILE* fp, char words[X]);
 int nextMeaning(FILE* fp, char sent[X]);
+int toLetter(WINDOW* win ,FILE* fp,char L, int* nofWord, int nofMeaning[X]);
+int toWord(WINDOW* win,FILE* fp, char Word[X], int nofWord, int nofMeaning[nofWord], char Meaning[X][X+X]);
+
 
 /*
     defined in helper.c
