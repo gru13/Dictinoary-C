@@ -19,14 +19,14 @@
 #define ESC 27  
 #define left 'K' // left
 #define bsc 8
-#define DATA "D:\\codings\\Dictinoary\\src\\data.txt"
+#define DATA_FILE "D:\\codings\\Dictinoary\\src\\data.txt"
 #define NOP 6
 #define Y 30
 #define X 100
+#define WAIT 400
 #define TITLE "DICTIONARY"
 #define SEARCH "Searching Meaning for the Word"
 extern char options[NOP][X];
-extern FILE* fp;
 
 /*
     Defined in menu.c
@@ -68,3 +68,21 @@ int toWord(WINDOW* win,FILE* fp, char Word[X], int nofWord, int nofMeaning[nofWo
 void initTemplate(WINDOW* win, const char* heading);
 int get1LineInput(WINDOW* win, char output[X], const char Query[X], int x, int y);
 int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y);
+
+typedef struct data{
+    FILE* fp;
+    char Letter;
+    long LetterPos;
+    int nof_Words;
+    char Word[X];
+    long WordLoc;
+    int  nof_Meaning;
+    char Meanings[X][X+X];
+    long MeaningLoc[X];
+}Data;
+
+int ToWord(WINDOW* win, Data* data);
+int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]);
+long NextLetter(FILE* fp, char*p);
+long NextWord(FILE* fp, char words[X]);
+long NextMeaning(FILE* fp, char sent[X+X]);

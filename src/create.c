@@ -38,6 +38,7 @@ int CreatePair(WINDOW* win){
     }
     return 0;
 }   
+
 int AddMeaning(WINDOW* win){
 
     int x = X/20;
@@ -62,7 +63,7 @@ int AddMeaning(WINDOW* win){
             break; 
     }
     // checking if Word exist
-    FILE* fp = fopen(DATA,"r");
+    FILE* fp = fopen(DATA_FILE,"r");
     if(fp == NULL){
         mvwprintw(win,Y/2,X/2-10,"Cant open the file");
         wrefresh(win);
