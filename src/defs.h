@@ -19,7 +19,7 @@
 #define ESC 27  
 #define left 'K' // left
 #define bsc 8
-#define DATA_FILE "D:\\codings\\Dictinoary\\src\\data.txt"
+#define DATA_FILE "data.txt"
 #define NOP 6
 #define Y 30
 #define X 100

@@ -39,15 +39,14 @@
 ~Thus Air
 ~this Air
 ~Thus Air
-@b-3,2,3,1,
+@b-3,2,2,1
 ^bat
 ~It is a playing tool qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
 ~It is used in Cricket, Baseball qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
 ^byte
 ~Unit of measurement
 ~comes after Bit
-~aaaaaaaaaaaaaaa
-bthr
+^bthr
 ~three
 @c-0,
 @d-0,
@@ -66,7 +65,9 @@ bthr
 @q-0,
 @r-0,
 @s-0,
-@t-0,
+@t-1,1,
+^thus
+~thus is a word in english
 @u-0,
 @v-0,
 @w-0,
