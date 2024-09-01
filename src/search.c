@@ -37,7 +37,8 @@ int search(WINDOW* win){
     y += 5;
 
     // moving to word in file
-    switch (ToWord(win,data)){
+    int wordIndex = ToWord(win,data);
+    switch (wordIndex){
         case -1:
             // letter not found
             return -1;
@@ -47,37 +48,37 @@ int search(WINDOW* win){
             return -2;
             break;
         default:
-            // np problem
+            // no problem
             break;
     }
     mvwprintw(win,y,x,"Meaning for '%s' :",data->Word);
     x += strlen(data->Word)+18;
-    
+    y += 2;
     int cursorY = 0;
     int ofsetY = 0,ofsetX = 0;
     
     while(TRUE){
         for(int i =0 ;i<data->nof_Meaning && i < Y-y-4;i++){
             if(cursorY == i && strlen(data->Meanings[i+ofsetY]) >= X-x-5){
-                mvwprintw(win,y+2+i,x, "[%02d]",i+1+ofsetY);
+                mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
 
                 for(int j = 0;j<strlen(data->Meanings[i+ofsetY]) && j+x+5 < X - 5;j++){
-                    mvwprintw(win,y+2+i,x+5+j,"%c",data->Meanings[i+ofsetY][j+ofsetX]);
+                    mvwprintw(win,y+i,x+5+j,"%c",data->Meanings[i+ofsetY][j+ofsetX]);
                 }
 
             }else if(strlen(data->Meanings[i+ofsetY]) >= X-x-5){
-                mvwprintw(win,y+2+i,x, "[%02d]",i+1+ofsetY);
+                mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
                 for(int j = 0;j<strlen(data->Meanings[i+ofsetY]) && j+x+5 < X - 5;j++){
-                    mvwprintw(win,y+2+i,x+5+j,"%c",data->Meanings[i+ofsetY][j]);
+                    mvwprintw(win,y+i,x+5+j,"%c",data->Meanings[i+ofsetY][j]);
                 }
 
             }else{
-                mvwprintw(win,y+2+i,x,"[%02d] %s",i+1+ofsetY,data->Meanings[i+ofsetY]);
+                mvwprintw(win,y+i,x,"[%02d] %s",i+1+ofsetY,data->Meanings[i+ofsetY]);
             }
 
         }
 
-        mvwprintw(win,y+2+cursorY,x-3,"->");
+        mvwprintw(win,y+cursorY,x-3,"->");
         wrefresh(win);
         int choice = wgetch(win);
         switch (choice){
@@ -87,7 +88,7 @@ int search(WINDOW* win){
                 return 0;
             case down:
                 ofsetX = 0;
-                mvwprintw(win,y+2+cursorY,x-3,"  ");
+                mvwprintw(win,y+cursorY,x-3,"  ");
                 cursorY++;
                 if(cursorY >= Y-y-4 || cursorY + ofsetY >= data->nof_Meaning){
                     cursorY--;
@@ -96,12 +97,12 @@ int search(WINDOW* win){
                         ofsetY--;
                     }
                 }
-                mvwprintw(win,y+2+cursorY,x-3,"->");
+                mvwprintw(win,y+cursorY,x-3,"->");
                 wrefresh(win);
                 break;
             case up:
                 ofsetX = 0;
-                mvwprintw(win,y+2+cursorY,x-3,"  ");
+                mvwprintw(win,y+cursorY,x-3,"  ");
                 cursorY--;
                 if(cursorY <= -1){
                     cursorY++;
@@ -110,7 +111,7 @@ int search(WINDOW* win){
                         ofsetY = 0;
                     }
                 }
-                mvwprintw(win,y+2+cursorY,x-3,"->");
+                mvwprintw(win,y+cursorY,x-3,"->");
                 wrefresh(win);
                 break;
             case rigth:

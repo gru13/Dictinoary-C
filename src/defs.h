@@ -23,11 +23,22 @@
 #define NOP 6
 #define Y 30
 #define X 100
-#define WAIT 400
+#define WAIT 500
 #define TITLE "DICTIONARY"
 #define SEARCH "Searching Meaning for the Word"
 extern char options[NOP][X];
 
+typedef struct data{
+    FILE* fp;
+    char Letter;
+    long LetterPos;
+    int nof_Words;
+    char Word[X];
+    long WordLoc;
+    int  nof_Meaning;
+    char Meanings[X][X+X];
+    long MeaningLoc[X];
+}Data;
 /*
     Defined in menu.c
         this contains the menu controls 
@@ -47,18 +58,17 @@ int search(WINDOW* win);
         this contains the creating part
 */
 int CreatePair(WINDOW* win);
-
+int AddMeaning(WINDOW* win);
 /*
     Defined in Movement.c
         this file contains the movement in file and updation 
 */
 
-char nextLetter(FILE* fp);
-int nextWord(FILE* fp, char words[X]);
-int nextMeaning(FILE* fp, char sent[X]);
-int toLetter(WINDOW* win ,FILE* fp,char L, int* nofWord, int nofMeaning[X]);
-int toWord(WINDOW* win,FILE* fp, char Word[X], int nofWord, int nofMeaning[nofWord], char Meaning[X][X+X]);
-
+int ToWord(WINDOW* win, Data* data);
+int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]);
+long NextLetter(FILE* fp, char*p);
+long NextWord(FILE* fp, char words[X]);
+long NextMeaning(FILE* fp, char sent[X+X]);
 
 /*
     defined in helper.c
@@ -68,21 +78,7 @@ int toWord(WINDOW* win,FILE* fp, char Word[X], int nofWord, int nofMeaning[nofWo
 void initTemplate(WINDOW* win, const char* heading);
 int get1LineInput(WINDOW* win, char output[X], const char Query[X], int x, int y);
 int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y);
+int CopyInRange(FILE* to, FILE* from ,long start, long until);
 
-typedef struct data{
-    FILE* fp;
-    char Letter;
-    long LetterPos;
-    int nof_Words;
-    char Word[X];
-    long WordLoc;
-    int  nof_Meaning;
-    char Meanings[X][X+X];
-    long MeaningLoc[X];
-}Data;
 
-int ToWord(WINDOW* win, Data* data);
-int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]);
-long NextLetter(FILE* fp, char*p);
-long NextWord(FILE* fp, char words[X]);
-long NextMeaning(FILE* fp, char sent[X+X]);
+

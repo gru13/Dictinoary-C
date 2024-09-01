@@ -28,7 +28,7 @@ int main(){
             while(CreatePair(win)){}
             break;
         case 2:
-            while(CreatePair(win)){}
+            while(AddMeaning(win)){}
             break;
         case 5:
             Exit = 0;

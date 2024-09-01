@@ -23,6 +23,9 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
             break;
         }
         choice = wgetch(win);
+        if(choice == -1){
+            continue;
+        }
         if(index == 0 && choice == ' '){
             continue;
         }else if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-'){
@@ -56,5 +59,17 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
     }while(choice != enter);
     output[index] = '\0';
     curs_set(FALSE);
+    return 0;
+}
+
+int CopyInRange(FILE* to, FILE* from ,long start, long until){
+    if(until == -1){
+        fseek(from,0,SEEK_END);
+        until =  ftell(from);
+    }
+    fseek(from,start,SEEK_SET);
+    while(ftell(from) < until){
+        fputc(fgetc(from),to);
+    }
     return 0;
 }

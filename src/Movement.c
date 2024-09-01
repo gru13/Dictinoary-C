@@ -2,11 +2,13 @@
 
 
 int ToWord(WINDOW* win,Data* data){
+    rewind(data->fp);
    int nofMeaning[X]; char Meaning[X][X+X];
     /*
         return -1 -> if word not found
         return index -> if word is found
     */
+    data->Letter = data->Word[0];
     switch(ToLetter(win,data,nofMeaning)){
         case -1:
             // letter not found
@@ -43,7 +45,7 @@ int ToWord(WINDOW* win,Data* data){
             for (int j = 0; j < data->nof_Meaning; j++){
                 data->MeaningLoc[j] = NextMeaning(data->fp,data->Meanings[j]);
             }
-            return 0;
+            return i;
         }
         mvwhline(win,Y-2,X/20,' ',X - X/20-2);
         wrefresh(win);
