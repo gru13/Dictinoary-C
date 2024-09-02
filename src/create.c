@@ -88,7 +88,7 @@ int CreatePair(WINDOW* win){
     fseek(data->fp, data->LetterPos,SEEK_SET);
     // ToLetter(win,data,itemp);
     long loc;
-    while(fgetc(data->fp) != '\n'){}
+    while(fgetc(data->fp) != '\n');
 
     loc = ftell(data->fp);
     fpSRC = CopyInRange(out,data->fp,loc,-1);
@@ -98,8 +98,18 @@ int CreatePair(WINDOW* win){
     Sleep(1000);
     fclose(out);
     fclose(data->fp);
-    remove(DATA_FILE);
-    rename("Out.txt",DATA_FILE);
+
+    if(remove(DATA_FILE)){
+        mvwprintw(win,Y-2,X/20,"error in deleting the old file");
+        wrefresh(win);
+        Sleep(2000);
+    }
+    if(rename("Out.txt", DATA_FILE)){
+        mvwprintw(win,Y-2,X/20,"error in deleting the old file");
+        wrefresh(win);
+        Sleep(2000);
+    }
+    
     return 0;
 }
 

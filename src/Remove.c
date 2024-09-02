@@ -44,19 +44,27 @@ int removeWord(WINDOW* win){
     // updating the nof meanings
     fseek(data->fp,data->LetterPos,SEEK_SET);
     fscanf(data->fp,"%c-%d,", &data->Letter,&data->nof_Words);
-    fprintf(out,"%c-%d,",data->Letter,data->nof_Words-1);
+    fprintf(out,"%c-%d,",data->Letter,data->nof_Words-1,WordIndex);
     for(int i = 0;i<data->nof_Words;i++){
-        if(WordIndex != i){
-            int l;fscanf(data->fp,"%d,",&l);
-            fprintf(out,"%d,",l);
+        int l;
+        fscanf(data->fp,"%d,",&l);
+        if(WordIndex == i){
+            continue;
         }
+        fprintf(out,"%d,",l);
     }
     fputc('\n', out);
-
-    // next to end
+    // letter line printed to
+    // next until the word
+    fseek(data->fp,data->LetterPos, SEEK_SET);
+    while(fgetc(data->fp) != '\n'){}
+    CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc);
+    
+    // printting from the next letter
     char Ctemp;
     fseek(data->fp, data->Letter,SEEK_SET);
     long loc = NextLetter(data->fp,&Ctemp);
+    fputc('@', out);
     switch(loc){
         case -1:
             break;

@@ -66,3 +66,4 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
     curs_set(FALSE);
     return 0;
 }
+
