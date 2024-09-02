@@ -128,29 +128,77 @@ Dict/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/build
 .PHONY : Dict/fast
 
-src/Movement.obj: src/Movement.c.obj
-.PHONY : src/Movement.obj
+src/Display.obj: src/Display.c.obj
+.PHONY : src/Display.obj
 
 # target to build an object file
-src/Movement.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Movement.c.obj
-.PHONY : src/Movement.c.obj
+src/Display.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Display.c.obj
+.PHONY : src/Display.c.obj
 
-src/Movement.i: src/Movement.c.i
-.PHONY : src/Movement.i
+src/Display.i: src/Display.c.i
+.PHONY : src/Display.i
 
 # target to preprocess a source file
-src/Movement.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Movement.c.i
-.PHONY : src/Movement.c.i
+src/Display.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Display.c.i
+.PHONY : src/Display.c.i
 
-src/Movement.s: src/Movement.c.s
-.PHONY : src/Movement.s
+src/Display.s: src/Display.c.s
+.PHONY : src/Display.s
 
 # target to generate assembly for a file
-src/Movement.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Movement.c.s
-.PHONY : src/Movement.c.s
+src/Display.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Display.c.s
+.PHONY : src/Display.c.s
+
+src/FileHandling.obj: src/FileHandling.c.obj
+.PHONY : src/FileHandling.obj
+
+# target to build an object file
+src/FileHandling.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/FileHandling.c.obj
+.PHONY : src/FileHandling.c.obj
+
+src/FileHandling.i: src/FileHandling.c.i
+.PHONY : src/FileHandling.i
+
+# target to preprocess a source file
+src/FileHandling.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/FileHandling.c.i
+.PHONY : src/FileHandling.c.i
+
+src/FileHandling.s: src/FileHandling.c.s
+.PHONY : src/FileHandling.s
+
+# target to generate assembly for a file
+src/FileHandling.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/FileHandling.c.s
+.PHONY : src/FileHandling.c.s
+
+src/Remove.obj: src/Remove.c.obj
+.PHONY : src/Remove.obj
+
+# target to build an object file
+src/Remove.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Remove.c.obj
+.PHONY : src/Remove.c.obj
+
+src/Remove.i: src/Remove.c.i
+.PHONY : src/Remove.i
+
+# target to preprocess a source file
+src/Remove.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Remove.c.i
+.PHONY : src/Remove.c.i
+
+src/Remove.s: src/Remove.c.s
+.PHONY : src/Remove.s
+
+# target to generate assembly for a file
+src/Remove.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/Remove.c.s
+.PHONY : src/Remove.c.s
 
 src/create.obj: src/create.c.obj
 .PHONY : src/create.obj
@@ -175,30 +223,6 @@ src/create.s: src/create.c.s
 src/create.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/create.c.s
 .PHONY : src/create.c.s
-
-src/helper.obj: src/helper.c.obj
-.PHONY : src/helper.obj
-
-# target to build an object file
-src/helper.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/helper.c.obj
-.PHONY : src/helper.c.obj
-
-src/helper.i: src/helper.c.i
-.PHONY : src/helper.i
-
-# target to preprocess a source file
-src/helper.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/helper.c.i
-.PHONY : src/helper.c.i
-
-src/helper.s: src/helper.c.s
-.PHONY : src/helper.s
-
-# target to generate assembly for a file
-src/helper.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/helper.c.s
-.PHONY : src/helper.c.s
 
 src/main.obj: src/main.c.obj
 .PHONY : src/main.obj
@@ -281,15 +305,18 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Dict
-	@echo ... src/Movement.obj
-	@echo ... src/Movement.i
-	@echo ... src/Movement.s
+	@echo ... src/Display.obj
+	@echo ... src/Display.i
+	@echo ... src/Display.s
+	@echo ... src/FileHandling.obj
+	@echo ... src/FileHandling.i
+	@echo ... src/FileHandling.s
+	@echo ... src/Remove.obj
+	@echo ... src/Remove.i
+	@echo ... src/Remove.s
 	@echo ... src/create.obj
 	@echo ... src/create.i
 	@echo ... src/create.s
-	@echo ... src/helper.obj
-	@echo ... src/helper.i
-	@echo ... src/helper.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s

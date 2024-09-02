@@ -5,6 +5,7 @@ char options[NOP][X] = {"Search for Word",
                     "Add Meaning to Word",
                     "Remove Word and Meaning",
                     "Remove a Meaning",
+                    "list Words in a letter",
                     "Exit"};
 
 
@@ -30,7 +31,10 @@ int main(){
         case 2:
             while(AddMeaning(win)){}
             break;
-        case 5:
+        case 3:
+            while(removeWord(win)){}
+            break;
+        case 6:
             Exit = 0;
             break;
         default:

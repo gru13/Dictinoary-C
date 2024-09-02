@@ -74,25 +74,28 @@ int CreatePair(WINDOW* win){
     fprintf(out,"%c-%d,1,",data->Letter,data->nof_Words+1);
     for(int i = 0;i<data->nof_Words;i++){
         int l;fscanf(data->fp,"%d,",&l);
-        fprintf(out,"%d,",l);
+        if(i == wordIndex){
+            fprintf(out,"%d,",data->nof_Meaning);
+        }else{
+            fprintf(out,"%d,",l);
+        }
     }
     fputc('\n', out);
-    fputc('^', out);
-    fprintf(out,"%s\n",data->Word);
+    fprintf(out,"^%s\n",data->Word);
     fprintf(out,"~%s\n",newMeaning);
-    // // printing rest
     char temp[X];
     int itemp[X];
     fseek(data->fp, data->LetterPos,SEEK_SET);
     // ToLetter(win,data,itemp);
     long loc;
     while(fgetc(data->fp) != '\n'){}
+
     loc = ftell(data->fp);
     fpSRC = CopyInRange(out,data->fp,loc,-1);
+    
     mvwprintw(win,Y-2,(X/20),"Writing in file");
     wrefresh(win);
     Sleep(1000);
-    
     fclose(out);
     fclose(data->fp);
     remove(DATA_FILE);
@@ -101,6 +104,14 @@ int CreatePair(WINDOW* win){
 }
 
 int AddMeaning(WINDOW* win){
+    /*
+        return -3 -> reached eof
+        retrun -2 -> no Word found in letter
+        return -1 -> letter not found
+        return 0  -> esc is pressed and process end sucessfully
+        return 1  -> no input so do from start
+    */
+
     Data* data = (Data*)malloc(sizeof(Data));
     data->fp = fopen(DATA_FILE,"r");
     if(data->fp == NULL){
@@ -189,6 +200,15 @@ int AddMeaning(WINDOW* win){
     fseek(data->fp,data->LetterPos,SEEK_SET);
     char temp[X];
     long loc = NextWord(data->fp,temp);
+    switch (loc){
+        case -1:
+            // reached eof
+            return -3;
+            break;
+        default:
+            break;
+    }
+
     fpSRC = CopyInRange(out,data->fp,loc,data->WordLoc);//constains src
 
     fprintf(out,"%s\n",data->Word);

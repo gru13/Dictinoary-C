@@ -19,20 +19,26 @@
 },
 {
   "directory": "D:/codings/Dictinoary/build",
-  "command": "C:\\MinGW\\bin\\gcc.exe  @CMakeFiles/Dict.dir/includes_C.rsp -g -o CMakeFiles\\Dict.dir\\src\\Movement.c.obj -c D:\\codings\\Dictinoary\\src\\Movement.c",
-  "file": "D:/codings/Dictinoary/src/Movement.c",
-  "output": "CMakeFiles/Dict.dir/src/Movement.c.obj"
-},
-{
-  "directory": "D:/codings/Dictinoary/build",
   "command": "C:\\MinGW\\bin\\gcc.exe  @CMakeFiles/Dict.dir/includes_C.rsp -g -o CMakeFiles\\Dict.dir\\src\\create.c.obj -c D:\\codings\\Dictinoary\\src\\create.c",
   "file": "D:/codings/Dictinoary/src/create.c",
   "output": "CMakeFiles/Dict.dir/src/create.c.obj"
 },
 {
   "directory": "D:/codings/Dictinoary/build",
-  "command": "C:\\MinGW\\bin\\gcc.exe  @CMakeFiles/Dict.dir/includes_C.rsp -g -o CMakeFiles\\Dict.dir\\src\\helper.c.obj -c D:\\codings\\Dictinoary\\src\\helper.c",
-  "file": "D:/codings/Dictinoary/src/helper.c",
-  "output": "CMakeFiles/Dict.dir/src/helper.c.obj"
+  "command": "C:\\MinGW\\bin\\gcc.exe  @CMakeFiles/Dict.dir/includes_C.rsp -g -o CMakeFiles\\Dict.dir\\src\\Display.c.obj -c D:\\codings\\Dictinoary\\src\\Display.c",
+  "file": "D:/codings/Dictinoary/src/Display.c",
+  "output": "CMakeFiles/Dict.dir/src/Display.c.obj"
+},
+{
+  "directory": "D:/codings/Dictinoary/build",
+  "command": "C:\\MinGW\\bin\\gcc.exe  @CMakeFiles/Dict.dir/includes_C.rsp -g -o CMakeFiles\\Dict.dir\\src\\FileHandling.c.obj -c D:\\codings\\Dictinoary\\src\\FileHandling.c",
+  "file": "D:/codings/Dictinoary/src/FileHandling.c",
+  "output": "CMakeFiles/Dict.dir/src/FileHandling.c.obj"
+},
+{
+  "directory": "D:/codings/Dictinoary/build",
+  "command": "C:\\MinGW\\bin\\gcc.exe  @CMakeFiles/Dict.dir/includes_C.rsp -g -o CMakeFiles\\Dict.dir\\src\\Remove.c.obj -c D:\\codings\\Dictinoary\\src\\Remove.c",
+  "file": "D:/codings/Dictinoary/src/Remove.c",
+  "output": "CMakeFiles/Dict.dir/src/Remove.c.obj"
 }
 ]

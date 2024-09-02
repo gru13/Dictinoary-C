@@ -20,7 +20,7 @@
 #define left 'K' // left
 #define bsc 8
 #define DATA_FILE "data.txt"
-#define NOP 6
+#define NOP 7
 #define Y 30
 #define X 100
 #define WAIT 500
@@ -60,7 +60,7 @@ int search(WINDOW* win);
 int CreatePair(WINDOW* win);
 int AddMeaning(WINDOW* win);
 /*
-    Defined in Movement.c
+    Defined in FileHandling.c
         this file contains the movement in file and updation 
 */
 
@@ -69,16 +69,18 @@ int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]);
 long NextLetter(FILE* fp, char*p);
 long NextWord(FILE* fp, char words[X]);
 long NextMeaning(FILE* fp, char sent[X+X]);
+int CopyInRange(FILE* to, FILE* from ,long start, long until);
 
 /*
-    defined in helper.c
-    helper function
+    defined in Display.c
+    Display and window
 */
 
 void initTemplate(WINDOW* win, const char* heading);
 int get1LineInput(WINDOW* win, char output[X], const char Query[X], int x, int y);
 int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y);
-int CopyInRange(FILE* to, FILE* from ,long start, long until);
 
-
-
+/*
+    defined in Remove.c
+*/
+int removeWord(WINDOW* win);

@@ -1,4 +1,8 @@
-@a-2,2,36
+@a-4,1,1,2,36,
+^abd
+~this is abd
+^add
+~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 ^apple
 ~It is a furit
 ~It is Red in color
@@ -39,7 +43,9 @@
 ~Thus Air
 ~this Air
 ~Thus Air
-@b-3,2,2,1
+@b-4,1,2,2,1,
+^byt
+~this is byt
 ^bat
 ~It is a playing tool qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
 ~It is used in Cricket, Baseball qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
@@ -48,14 +54,20 @@
 ~comes after Bit
 ^bthr
 ~three
-@c-0,
+@c-1,1,
+^c aa
+~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 @d-0,
 @e-0,
 @f-0,
-@g-0,
+@g-1,1,
+^ggg
+~ddddddddddddddddddddd
 @h-0,
 @i-0,
-@j-0,
+@j-1,1,
+^jj
+~kkkkkkkkkkkkkkkkkkkkkkkkk
 @k-0,
 @l-0,
 @m-0,
@@ -72,5 +84,13 @@
 @v-0,
 @w-0,
 @x-0,
-@y-0,
-@z-0,
+@y-1,1,
+^yy
+~uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
+@z-3,1,1,1,
+^zappe
+~aaaaaaaaaaaaaaaaaaaaaaaaaa
+^zwwww
+~jjjjjjjjjjjjjjjjjjjjjjj
+^zp
+~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

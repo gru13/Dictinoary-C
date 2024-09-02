@@ -9,6 +9,11 @@ void initTemplate(WINDOW* win, const char* heading){
 }
 
 int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y){
+    /*
+        return -1 -> esc is pressed
+        return  0 -> sucessfully got the input
+        return  1 -> no input typed so recalling the function
+    */
     int index = 0, choice = 0;
     output[0] = '\0';
     curs_set(TRUE);
@@ -59,17 +64,5 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
     }while(choice != enter);
     output[index] = '\0';
     curs_set(FALSE);
-    return 0;
-}
-
-int CopyInRange(FILE* to, FILE* from ,long start, long until){
-    if(until == -1){
-        fseek(from,0,SEEK_END);
-        until =  ftell(from);
-    }
-    fseek(from,start,SEEK_SET);
-    while(ftell(from) < until){
-        fputc(fgetc(from),to);
-    }
     return 0;
 }
