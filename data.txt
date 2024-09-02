@@ -1,10 +1,4 @@
-@a-5,1,1,1,2,36,
-^adf
-~this id assd
-^abd
-~this is abd
-^add
-~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+@a-2,2,36
 ^apple
 ~It is a furit
 ~It is Red in color
@@ -45,9 +39,7 @@
 ~Thus Air
 ~this Air
 ~Thus Air
-@b-4,1,2,2,1,
-^byt
-~this is byt
+@b-3,2,2,1
 ^bat
 ~It is a playing tool qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
 ~It is used in Cricket, Baseball qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
@@ -56,51 +48,40 @@
 ~comes after Bit
 ^bthr
 ~three
-@c-1,1,
-^c aa
-~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-@d-0,
+@c-0,
+@d-1,2,
+^dat
+~this is asd
+~rjad
 @e-0,
 @f-0,
-@g-1,1,
-^ggg
-~ddddddddddddddddddddd
+@g-0,
 @h-0,
 @i-0,
-@j-1,1,
-^jj
-~kkkkkkkkkkkkkkkkkkkkkkkkk
-@k-0,
+@j-0,
+@k-1,3,
+^kko
+~ddddddddddddddddddddddddddddd
+~sssssssssssssss
+~ll
 @l-0,
 @m-0,
 @n-0,
-@o-0,
+@o-1,2,
+^oo
+~sssssssssssssssssssssssss
+~sssssssssssssssssss
 @p-0,
 @q-0,
 @r-0,
 @s-0,
-@t-2,1,1,
-^this a
-~fffffffffffffffffffff
-^thus
-~thus is a word in english
+@t-1,2,
+^thd
+~kdkkkkkkkk
+~wwwwwwwwwwwwwwwwww
 @u-0,
 @v-0,
 @w-0,
-@x-1,1,
-^xe
-~xeee
-@y-1,1,
-^yy
-~uuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu
-@z-5,1,1,1,1,1,
-^zedp
-~dddddddddddddddddddddddddddddd
-^zzss
-~ssssssssssssssss
-^zappe
-~aaaaaaaaaaaaaaaaaaaaaaaaaa
-^zwwww
-~jjjjjjjjjjjjjjjjjjjjjjj
-^zp
-~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+@x-0,
+@y-0,
+@z-0,

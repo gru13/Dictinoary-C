@@ -66,7 +66,7 @@ int CreatePair(WINDOW* win){
             break;
     }
     // acessing new file and save
-    FILE* out = fopen("Out.txt","w");
+    FILE* out = fopen(TMP_FILE,"w");
     // copying until the letter 
     long fpSRC = CopyInRange(out,data->fp,0,data->LetterPos);//constains src
     // updating the nof meanings
@@ -93,24 +93,9 @@ int CreatePair(WINDOW* win){
     loc = ftell(data->fp);
     fpSRC = CopyInRange(out,data->fp,loc,-1);
     
-    mvwprintw(win,Y-2,(X/20),"Writing in file");
-    wrefresh(win);
-    Sleep(1000);
-    fclose(out);
-    fclose(data->fp);
+    closeFiles(win,data,out,"Successfully created New Word with Meaning");
 
-    if(remove(DATA_FILE)){
-        mvwprintw(win,Y-2,X/20,"error in deleting the old file");
-        wrefresh(win);
-        Sleep(2000);
-    }
-    if(rename("Out.txt", DATA_FILE)){
-        mvwprintw(win,Y-2,X/20,"error in deleting the old file");
-        wrefresh(win);
-        Sleep(2000);
-    }
-    
-    return 0;
+    return returnChoice(win);
 }
 
 int AddMeaning(WINDOW* win){
@@ -190,7 +175,7 @@ int AddMeaning(WINDOW* win){
             break;
     }
     // acessing new file and save
-    FILE* out = fopen("Out.txt","w");
+    FILE* out = fopen(TMP_FILE,"w");
     // copying until the letter 
     long fpSRC = CopyInRange(out,data->fp,0,data->LetterPos);//constains src
     // updating the nof meanings
@@ -204,38 +189,14 @@ int AddMeaning(WINDOW* win){
             fprintf(out,"%d,",l);
         }
     }
-    fputc('\n', out);
-    fputc('^', out);
+    fputc(fgetc(data->fp), out); // this add '\n'
     // updated the topbar
-    fseek(data->fp,data->LetterPos,SEEK_SET);
-    char temp[X];
-    long loc = NextWord(data->fp,temp);
-    switch (loc){
-        case -1:
-            // reached eof
-            return -3;
-            break;
-        default:
-            break;
-    }
+    CopyInRange(out,data->fp,ftell(data->fp),data->MeaningLoc[data->nof_Meaning-2]);
+    fprintf(out,"%s\n~", data->Meanings[data->nof_Meaning-1]);
+    CopyInRange(out,data->fp,ftell(data->fp),EOF);
 
-    fpSRC = CopyInRange(out,data->fp,loc,data->WordLoc);//constains src
 
-    fprintf(out,"%s\n",data->Word);
-    for(int i =0;i<data->nof_Meaning;i++){
-        fprintf(out,"~%s\n",data->Meanings[i]);
-    }
+    closeFiles(win,data,out,"Successfully create new meaning for the Word");
 
-    fseek(data->fp,data->WordLoc,SEEK_SET);    
-    loc = NextWord(data->fp,temp);
-    fpSRC = CopyInRange(out,data->fp,loc,-1);//constains src
-    fclose(out);
-    mvwprintw(win,Y-2,(X/20),"Writing in file");
-    wrefresh(win);
-    Sleep(1000);
-    fclose(out);
-    fclose(data->fp);
-    remove(DATA_FILE);
-    rename("Out.txt",DATA_FILE);
-    return 0;
+    return returnChoice(win);
 }

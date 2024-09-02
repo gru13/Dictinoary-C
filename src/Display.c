@@ -8,6 +8,13 @@ void initTemplate(WINDOW* win, const char* heading){
     wrefresh(win);
 }
 
+void blankScreen(WINDOW* win, int x, int y, int h, int w){
+    for(int i = 0; i < h; i++){
+        mvwhline(win,y+i,x,' ',w);
+    }
+    wrefresh(win);
+}
+
 int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y){
     /*
         return -1 -> esc is pressed
@@ -66,4 +73,107 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
     curs_set(FALSE);
     return 0;
 }
+
+int returnChoice(WINDOW* win){
+    mvwprintw(win,Y/2+1,X/2-11,"<Enter> : next entery");
+    mvwprintw(win,Y/2+2,X/2-11,"<Esc> : For Escape");
+    wrefresh(win);
+    int choice;
+    while(TRUE){
+        choice = wgetch(win);
+        if(choice == enter){
+            choice = 1;
+            break;
+        }
+        if(choice == ESC){
+            choice = 0;
+            break;
+        }
+    }
+    return choice;
+}
+int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
+    /*
+        return ESC     -> if ESC pressed
+        return cursorY -> if enter is pressed
+    */
+    int cursorY = 0,ofsetY = 0,ofsetX = 0;
+    int heigth = Y-y-4;
+    int width = X-x-5;
+    int arrowX = x;
+    x += 3;
+    while(TRUE){
+         for(int i =0 ;i<listLen && i < heigth;i++){
+            if(cursorY == i && strlen(List[i+ofsetY]) >= width){
+                mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
+
+                for(int j = 0;j<strlen(List[i+ofsetY]) && j+x+5 < X - 5;j++){
+                    mvwprintw(win,y+i,x+5+j,"%c",List[i+ofsetY][j+ofsetX]);
+                }
+
+            }else if(strlen(List[i+ofsetY]) >= width){
+                mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
+                for(int j = 0;j<strlen(List[i+ofsetY]) && j+x+5 < X - 5;j++){
+                    mvwprintw(win,y+i,x+5+j,"%c",List[i+ofsetY][j]);
+                }
+
+            }else{
+                mvwprintw(win,y+i,x,"[%02d] %s",i+1+ofsetY,List[i+ofsetY]);
+            }
+
+        }
+
+        mvwprintw(win,y+cursorY,arrowX,"->");
+        wrefresh(win);
+        int choice = wgetch(win);
+        switch (choice){
+            case enter:
+                blankScreen(win,x,y,heigth,width);
+                return cursorY;
+            case ESC:
+                blankScreen(win,x,y,heigth,width);
+                return ESC;
+            case down:
+                ofsetX = 0;
+                mvwprintw(win,y+cursorY,arrowX,"  ");
+                cursorY++;
+                if(cursorY >= heigth || cursorY + ofsetY >= listLen){
+                    cursorY--;
+                    ofsetY++;
+                    if(ofsetY + cursorY >=  listLen){
+                        ofsetY--;
+                    }
+                }
+                mvwprintw(win,y+cursorY,arrowX,"->");
+                wrefresh(win);
+                break;
+            case up:
+                ofsetX = 0;
+                mvwprintw(win,y+cursorY,arrowX,"  ");
+                cursorY--;
+                if(cursorY <= -1){
+                    cursorY++;
+                    ofsetY--;
+                    if(ofsetY <= 0){
+                        ofsetY = 0;
+                    }
+                }
+                mvwprintw(win,y+cursorY,arrowX,"->");
+                wrefresh(win);
+                break;
+            case rigth:
+                if(ofsetX + X - 10 - x < strlen(List[cursorY+ofsetY])){
+                    ofsetX++;
+                }
+                break;
+            case left:
+                ofsetX = (ofsetX <= 0)?0:ofsetX-1;
+                break;
+            default:
+                break;
+        }
+    }
+    blankScreen(win,x,y,heigth,width);
+    return cursorY;
+} 
 

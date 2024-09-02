@@ -1,6 +1,0 @@
-Day 0: 
-    Date     : 29-08-2024
-    Aim      : Creating the structure and creating the blueprint
-    Done     : YES
-    Newlearn : files used should be in saame dir or give full path 
-    Note     : need find a way to implementation relaticve path

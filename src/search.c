@@ -54,77 +54,78 @@ int search(WINDOW* win){
     mvwprintw(win,y,x,"Meaning for '%s' :",data->Word);
     x += strlen(data->Word)+18;
     y += 2;
-    int cursorY = 0;
-    int ofsetY = 0,ofsetX = 0;
+    DisplayList(win,x,y,data->Meanings,data->nof_Meaning);
+    // int cursorY = 0;
+    // int ofsetY = 0,ofsetX = 0;
     
-    while(TRUE){
-        for(int i =0 ;i<data->nof_Meaning && i < Y-y-4;i++){
-            if(cursorY == i && strlen(data->Meanings[i+ofsetY]) >= X-x-5){
-                mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
+    // while(TRUE){
+    //     for(int i =0 ;i<data->nof_Meaning && i < Y-y-4;i++){
+    //         if(cursorY == i && strlen(data->Meanings[i+ofsetY]) >= X-x-5){
+    //             mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
 
-                for(int j = 0;j<strlen(data->Meanings[i+ofsetY]) && j+x+5 < X - 5;j++){
-                    mvwprintw(win,y+i,x+5+j,"%c",data->Meanings[i+ofsetY][j+ofsetX]);
-                }
+    //             for(int j = 0;j<strlen(data->Meanings[i+ofsetY]) && j+x+5 < X - 5;j++){
+    //                 mvwprintw(win,y+i,x+5+j,"%c",data->Meanings[i+ofsetY][j+ofsetX]);
+    //             }
 
-            }else if(strlen(data->Meanings[i+ofsetY]) >= X-x-5){
-                mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
-                for(int j = 0;j<strlen(data->Meanings[i+ofsetY]) && j+x+5 < X - 5;j++){
-                    mvwprintw(win,y+i,x+5+j,"%c",data->Meanings[i+ofsetY][j]);
-                }
+    //         }else if(strlen(data->Meanings[i+ofsetY]) >= X-x-5){
+    //             mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
+    //             for(int j = 0;j<strlen(data->Meanings[i+ofsetY]) && j+x+5 < X - 5;j++){
+    //                 mvwprintw(win,y+i,x+5+j,"%c",data->Meanings[i+ofsetY][j]);
+    //             }
 
-            }else{
-                mvwprintw(win,y+i,x,"[%02d] %s",i+1+ofsetY,data->Meanings[i+ofsetY]);
-            }
+    //         }else{
+    //             mvwprintw(win,y+i,x,"[%02d] %s",i+1+ofsetY,data->Meanings[i+ofsetY]);
+    //         }
 
-        }
+    //     }
 
-        mvwprintw(win,y+cursorY,x-3,"->");
-        wrefresh(win);
-        int choice = wgetch(win);
-        switch (choice){
-            case enter:
-                return 1;
-            case ESC:
-                return 0;
-            case down:
-                ofsetX = 0;
-                mvwprintw(win,y+cursorY,x-3,"  ");
-                cursorY++;
-                if(cursorY >= Y-y-4 || cursorY + ofsetY >= data->nof_Meaning){
-                    cursorY--;
-                    ofsetY++;
-                    if(ofsetY + cursorY >=  data->nof_Meaning){
-                        ofsetY--;
-                    }
-                }
-                mvwprintw(win,y+cursorY,x-3,"->");
-                wrefresh(win);
-                break;
-            case up:
-                ofsetX = 0;
-                mvwprintw(win,y+cursorY,x-3,"  ");
-                cursorY--;
-                if(cursorY <= -1){
-                    cursorY++;
-                    ofsetY--;
-                    if(ofsetY <= 0){
-                        ofsetY = 0;
-                    }
-                }
-                mvwprintw(win,y+cursorY,x-3,"->");
-                wrefresh(win);
-                break;
-            case rigth:
-                if(ofsetX + X - 10 - x < strlen(data->Meanings[cursorY+ofsetY])){
-                    ofsetX++;
-                }
-                break;
-            case left:
-                ofsetX = (ofsetX <= 0)?0:ofsetX-1;
-                break;
-            default:
-                break;
-        }
-    }
-    return 0;
+    //     mvwprintw(win,y+cursorY,x-3,"->");
+    //     wrefresh(win);
+    //     int choice = wgetch(win);
+    //     switch (choice){
+    //         case enter:
+    //             return 1;
+    //         case ESC:
+    //             return 0;
+    //         case down:
+    //             ofsetX = 0;
+    //             mvwprintw(win,y+cursorY,x-3,"  ");
+    //             cursorY++;
+    //             if(cursorY >= Y-y-4 || cursorY + ofsetY >= data->nof_Meaning){
+    //                 cursorY--;
+    //                 ofsetY++;
+    //                 if(ofsetY + cursorY >=  data->nof_Meaning){
+    //                     ofsetY--;
+    //                 }
+    //             }
+    //             mvwprintw(win,y+cursorY,x-3,"->");
+    //             wrefresh(win);
+    //             break;
+    //         case up:
+    //             ofsetX = 0;
+    //             mvwprintw(win,y+cursorY,x-3,"  ");
+    //             cursorY--;
+    //             if(cursorY <= -1){
+    //                 cursorY++;
+    //                 ofsetY--;
+    //                 if(ofsetY <= 0){
+    //                     ofsetY = 0;
+    //                 }
+    //             }
+    //             mvwprintw(win,y+cursorY,x-3,"->");
+    //             wrefresh(win);
+    //             break;
+    //         case rigth:
+    //             if(ofsetX + X - 10 - x < strlen(data->Meanings[cursorY+ofsetY])){
+    //                 ofsetX++;
+    //             }
+    //             break;
+    //         case left:
+    //             ofsetX = (ofsetX <= 0)?0:ofsetX-1;
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
+    return returnChoice(win);
 }

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(Dict VERSION 0.1.0 LANGUAGES C)
 
-add_executable(Dict ./src/main.c ./src/menu.c ./src/search.c  ./src/create.c ./src/Display.c ./src/FileHandling.c ./src/Remove.c)
+add_executable(Dict ./src/main.c  ./src/search.c  ./src/create.c ./src/Display.c ./src/FileHandling.c ./src/Remove.c)
 
 target_link_libraries(Dict ncurses pthread)
 

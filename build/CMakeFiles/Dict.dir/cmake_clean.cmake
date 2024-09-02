@@ -9,8 +9,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/Dict.dir/src/create.c.obj.d"
   "CMakeFiles/Dict.dir/src/main.c.obj"
   "CMakeFiles/Dict.dir/src/main.c.obj.d"
-  "CMakeFiles/Dict.dir/src/menu.c.obj"
-  "CMakeFiles/Dict.dir/src/menu.c.obj.d"
   "CMakeFiles/Dict.dir/src/search.c.obj"
   "CMakeFiles/Dict.dir/src/search.c.obj.d"
   "D:/codings/Dictinoary/out/Dict.exe"

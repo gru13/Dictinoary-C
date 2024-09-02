@@ -248,30 +248,6 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/main.c.s
 .PHONY : src/main.c.s
 
-src/menu.obj: src/menu.c.obj
-.PHONY : src/menu.obj
-
-# target to build an object file
-src/menu.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/menu.c.obj
-.PHONY : src/menu.c.obj
-
-src/menu.i: src/menu.c.i
-.PHONY : src/menu.i
-
-# target to preprocess a source file
-src/menu.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/menu.c.i
-.PHONY : src/menu.c.i
-
-src/menu.s: src/menu.c.s
-.PHONY : src/menu.s
-
-# target to generate assembly for a file
-src/menu.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dict.dir\build.make CMakeFiles/Dict.dir/src/menu.c.s
-.PHONY : src/menu.c.s
-
 src/search.obj: src/search.c.obj
 .PHONY : src/search.obj
 
@@ -320,9 +296,6 @@ help:
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
-	@echo ... src/menu.obj
-	@echo ... src/menu.i
-	@echo ... src/menu.s
 	@echo ... src/search.obj
 	@echo ... src/search.i
 	@echo ... src/search.s

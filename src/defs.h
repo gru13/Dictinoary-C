@@ -7,6 +7,7 @@
 #ifdef __linux__
     #include<unistd.h>
     #define CLEAR_SCRN "clear"
+    #define Sleep sleep
 #elif defined(_WIN32)
     #define CLEAR_SCRN "cls"
     #include <windows.h>
@@ -19,14 +20,15 @@
 #define ESC 27  
 #define left 'K' // left
 #define bsc 8
-#define DATA_FILE "data.txt"
-#define NOP 7
+#define DATA_FILE "./data.txt"
+#define TMP_FILE "./tmp.txt"
+#define NOF_OPTS 7
 #define Y 30
 #define X 100
-#define WAIT 500
+#define WAIT 400
 #define TITLE "DICTIONARY"
 #define SEARCH "Searching Meaning for the Word"
-extern char options[NOP][X];
+extern char options[NOF_OPTS][X+X];
 
 typedef struct data{
     FILE* fp;
@@ -40,11 +42,11 @@ typedef struct data{
     long MeaningLoc[X];
 }Data;
 /*
-    Defined in menu.c
-        this contains the menu controls 
+    Defined in main.c
+        this is the Entery point
 */
+int main();
 int maxlenoption();
-int menu(WINDOW* win);
 
 
 /*
@@ -70,6 +72,7 @@ long NextLetter(FILE* fp, char*p);
 long NextWord(FILE* fp, char words[X]);
 long NextMeaning(FILE* fp, char sent[X+X]);
 int CopyInRange(FILE* to, FILE* from ,long start, long until);
+int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]);
 
 /*
     defined in Display.c
@@ -79,7 +82,8 @@ int CopyInRange(FILE* to, FILE* from ,long start, long until);
 void initTemplate(WINDOW* win, const char* heading);
 int get1LineInput(WINDOW* win, char output[X], const char Query[X], int x, int y);
 int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y);
-
+int returnChoice(WINDOW* win);
+int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen);
 /*
     defined in Remove.c
 */

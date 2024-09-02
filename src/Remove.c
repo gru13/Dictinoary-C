@@ -38,7 +38,10 @@ int removeWord(WINDOW* win){
             /* Word Found so continue*/
             break;
     }
-    FILE* out = fopen("Out.txt","w");
+
+    // updating the file
+
+    FILE* out = fopen(TMP_FILE,"w");
     // copying until the letter 
     long fpSRC = CopyInRange(out,data->fp,0,data->LetterPos);//constains src
     // updating the nof meanings
@@ -53,26 +56,21 @@ int removeWord(WINDOW* win){
         }
         fprintf(out,"%d,",l);
     }
-    fputc('\n', out);
-    // letter line printed to
-    // next until the word
-    fseek(data->fp,data->LetterPos, SEEK_SET);
-    while(fgetc(data->fp) != '\n'){}
-    CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc);
+    fputc(fgetc(data->fp), out); // this add '\n'
     
-    // printting from the next letter
-    char Ctemp;
-    fseek(data->fp, data->Letter,SEEK_SET);
-    long loc = NextLetter(data->fp,&Ctemp);
-    fputc('@', out);
-    switch(loc){
-        case -1:
-            break;
-        default:
-            fpSRC = CopyInRange(out,data->fp,loc, -1);//constains src
-            break;
-    }
+    CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc);
+    char tmpWord[X];
+    NextWord(data->fp,tmpWord);
+    CopyInRange(out,data->fp,ftell(data->fp),EOF);
+
+    mvwprintw(win,Y-2,(X/20),"Writing in file");
+    wrefresh(win);
     fclose(out);
     fclose(data->fp);
-    return 0;
+
+    closeFiles(win,data,out,"Successfully delete the Word meaning Pair");
+    
+   
+    wrefresh(win);
+    return returnChoice(win);
 }

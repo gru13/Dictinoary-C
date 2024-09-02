@@ -3,10 +3,11 @@
 
 int ToWord(WINDOW* win,Data* data){
     /*
-        return -1 -> NO Word found in letter
-        return -2 -> No Words found in Letter '%c' 
-        return -3 -> reached end of file
-        return index -> if word is found
+        return -1  -> NO Word found in letter
+        return -2  -> No Words found in Letter '%c' 
+        return -3  -> reached end of file
+        return -4  -> reacheed next Letter
+        return >=0 -> if word is found
     */
     rewind(data->fp);
    int nofMeaning[X]; char Meaning[X][X+X];
@@ -40,6 +41,10 @@ int ToWord(WINDOW* win,Data* data){
             case -1:
                 // reached eof
                 return -3;
+                break;
+            case -2:
+                // reached next letter
+                return -4;
                 break;
             default:
                 break;
@@ -120,12 +125,20 @@ long NextLetter(FILE* fp, char*p){
 }
 
 long NextWord(FILE* fp, char words[X]){
+    /*
+        return -> -1 reached eof
+        return -> -2 reached next letter
+        return -> >=0 no error 
+    */ 
     char p;
     while(TRUE){
         p = fgetc(fp);
         if(p == EOF){
             perror("reached end of file in next Word");
             return -1;
+        }
+        if(p == '@'){
+            return -2;
         }
         if(p == '^'){
             break;
@@ -137,11 +150,20 @@ long NextWord(FILE* fp, char words[X]){
 }
 
 long NextMeaning(FILE* fp, char sent[X+X]){
+    /*
+        return -> -1 reached eof
+        return -> -2 reached next Word
+        return -> >=0 no error 
+    */ 
     char p;
     while(TRUE){
         p = fgetc(fp);
         if(p == EOF){
             perror("reached end of file in next Word");
+            return -1;
+        }
+        if(p == '^'){
+            return -2;
         }
         if(p == '~'){
             break;
@@ -168,6 +190,36 @@ int CopyInRange(FILE* to, FILE* from ,long start, long until){
             return -1;
         }
         fputc(c,to);
+    }
+    return 0;
+}
+
+int closeFiles(WINDOW* win, Data* data, FILE* out,const char successText[X]){
+    /*
+        return 0   -> no error
+        return -1  -> can't delete the old file
+        return -2  -> cant rename file
+    */
+    mvwprintw(win,Y-2,(X/20),"Writing in file");
+    wrefresh(win);
+    Sleep(1000);
+    fclose(out);
+    while(fclose(data->fp)){}
+
+    if(remove(DATA_FILE)){
+        mvwprintw(win,Y-2,X/20,"error in deleting the old file");
+        wrefresh(win);
+        Sleep(2000);
+        return -1;
+    }
+    if(rename(TMP_FILE, DATA_FILE)){
+        mvwprintw(win,Y-2,X/20,"error in Renaming the file");
+        wrefresh(win);
+        Sleep(2000);
+        return -2;
+    }else{
+        mvwprintw(win,Y/2,X/2-strlen(successText)/2,successText);
+        wrefresh(win);
     }
     return 0;
 }
