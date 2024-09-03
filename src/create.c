@@ -1,7 +1,14 @@
 #include "./defs.h"
 
 int CreatePair(WINDOW* win){
-    
+    /*
+        return -3 -> reached eof
+        retrun -2 -> no Word found in letter
+        return -1 -> letter not found
+        return 0  -> esc is pressed and process end sucessfully
+        return 1  -> no input so do from start
+    */
+
     Data* data = (Data*)malloc(sizeof(Data));
     data->fp = fopen(DATA_FILE,"r");
     if(data->fp == NULL){
@@ -23,10 +30,14 @@ int CreatePair(WINDOW* win){
             break;
         case 1:
             // no input so repeat from first
+            free(data->fp);
+            free(data);
             return 1;
             break;
         case -1:
             // esc is pressed
+            free(data->fp);
+            free(data);
             return 0;
             break;
     }
@@ -39,7 +50,6 @@ int CreatePair(WINDOW* win){
             break;
         case -2:
             // no Word found in letter
-
             break;
         default:
             mvwprintw(win,Y-2,X/20,"Word Exist in dict");
@@ -47,6 +57,8 @@ int CreatePair(WINDOW* win){
             Sleep(WAIT);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
+            free(data->fp);
+            free(data);
             return 1;
             // word found so printing
             break;
@@ -58,10 +70,14 @@ int CreatePair(WINDOW* win){
             break;
         case 1:
             // no input so repeat from first
+            free(data->fp);
+            free(data);
             return 1;
             break;
         case -1:
             // esc is pressed
+            free(data->fp);
+            free(data);
             return 0;
             break;
     }
@@ -94,7 +110,8 @@ int CreatePair(WINDOW* win){
     fpSRC = CopyInRange(out,data->fp,loc,-1);
     
     closeFiles(win,data,out,"Successfully created New Word with Meaning");
-
+    free(data->fp);
+    free(data);
     return returnChoice(win);
 }
 
@@ -127,10 +144,14 @@ int AddMeaning(WINDOW* win){
             break;
         case 1:
             // no input so repeat from first
+            free(data->fp);
+            free(data);
             return 1;
             break;
         case -1:
             // esc is pressed
+            free(data->fp);
+            free(data);
             return 0;
             break;
     }
@@ -145,6 +166,8 @@ int AddMeaning(WINDOW* win){
             Sleep(WAIT);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
+            free(data->fp);
+            free(data);
             return 1;
             break;
         case -2:
@@ -154,6 +177,8 @@ int AddMeaning(WINDOW* win){
             Sleep(WAIT);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
+            free(data->fp);
+            free(data);
             return 1;
             break;
         default:
@@ -197,6 +222,7 @@ int AddMeaning(WINDOW* win){
 
 
     closeFiles(win,data,out,"Successfully create new meaning for the Word");
-
+    free(data->fp);
+    free(data);
     return returnChoice(win);
 }

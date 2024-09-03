@@ -9,10 +9,14 @@ void initTemplate(WINDOW* win, const char* heading){
 }
 
 int blankScreen(WINDOW* win, int x, int y, int h, int w){
+    /*
+        blank the screen 
+    */
     for(int i = 0; i < h; i++){
         mvwhline(win,y+i,x,' ',w);
     }
     wrefresh(win);
+    return 1;
 }
 
 int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y){
@@ -75,6 +79,10 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
 }
 
 int returnChoice(WINDOW* win){
+    /*
+        this function for return , this determine that 
+        the current process end or continue from first again
+    */
     mvwprintw(win,Y/2+1,X/2-11,"<Enter> : next entery");
     mvwprintw(win,Y/2+2,X/2-11,"<Esc> : For Escape");
     wrefresh(win);
@@ -132,9 +140,11 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
         switch (choice){
             case enter:
                 blankScreen(win,x-3,y,heigth,width);
+                wrefresh(win);
                 return cursorY;
             case ESC:
                 blankScreen(win,x-3,y,heigth,width);
+                wrefresh(win);
                 return ESC;
             case down:
                 ofsetX = 0;
@@ -199,6 +209,8 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
         }
     }
     blankScreen(win,x-3,y,heigth,width);
+    wrefresh(win);
     return cursorY;
 } 
+
 

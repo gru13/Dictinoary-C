@@ -22,13 +22,11 @@
 #define bsc 8
 #define DATA_FILE "./data.txt"
 #define TMP_FILE "./tmp.txt"
-#define NOF_OPTS 7
 #define Y 30
 #define X 100
 #define WAIT 400
 #define TITLE "DICTIONARY"
 #define SEARCH "Searching Meaning for the Word"
-extern char options[NOF_OPTS][X+X];
 
 typedef struct data{
     FILE* fp;
@@ -46,7 +44,7 @@ typedef struct data{
         this is the Entery point
 */
 int main();
-int maxlenoption();
+int maxlenArray(char arr[X][X+X],int arrLen);
 
 
 /*
@@ -54,6 +52,7 @@ int maxlenoption();
         this contains the search controls 
 */
 int search(WINDOW* win);
+int WordsInLetter(WINDOW* win);
 
 /*
     Defined in create.c
@@ -73,6 +72,7 @@ long NextWord(FILE* fp, char words[X]);
 long NextMeaning(FILE* fp, char sent[X+X]);
 int CopyInRange(FILE* to, FILE* from ,long start, long until);
 int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]);
+int ResetFile(WINDOW* win, int flag);
 
 /*
     defined in Display.c

@@ -1,7 +1,7 @@
 #include "./defs.h"
 
 int removeWord(WINDOW* win){
-    initTemplate(win,options[3]);
+    initTemplate(win,"Remove the Word and Meaning");
     Data* data = (Data*)malloc(sizeof(Data));
     const char query[] = "Enter Word to Remove : ";
     switch (mvwlinput(win,data->Word,query, 1, X/20, Y/5)){
@@ -69,8 +69,7 @@ int removeWord(WINDOW* win){
     fclose(data->fp);
 
     closeFiles(win,data,out,"Successfully delete the Word meaning Pair");
-    
-   
+
     wrefresh(win);
     return returnChoice(win);
 }

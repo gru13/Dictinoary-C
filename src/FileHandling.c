@@ -75,12 +75,17 @@ int ToWord(WINDOW* win,Data* data){
 }
 
 int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]){
+    /*
+        return -1  -> Letter not Found and reached eof
+        return -2  -> No Words found in Letter '%c' 
+        return >=0 -> if word is found
+    */
     char p;
     while(TRUE){
         long loc = NextLetter(data->fp, &p);
         switch(loc){
             case -1:
-                // Letter not Found
+                // Letter not Found and reached eof
                 return -1;
                 break;
             default:
@@ -109,6 +114,10 @@ int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]){
 }
 
 long NextLetter(FILE* fp, char*p){
+    /*
+        return -> -1 reached eof
+        return -> >=0 no error 
+    */ 
     while (TRUE){
         *p = fgetc(fp);
         if(*p == EOF){
@@ -203,8 +212,14 @@ int closeFiles(WINDOW* win, Data* data, FILE* out,const char successText[X]){
     mvwprintw(win,Y-2,(X/20),"Writing in file");
     wrefresh(win);
     Sleep(1000);
-    fclose(out);
-    while(fclose(data->fp)){}
+    if(fclose(data->fp) != 0) {
+        perror("Error closing Data file");
+        return -1;
+    }
+    if(fclose(out) != 0) {
+        perror("Error closing out file");
+        return -1;
+    }
 
     if(remove(DATA_FILE)){
         mvwprintw(win,Y-2,X/20,"error in deleting the old file");
@@ -222,4 +237,35 @@ int closeFiles(WINDOW* win, Data* data, FILE* out,const char successText[X]){
         wrefresh(win);
     }
     return 0;
+}
+
+int ResetFile(WINDOW* win, int flag){
+    /*
+        flag -> 0 will not print in window
+        flag -> 1 will print the details in window
+        return -1 -> cant open the file
+        return -2 -> cant close the file4
+        return  0 -> all ok
+     */
+   FILE* fp = fopen(DATA_FILE,"w");
+   if(fp == NULL){
+    return -1;
+   }
+   if(flag){
+        initTemplate(win,"Reseting the file");
+   }
+
+   for (char l = 'a'; l <= 'z'; l++){
+    fprintf(fp,"@%c-0,\n",l);
+   }
+   if(fclose(fp) != 0) {
+        perror("Error closing Data file");
+        return -2;
+    }
+
+   if(flag){
+        mvwprintw(win, Y/2,X/2-10,"FILE RESET Complete");
+        wrefresh(win);
+   }
+    return returnChoice(win);
 }
