@@ -12,7 +12,8 @@ int CreatePair(WINDOW* win){
     Data* data = (Data*)malloc(sizeof(Data));
     data->fp = fopen(DATA_FILE,"r");
     if(data->fp == NULL){
-        mvwprintw(win,Y/2,X/2-10,"Cant open the file");
+        mvwprintw(win,Y/2,X/2-10,"Cant open DATA the file in create pair");
+        perror("Cant open the file DATA in create pair");
         wrefresh(win);
     }
 
@@ -30,13 +31,11 @@ int CreatePair(WINDOW* win){
             break;
         case 1:
             // no input so repeat from first
-            free(data->fp);
             free(data);
             return 1;
             break;
         case -1:
             // esc is pressed
-            free(data->fp);
             free(data);
             return 0;
             break;
@@ -57,7 +56,6 @@ int CreatePair(WINDOW* win){
             Sleep(WAIT);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
-            free(data->fp);
             free(data);
             return 1;
             // word found so printing
@@ -70,19 +68,22 @@ int CreatePair(WINDOW* win){
             break;
         case 1:
             // no input so repeat from first
-            free(data->fp);
             free(data);
             return 1;
             break;
         case -1:
             // esc is pressed
-            free(data->fp);
             free(data);
             return 0;
             break;
     }
     // acessing new file and save
     FILE* out = fopen(TMP_FILE,"w");
+    if(out == NULL){
+        perror("Cant open out file in CreatePair");
+        mvwprintw(win,Y/2,X/2-10,"Cant open the out file in create pair");
+        return -1;
+    }
     // copying until the letter 
     long fpSRC = CopyInRange(out,data->fp,0,data->LetterPos);//constains src
     // updating the nof meanings
@@ -110,7 +111,6 @@ int CreatePair(WINDOW* win){
     fpSRC = CopyInRange(out,data->fp,loc,-1);
     
     closeFiles(win,data,out,"Successfully created New Word with Meaning");
-    free(data->fp);
     free(data);
     return returnChoice(win);
 }
@@ -127,7 +127,8 @@ int AddMeaning(WINDOW* win){
     Data* data = (Data*)malloc(sizeof(Data));
     data->fp = fopen(DATA_FILE,"r");
     if(data->fp == NULL){
-        mvwprintw(win,Y/2,X/2-10,"Cant open the file");
+        mvwprintw(win,Y/2,X/2-10,"Cant open DATA the file in Addmeaing");
+        perror("Cant open DATA the file in Addmeaing");
         wrefresh(win);
     }
 
@@ -144,13 +145,11 @@ int AddMeaning(WINDOW* win){
             break;
         case 1:
             // no input so repeat from first
-            free(data->fp);
             free(data);
             return 1;
             break;
         case -1:
             // esc is pressed
-            free(data->fp);
             free(data);
             return 0;
             break;
@@ -166,7 +165,6 @@ int AddMeaning(WINDOW* win){
             Sleep(WAIT);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
-            free(data->fp);
             free(data);
             return 1;
             break;
@@ -177,7 +175,6 @@ int AddMeaning(WINDOW* win){
             Sleep(WAIT);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
-            free(data->fp);
             free(data);
             return 1;
             break;
@@ -201,6 +198,10 @@ int AddMeaning(WINDOW* win){
     }
     // acessing new file and save
     FILE* out = fopen(TMP_FILE,"w");
+    if(out == NULL){
+        perror("Cant open file out in AddMeaing");
+        return -1;
+    }
     // copying until the letter 
     long fpSRC = CopyInRange(out,data->fp,0,data->LetterPos);//constains src
     // updating the nof meanings
@@ -222,7 +223,6 @@ int AddMeaning(WINDOW* win){
 
 
     closeFiles(win,data,out,"Successfully create new meaning for the Word");
-    free(data->fp);
     free(data);
     return returnChoice(win);
 }

@@ -212,6 +212,14 @@ int closeFiles(WINDOW* win, Data* data, FILE* out,const char successText[X]){
     mvwprintw(win,Y-2,(X/20),"Writing in file");
     wrefresh(win);
     Sleep(1000);
+    if(fflush(data->fp) != 0) {
+        perror("Error in Flushing  Data file");
+        return -1;
+    }
+    if(fflush(out) != 0) {
+        perror("Error in flushing out file");
+        return -1;
+    }
     if(fclose(data->fp) != 0) {
         perror("Error closing Data file");
         return -1;
@@ -220,17 +228,18 @@ int closeFiles(WINDOW* win, Data* data, FILE* out,const char successText[X]){
         perror("Error closing out file");
         return -1;
     }
-
+    Sleep(200);
     if(remove(DATA_FILE)){
         mvwprintw(win,Y-2,X/20,"error in deleting the old file");
         wrefresh(win);
-        Sleep(2000);
+        Sleep(1000);
         return -1;
     }
+    Sleep(200);
     if(rename(TMP_FILE, DATA_FILE)){
         mvwprintw(win,Y-2,X/20,"error in Renaming the file");
         wrefresh(win);
-        Sleep(2000);
+        Sleep(1000);
         return -2;
     }else{
         mvwprintw(win,Y/2,X/2-strlen(successText)/2,successText);
@@ -266,6 +275,21 @@ int ResetFile(WINDOW* win, int flag){
    if(flag){
         mvwprintw(win, Y/2,X/2-10,"FILE RESET Complete");
         wrefresh(win);
+        return returnChoice(win);
+   }else{
+    return 0;
    }
-    return returnChoice(win);
 }
+
+int checkFileExist(){
+    /*
+        return 1 -> if exist 
+        return 0 -> if not exist
+    */
+    if (access(DATA_FILE, F_OK) != -1){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+

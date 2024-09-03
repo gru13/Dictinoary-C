@@ -58,7 +58,9 @@
 ~this is a cat
 ~that was a cat
 ~this is a cat
-@d-2,1,2,
+@d-3,1,1,2,
+^donkey
+~this donkey
 ^data
 ~this data
 ^dog

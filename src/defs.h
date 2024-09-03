@@ -3,6 +3,7 @@
 #include <string.h>
 #include <curses.h>
 #include <ctype.h>
+#include <io.h>
 
 #ifdef __linux__
     #include<unistd.h>
@@ -73,6 +74,7 @@ long NextMeaning(FILE* fp, char sent[X+X]);
 int CopyInRange(FILE* to, FILE* from ,long start, long until);
 int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]);
 int ResetFile(WINDOW* win, int flag);
+int checkFileExist();
 
 /*
     defined in Display.c
@@ -89,3 +91,4 @@ int blankScreen(WINDOW* win, int x, int y, int h, int w);
     defined in Remove.c
 */
 int removeWord(WINDOW* win);
+int removeMeaning(WINDOW* win);

@@ -16,6 +16,7 @@ CMakeFiles/Dict.dir/src/Display.c.obj: D:/codings/Dictinoary/src/Display.c \
   C:/MinGW/include/ddeml.h \
   C:/MinGW/include/dlgs.h \
   C:/MinGW/include/imm.h \
+  C:/MinGW/include/io.h \
   C:/MinGW/include/lzexpand.h \
   C:/MinGW/include/mmsystem.h \
   C:/MinGW/include/msvcrtver.h \
@@ -42,6 +43,7 @@ CMakeFiles/Dict.dir/src/Display.c.obj: D:/codings/Dictinoary/src/Display.c \
   C:/MinGW/include/rpcnterr.h \
   C:/MinGW/include/sdkddkver.h \
   C:/MinGW/include/shellapi.h \
+  C:/MinGW/include/stdint.h \
   C:/MinGW/include/stdio.h \
   C:/MinGW/include/stdlib.h \
   C:/MinGW/include/string.h \
@@ -49,6 +51,7 @@ CMakeFiles/Dict.dir/src/Display.c.obj: D:/codings/Dictinoary/src/Display.c \
   C:/MinGW/include/sys/types.h \
   C:/MinGW/include/sys/bsdtypes.h \
   C:/MinGW/include/sys/time.h \
+  C:/MinGW/include/sys/types.h \
   C:/MinGW/include/unknwn.h \
   C:/MinGW/include/w32api.h \
   C:/MinGW/include/wchar.h \
@@ -91,6 +94,7 @@ CMakeFiles/Dict.dir/src/FileHandling.c.obj: D:/codings/Dictinoary/src/FileHandli
   C:/MinGW/include/ddeml.h \
   C:/MinGW/include/dlgs.h \
   C:/MinGW/include/imm.h \
+  C:/MinGW/include/io.h \
   C:/MinGW/include/lzexpand.h \
   C:/MinGW/include/mmsystem.h \
   C:/MinGW/include/msvcrtver.h \
@@ -117,6 +121,7 @@ CMakeFiles/Dict.dir/src/FileHandling.c.obj: D:/codings/Dictinoary/src/FileHandli
   C:/MinGW/include/rpcnterr.h \
   C:/MinGW/include/sdkddkver.h \
   C:/MinGW/include/shellapi.h \
+  C:/MinGW/include/stdint.h \
   C:/MinGW/include/stdio.h \
   C:/MinGW/include/stdlib.h \
   C:/MinGW/include/string.h \
@@ -124,6 +129,7 @@ CMakeFiles/Dict.dir/src/FileHandling.c.obj: D:/codings/Dictinoary/src/FileHandli
   C:/MinGW/include/sys/types.h \
   C:/MinGW/include/sys/bsdtypes.h \
   C:/MinGW/include/sys/time.h \
+  C:/MinGW/include/sys/types.h \
   C:/MinGW/include/unknwn.h \
   C:/MinGW/include/w32api.h \
   C:/MinGW/include/wchar.h \
@@ -164,6 +170,7 @@ CMakeFiles/Dict.dir/src/Remove.c.obj: D:/codings/Dictinoary/src/Remove.c \
   C:/MinGW/include/ddeml.h \
   C:/MinGW/include/dlgs.h \
   C:/MinGW/include/imm.h \
+  C:/MinGW/include/io.h \
   C:/MinGW/include/lzexpand.h \
   C:/MinGW/include/mmsystem.h \
   C:/MinGW/include/msvcrtver.h \
@@ -190,6 +197,7 @@ CMakeFiles/Dict.dir/src/Remove.c.obj: D:/codings/Dictinoary/src/Remove.c \
   C:/MinGW/include/rpcnterr.h \
   C:/MinGW/include/sdkddkver.h \
   C:/MinGW/include/shellapi.h \
+  C:/MinGW/include/stdint.h \
   C:/MinGW/include/stdio.h \
   C:/MinGW/include/stdlib.h \
   C:/MinGW/include/string.h \
@@ -197,6 +205,7 @@ CMakeFiles/Dict.dir/src/Remove.c.obj: D:/codings/Dictinoary/src/Remove.c \
   C:/MinGW/include/sys/types.h \
   C:/MinGW/include/sys/bsdtypes.h \
   C:/MinGW/include/sys/time.h \
+  C:/MinGW/include/sys/types.h \
   C:/MinGW/include/unknwn.h \
   C:/MinGW/include/w32api.h \
   C:/MinGW/include/wchar.h \
@@ -238,6 +247,7 @@ CMakeFiles/Dict.dir/src/create.c.obj: D:/codings/Dictinoary/src/create.c \
   C:/MinGW/include/ddeml.h \
   C:/MinGW/include/dlgs.h \
   C:/MinGW/include/imm.h \
+  C:/MinGW/include/io.h \
   C:/MinGW/include/lzexpand.h \
   C:/MinGW/include/mmsystem.h \
   C:/MinGW/include/msvcrtver.h \
@@ -264,6 +274,7 @@ CMakeFiles/Dict.dir/src/create.c.obj: D:/codings/Dictinoary/src/create.c \
   C:/MinGW/include/rpcnterr.h \
   C:/MinGW/include/sdkddkver.h \
   C:/MinGW/include/shellapi.h \
+  C:/MinGW/include/stdint.h \
   C:/MinGW/include/stdio.h \
   C:/MinGW/include/stdlib.h \
   C:/MinGW/include/string.h \
@@ -271,6 +282,7 @@ CMakeFiles/Dict.dir/src/create.c.obj: D:/codings/Dictinoary/src/create.c \
   C:/MinGW/include/sys/types.h \
   C:/MinGW/include/sys/bsdtypes.h \
   C:/MinGW/include/sys/time.h \
+  C:/MinGW/include/sys/types.h \
   C:/MinGW/include/unknwn.h \
   C:/MinGW/include/w32api.h \
   C:/MinGW/include/wchar.h \
@@ -313,6 +325,7 @@ CMakeFiles/Dict.dir/src/main.c.obj: D:/codings/Dictinoary/src/main.c \
   C:/MinGW/include/ddeml.h \
   C:/MinGW/include/dlgs.h \
   C:/MinGW/include/imm.h \
+  C:/MinGW/include/io.h \
   C:/MinGW/include/lzexpand.h \
   C:/MinGW/include/mmsystem.h \
   C:/MinGW/include/msvcrtver.h \
@@ -339,6 +352,7 @@ CMakeFiles/Dict.dir/src/main.c.obj: D:/codings/Dictinoary/src/main.c \
   C:/MinGW/include/rpcnterr.h \
   C:/MinGW/include/sdkddkver.h \
   C:/MinGW/include/shellapi.h \
+  C:/MinGW/include/stdint.h \
   C:/MinGW/include/stdio.h \
   C:/MinGW/include/stdlib.h \
   C:/MinGW/include/string.h \
@@ -346,6 +360,7 @@ CMakeFiles/Dict.dir/src/main.c.obj: D:/codings/Dictinoary/src/main.c \
   C:/MinGW/include/sys/types.h \
   C:/MinGW/include/sys/bsdtypes.h \
   C:/MinGW/include/sys/time.h \
+  C:/MinGW/include/sys/types.h \
   C:/MinGW/include/unknwn.h \
   C:/MinGW/include/w32api.h \
   C:/MinGW/include/wchar.h \
@@ -387,6 +402,7 @@ CMakeFiles/Dict.dir/src/search.c.obj: D:/codings/Dictinoary/src/search.c \
   C:/MinGW/include/ddeml.h \
   C:/MinGW/include/dlgs.h \
   C:/MinGW/include/imm.h \
+  C:/MinGW/include/io.h \
   C:/MinGW/include/lzexpand.h \
   C:/MinGW/include/mmsystem.h \
   C:/MinGW/include/msvcrtver.h \
@@ -413,6 +429,7 @@ CMakeFiles/Dict.dir/src/search.c.obj: D:/codings/Dictinoary/src/search.c \
   C:/MinGW/include/rpcnterr.h \
   C:/MinGW/include/sdkddkver.h \
   C:/MinGW/include/shellapi.h \
+  C:/MinGW/include/stdint.h \
   C:/MinGW/include/stdio.h \
   C:/MinGW/include/stdlib.h \
   C:/MinGW/include/string.h \
@@ -420,6 +437,7 @@ CMakeFiles/Dict.dir/src/search.c.obj: D:/codings/Dictinoary/src/search.c \
   C:/MinGW/include/sys/types.h \
   C:/MinGW/include/sys/bsdtypes.h \
   C:/MinGW/include/sys/time.h \
+  C:/MinGW/include/sys/types.h \
   C:/MinGW/include/unknwn.h \
   C:/MinGW/include/w32api.h \
   C:/MinGW/include/wchar.h \
@@ -466,6 +484,8 @@ C:/MinGW/include/windef.h:
 
 C:/MinGW/include/_winsock.h:
 
+C:/MinGW/include/stdint.h:
+
 C:/MinGW/include/objfwd.h:
 
 C:/MinGW/include/basetsd.h:
@@ -490,11 +510,13 @@ C:/MinGW/include/winnetwk.h:
 
 C:/MinGW/include/ctype.h:
 
-C:/MinGW/include/dbt.h:
+C:/MinGW/include/io.h:
+
+C:/MinGW/include/sys/bsdtypes.h:
 
 C:/MinGW/include/winsock.h:
 
-C:/MinGW/include/sys/bsdtypes.h:
+C:/MinGW/include/dbt.h:
 
 C:/MinGW/include/dde.h:
 
@@ -527,8 +549,6 @@ C:/MinGW/include/strings.h:
 C:/MinGW/include/olectlid.h:
 
 C:/MinGW/include/oleidl.h:
-
-C:/MinGW/include/winreg.h:
 
 C:/MinGW/include/poppack.h:
 
@@ -577,6 +597,8 @@ C:/MinGW/include/winerror.h:
 C:/MinGW/include/winnt.h:
 
 C:/MinGW/include/winperf.h:
+
+C:/MinGW/include/winreg.h:
 
 C:/MinGW/include/winsock2.h:
 

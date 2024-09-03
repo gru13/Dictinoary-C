@@ -14,6 +14,7 @@ int main(){
                         "Exit"};
     int State = TRUE;
     int nof_opts = 8;
+
     initscr();
     keypad(stdscr,TRUE);
     cbreak();
@@ -21,6 +22,26 @@ int main(){
     curs_set(FALSE);
     WINDOW* win = newwin(Y,X,0,0);
     int Exit = 1;
+
+    if(!checkFileExist()){
+        box(win,0,0);
+        mvwprintw(win,Y/2,X/2-11,"The Data File not Found");
+        mvwprintw(win,Y/2+1,X/2-15,"Enter to continue and create new");
+        mvwprintw(win,Y/2+2,X/2-38,"Esc,If you have a old data file please move the data file to this directory");
+        wrefresh(win);
+        while(TRUE){
+            int choice = wgetch(win);
+            if(choice == enter){
+                ResetFile(win,0);
+                break;
+            }
+            if(choice == ESC){
+                Exit = 0;
+                break;
+            }
+        }      
+    }
+    
     int x = X/2 - maxlenArray(options,nof_opts)/2 - 15;
     int y = Y/2 - nof_opts/2;
     while(Exit){
@@ -43,6 +64,7 @@ int main(){
                 while(removeWord(win));
                 break;
             case 4:
+                while(removeMeaning(win));
                 break;
             case 5:
                 while(WordsInLetter(win));

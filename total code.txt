@@ -1,0 +1,1242 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <curses.h>
+#include <ctype.h>
+#include <io.h>
+
+#ifdef __linux__
+    #include<unistd.h>
+    #define CLEAR_SCRN "clear"
+    #define Sleep sleep
+#elif defined(_WIN32)
+    #define CLEAR_SCRN "cls"
+    #include <windows.h>
+#endif
+
+#define enter 10
+#define down 'P' // down
+#define up 'H' // up
+#define rigth 'M' // rigth
+#define ESC 27  
+#define left 'K' // left
+#define bsc 8
+#define DATA_FILE "./data.txt"
+#define TMP_FILE "./tmp.txt"
+#define Y 30
+#define X 100
+#define WAIT 400
+#define TITLE "DICTIONARY"
+#define SEARCH "Searching Meaning for the Word"
+
+typedef struct data{
+    FILE* fp;
+    char Letter;
+    long LetterPos;
+    int nof_Words;
+    char Word[X];
+    long WordLoc;
+    int  nof_Meaning;
+    char Meanings[X][X+X];
+    long MeaningLoc[X];
+}Data;
+/*
+    Defined in main.c
+        this is the Entery point
+*/
+int main();
+int maxlenArray(char arr[X][X+X],int arrLen);
+
+
+/*
+    Defined in search.c
+        this contains the search controls 
+*/
+int search(WINDOW* win);
+int WordsInLetter(WINDOW* win);
+
+/*
+    Defined in create.c
+        this contains the creating part
+*/
+int CreatePair(WINDOW* win);
+int AddMeaning(WINDOW* win);
+/*
+    Defined in FileHandling.c
+        this file contains the movement in file and updation 
+*/
+
+int ToWord(WINDOW* win, Data* data);
+int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]);
+long NextLetter(FILE* fp, char*p);
+long NextWord(FILE* fp, char words[X]);
+long NextMeaning(FILE* fp, char sent[X+X]);
+int CopyInRange(FILE* to, FILE* from ,long start, long until);
+int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]);
+int ResetFile(WINDOW* win, int flag);
+int checkFileExist();
+
+/*
+    defined in Display.c
+    Display and window
+*/
+
+void initTemplate(WINDOW* win, const char* heading);
+int get1LineInput(WINDOW* win, char output[X], const char Query[X], int x, int y);
+int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y);
+int returnChoice(WINDOW* win);
+int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen);
+int blankScreen(WINDOW* win, int x, int y, int h, int w);
+/*
+    defined in Remove.c
+*/
+int removeWord(WINDOW* win);
+int removeMeaning(WINDOW* win);
+
+
+#include "defs.h"
+
+
+
+
+int main(){
+    char options[][X+X] = {"Search for Word",
+                        "Create a Word and Meaning",
+                        "Add Meaning to Word",
+                        "Remove Word and Meaning",
+                        "Remove a Meaning",
+                        "list Words in a letter",
+                        "Reset the file",
+                        "Exit"};
+    int State = TRUE;
+    int nof_opts = 8;
+
+    initscr();
+    keypad(stdscr,TRUE);
+    cbreak();
+    noecho();
+    curs_set(FALSE);
+    WINDOW* win = newwin(Y,X,0,0);
+    int Exit = 1;
+
+    if(!checkFileExist()){
+        box(win,0,0);
+        mvwprintw(win,Y/2,X/2-11,"The Data File not Found");
+        mvwprintw(win,Y/2+1,X/2-15,"Enter to continue and create new");
+        mvwprintw(win,Y/2+2,X/2-38,"Esc,If you have a old data file please move the data file to this directory");
+        wrefresh(win);
+        while(TRUE){
+            int choice = wgetch(win);
+            if(choice == enter){
+                ResetFile(win,0);
+                break;
+            }
+            if(choice == ESC){
+                Exit = 0;
+                break;
+            }
+        }      
+    }
+    int x = X/2 - maxlenArray(options,nof_opts)/2 - 15;
+    int y = Y/2 - nof_opts/2;
+    while(Exit){
+        initTemplate(win,TITLE);
+        int choice = DisplayList(win,x,y,options,nof_opts);
+        switch (choice){
+            case ESC:
+                Exit = 0;
+                break;
+            case 0:
+                while(search(win));
+                break;
+            case 1:
+                while(CreatePair(win));
+                break;
+            case 2:
+                while(AddMeaning(win));
+                break;
+            case 3:
+                while(removeWord(win));
+                break;
+            case 4:
+                while(removeMeaning(win));
+                break;
+            case 5:
+                while(WordsInLetter(win));
+                break;
+            case 6:
+                ResetFile(win,1);
+                break;
+            case 7:
+                Exit = 0;
+                break;
+            default:
+                break;
+        }  
+    }
+    endwin();
+    return 0;
+}
+
+
+int maxlenArray(char arr[X][X+X],int arrLen){
+    int len = 0, m = 0;
+    for(int i = 0;i<len;i++){
+        len = strlen(arr[i]);
+        m = (m >= len)?m:len;
+    }
+    return m;
+}
+
+
+#include<defs.h>
+
+
+int ToWord(WINDOW* win,Data* data){
+    /*
+        return -1  -> NO Word found in letter
+        return -2  -> No Words found in Letter '%c' 
+        return -3  -> reached end of file
+        return -4  -> reacheed next Letter
+        return >=0 -> if word is found
+    */
+    rewind(data->fp);
+   int nofMeaning[X]; char Meaning[X][X+X];
+    data->Letter = data->Word[0];
+    switch(ToLetter(win,data,nofMeaning)){
+        case -1:
+            // letter not found
+            mvwprintw(win,Y-2,X/20,"Letter '%c' not Found",data->Letter);
+            wrefresh(win);
+            Sleep(WAIT);
+            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+            wrefresh(win);
+            return -1;
+        case -2:
+            // no Word found in letter
+            mvwprintw(win,Y-2,X/20,"No Words found in Letter '%c' ",data->Letter);
+            wrefresh(win);
+            Sleep(WAIT);
+            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+            wrefresh(win);
+            return -2;
+        default :
+            // no problem so proceed
+            break;
+    }
+  
+    char key[X];
+    for(int i = 0; i < data->nof_Words; i++){
+        long loc = NextWord(data->fp,key);
+        switch (loc){
+            case -1:
+                // reached eof
+                return -3;
+                break;
+            case -2:
+                // reached next letter
+                return -4;
+                break;
+            default:
+                break;
+        }
+        mvwprintw(win,Y-2,X/20,"Word : %s",key);
+        wrefresh(win);
+        Sleep(WAIT);
+        if(strcmp(key,data->Word) == 0){
+            data->WordLoc = loc;
+            data->nof_Meaning = nofMeaning[i];
+            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+            wrefresh(win);
+            for (int j = 0; j < data->nof_Meaning; j++){
+                data->MeaningLoc[j] = NextMeaning(data->fp,data->Meanings[j]);
+            }
+            return i;
+        }
+        mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+        wrefresh(win);
+    }
+
+    mvwprintw(win,Y-2,X/20,"Word '%s' not found in Letter '%c' ",data->Word,data->Letter);
+    wrefresh(win);
+    Sleep(WAIT);
+    mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+    wrefresh(win);
+    return -1;
+}
+
+int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]){
+    /*
+        return -1  -> Letter not Found and reached eof
+        return -2  -> No Words found in Letter '%c' 
+        return >=0 -> if word is found
+    */
+    char p;
+    while(TRUE){
+        long loc = NextLetter(data->fp, &p);
+        switch(loc){
+            case -1:
+                // Letter not Found and reached eof
+                return -1;
+                break;
+            default:
+                break;
+        }
+        mvwprintw(win,Y-2,X/20,"Letter : %c",p);
+        wrefresh(win);
+        Sleep(200);
+        if(p == data->Letter){
+            data->LetterPos = loc;
+            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+            wrefresh(win);
+            fscanf(data->fp,"-%d,",&data->nof_Words);
+            if(data->nof_Words == 0){
+                return -2;
+            }
+            for(int i = 0;i<data->nof_Words;i++){
+                fscanf(data->fp,"%d,", &nofMeaning[i]);
+            }
+            return 0;
+        }
+        mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+        wrefresh(win);
+    }
+    return -1;
+}
+
+long NextLetter(FILE* fp, char*p){
+    /*
+        return -> -1 reached eof
+        return -> >=0 no error 
+    */ 
+    while (TRUE){
+        *p = fgetc(fp);
+        if(*p == EOF){
+            perror("reached end of file in next Letter");
+            return -1;
+        }
+        if(*p == '@'){
+            break;
+        }
+    }
+    long loc = ftell(fp);
+    *p = fgetc(fp);
+    return loc;
+}
+
+long NextWord(FILE* fp, char words[X]){
+    /*
+        return -> -1 reached eof
+        return -> -2 reached next letter
+        return -> >=0 no error 
+    */ 
+    char p;
+    while(TRUE){
+        p = fgetc(fp);
+        if(p == EOF){
+            perror("reached end of file in next Word");
+            return -1;
+        }
+        if(p == '@'){
+            return -2;
+        }
+        if(p == '^'){
+            break;
+        }
+    }
+    long loc = ftell(fp);
+    fscanf(fp,"%[^\n]s",words);
+    return loc;
+}
+
+long NextMeaning(FILE* fp, char sent[X+X]){
+    /*
+        return -> -1 reached eof
+        return -> -2 reached next Word
+        return -> >=0 no error 
+    */ 
+    char p;
+    while(TRUE){
+        p = fgetc(fp);
+        if(p == EOF){
+            perror("reached end of file in next Word");
+            return -1;
+        }
+        if(p == '^'){
+            return -2;
+        }
+        if(p == '~'){
+            break;
+        }
+    }
+    long loc = ftell(fp);
+    fscanf(fp,"%[^\n]s",sent);
+    return loc;
+}
+
+int CopyInRange(FILE* to, FILE* from ,long start, long until){
+    /*
+        return 0 -> sucessfull
+        return -1 -> if reaced the eof
+    */
+    if(until == -1){
+        fseek(from,0,SEEK_END);
+        until =  ftell(from);
+    }
+    fseek(from,start,SEEK_SET);
+    while(ftell(from) < until){
+        char c = fgetc(from);
+        if(c == EOF){
+            return -1;
+        }
+        fputc(c,to);
+    }
+    return 0;
+}
+
+int closeFiles(WINDOW* win, Data* data, FILE* out,const char successText[X]){
+    /*
+        return 0   -> no error
+        return -1  -> can't delete the old file
+        return -2  -> cant rename file
+    */
+    mvwprintw(win,Y-2,(X/20),"Writing in file");
+    wrefresh(win);
+    Sleep(1000);
+    if(fclose(data->fp) != 0) {
+        perror("Error closing Data file");
+        return -1;
+    }
+    if(fclose(out) != 0) {
+        perror("Error closing out file");
+        return -1;
+    }
+
+    if(remove(DATA_FILE)){
+        mvwprintw(win,Y-2,X/20,"error in deleting the old file");
+        wrefresh(win);
+        Sleep(2000);
+        return -1;
+    }
+    if(rename(TMP_FILE, DATA_FILE)){
+        mvwprintw(win,Y-2,X/20,"error in Renaming the file");
+        wrefresh(win);
+        Sleep(2000);
+        return -2;
+    }else{
+        mvwprintw(win,Y/2,X/2-strlen(successText)/2,successText);
+        wrefresh(win);
+    }
+    return 0;
+}
+
+int ResetFile(WINDOW* win, int flag){
+    /*
+        flag -> 0 will not print in window
+        flag -> 1 will print the details in window
+        return -1 -> cant open the file
+        return -2 -> cant close the file4
+        return  0 -> all ok
+     */
+   FILE* fp = fopen(DATA_FILE,"w");
+   if(fp == NULL){
+    return -1;
+   }
+   if(flag){
+        initTemplate(win,"Reseting the file");
+   }
+
+   for (char l = 'a'; l <= 'z'; l++){
+    fprintf(fp,"@%c-0,\n",l);
+   }
+   if(fclose(fp) != 0) {
+        perror("Error closing Data file");
+        return -2;
+    }
+
+   if(flag){
+        mvwprintw(win, Y/2,X/2-10,"FILE RESET Complete");
+        wrefresh(win);
+        return returnChoice(win);
+   }else{
+    return 0;
+   }
+}
+
+int checkFileExist(){
+    /*
+        return 1 -> if exist 
+        return 0 -> if not exist
+    */
+    if (access(DATA_FILE, F_OK) != -1){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+#include "./defs.h"
+
+void initTemplate(WINDOW* win, const char* heading){
+    wclear(win);
+    box(win,0,0);
+    mvwprintw(win,1,X/2-strlen(heading)/2, heading);
+    mvwhline(win,2,1,WA_HORIZONTAL,X-2);
+    wrefresh(win);
+}
+
+int blankScreen(WINDOW* win, int x, int y, int h, int w){
+    /*
+        blank the screen 
+    */
+    for(int i = 0; i < h; i++){
+        mvwhline(win,y+i,x,' ',w);
+    }
+    wrefresh(win);
+    return 1;
+}
+
+int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y){
+    /*
+        return -1 -> esc is pressed
+        return  0 -> sucessfully got the input
+        return  1 -> no input typed so recalling the function
+    */
+    int index = 0, choice = 0;
+    output[0] = '\0';
+    curs_set(TRUE);
+    mvwprintw(win,y,x,query);
+    x += strlen(query);
+    wrefresh(win);
+    wmove(win,y,x);
+    // getting Meaing
+    int row = 0;
+    do{
+        if(row >= nofRow){
+            break;
+        }
+        choice = wgetch(win);
+        if(choice == -1){
+            continue;
+        }
+        if(index == 0 && choice == ' '){
+            continue;
+        }else if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-'){
+            output[index] = (char)choice;
+            mvwaddch(win,y+row,index - (X-6-x)*row + x,output[index]);
+            wrefresh(win);
+            index++;
+            row = (index)/(X-x-6);
+            output[index] = '\0';
+        }else if(choice == bsc){
+            if(index == 0){
+                continue;
+            }
+            index--;
+            row = (index)/(X-x-6);
+            mvwaddch(win,y+row,index - (X-6-x)*row + x,' ');
+            wrefresh(win);
+            output[index] = '\0';
+        }else if(choice == 10 &&(index == 0 || strlen(output) == 0)){
+            curs_set(FALSE);
+            mvwprintw(win, Y-2, x, "Type something to press Enter");
+            wrefresh(win);
+            Sleep(1000);
+            mvwprintw(win, Y-2, x, "                             ");
+            wrefresh(win);
+            return 1; 
+        }else if(choice == ESC){
+            curs_set(FALSE);
+            return -1;
+        }
+    }while(choice != enter);
+    output[index] = '\0';
+    curs_set(FALSE);
+    return 0;
+}
+
+int returnChoice(WINDOW* win){
+    /*
+        this function for return , this determine that 
+        the current process end or continue from first again
+    */
+    mvwprintw(win,Y/2+1,X/2-11,"<Enter> : next entery");
+    mvwprintw(win,Y/2+2,X/2-11,"<Esc> : For Escape");
+    wrefresh(win);
+    int choice;
+    while(TRUE){
+        choice = wgetch(win);
+        if(choice == enter){
+            choice = 1;
+            break;
+        }
+        if(choice == ESC){
+            choice = 0;
+            break;
+        }
+    }
+    return choice;
+}
+int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
+    /*
+        return ESC     -> if ESC pressed
+        return cursorY + ofsetY -> if enter is pressed
+    */
+    int cursorY = 0,ofsetY = 0,ofsetX = 0;
+    int heigth = Y-y-4;
+    int width = X-x-5;
+    int arrowX = x;
+    x += 3;
+    while(TRUE){
+         for(int i =0 ;i<listLen && i < heigth;i++){
+            if(cursorY == i && strlen(List[i+ofsetY]) >= width){
+                mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
+
+                for(int j = 0;j<strlen(List[i+ofsetY]) && j+x+5 < X - 5;j++){
+                    mvwprintw(win,y+i,x+5+j,"%c",List[i+ofsetY][j+ofsetX]);
+                }
+
+            }else if(strlen(List[i+ofsetY]) >= width){
+                mvwprintw(win,y+i,x, "[%02d]",i+1+ofsetY);
+                for(int j = 0;j<strlen(List[i+ofsetY]) && j+x+5 < X - 5;j++){
+                    mvwprintw(win,y+i,x+5+j,"%c",List[i+ofsetY][j]);
+                }
+
+            }else{
+                mvwprintw(win,y+i,x,"[%02d] %s",i+1+ofsetY,List[i+ofsetY]);
+            }
+
+        }
+
+        mvwprintw(win,y+cursorY,arrowX,"->");
+        wrefresh(win);
+        int choice = wgetch(win);
+        char Num[100];
+        int numIndex = 0;
+        Num[0] = '\0';
+        switch (choice){
+            case enter:
+                blankScreen(win,x-3,y,heigth,width);
+                wrefresh(win);
+                return cursorY + ofsetY;
+            case ESC:
+                blankScreen(win,x-3,y,heigth,width);
+                wrefresh(win);
+                return ESC;
+            case down:
+                ofsetX = 0;
+                mvwprintw(win,y+cursorY,arrowX,"  ");
+                cursorY++;
+                if(cursorY >= heigth || cursorY + ofsetY >= listLen){
+                    cursorY--;
+                    ofsetY++;
+                    if(ofsetY + cursorY >=  listLen){
+                        ofsetY--;
+                    }
+                }
+                mvwprintw(win,y+cursorY,arrowX,"->");
+                wrefresh(win);
+                break;
+            case up:
+                ofsetX = 0;
+                mvwprintw(win,y+cursorY,arrowX,"  ");
+                cursorY--;
+                if(cursorY <= -1){
+                    cursorY++;
+                    ofsetY--;
+                    if(ofsetY <= 0){
+                        ofsetY = 0;
+                    }
+                }
+                mvwprintw(win,y+cursorY,arrowX,"->");
+                wrefresh(win);
+                break;
+            case rigth:
+                if(ofsetX + X - 10 - x < strlen(List[cursorY+ofsetY])){
+                    ofsetX++;
+                }
+                break;
+            case left:
+                ofsetX = (ofsetX <= 0)?0:ofsetX-1;
+                break;
+            default:
+                 while(choice >= '0' && choice <= '9'){
+                    Num[numIndex++] = choice;
+                    Num[numIndex] = '\0';
+                    choice = wgetch(win);
+                    if(choice == enter){
+                        break;
+                    }
+                }
+                int oldY = cursorY;
+                int n = atoi(Num);
+                if(n > 0 && n <= listLen){
+                    cursorY = n - 1;
+                    if(cursorY < heigth){
+                        ofsetY = 0;
+                    }else if(cursorY >= heigth){
+                        ofsetY = cursorY - heigth + 1;
+                        cursorY = heigth-1;
+                    }
+                }
+                mvwprintw(win, y+oldY, arrowX, "  ");
+                mvwprintw(win, y+cursorY, arrowX, "->");
+                wrefresh(win);
+                break;
+        }
+    }
+    blankScreen(win,x-3,y,heigth,width);
+    wrefresh(win);
+    return cursorY + ofsetY;
+} 
+
+#include "./defs.h"
+
+int CreatePair(WINDOW* win){
+    /*
+        return -3 -> reached eof
+        retrun -2 -> no Word found in letter
+        return -1 -> letter not found
+        return 0  -> esc is pressed and process end sucessfully
+        return 1  -> no input so do from start
+    */
+
+    Data* data = (Data*)malloc(sizeof(Data));
+    data->fp = fopen(DATA_FILE,"r");
+    if(data->fp == NULL){
+        mvwprintw(win,Y/2,X/2-10,"Cant open the file");
+        wrefresh(win);
+    }
+
+    int x = X/20;
+    int y = Y/5;
+    initTemplate(win, "Insert New Word ");
+
+    const char WordQuery[] = "Enter Word        : ";
+    const char MeaningQuery[] = "Enter the Meaning : ";
+    char newMeaning[X+x];
+    strcpy(data->Word,"dart");
+    switch(mvwlinput(win, data->Word, WordQuery,1,x,y)){
+        case 0:
+            // sucessfully got input
+            break;
+        case 1:
+            // no input so repeat from first
+            free(data->fp);
+            free(data);
+            return 1;
+            break;
+        case -1:
+            // esc is pressed
+            free(data->fp);
+            free(data);
+            return 0;
+            break;
+    }
+    // checking if Word exist
+    // moving to word in file
+    int wordIndex = ToWord(win,data);
+    switch (wordIndex){
+        case -1:
+            // letter not found
+            break;
+        case -2:
+            // no Word found in letter
+            break;
+        default:
+            mvwprintw(win,Y-2,X/20,"Word Exist in dict");
+            wrefresh(win);
+            Sleep(WAIT);
+            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+            wrefresh(win);
+            free(data->fp);
+            free(data);
+            return 1;
+            // word found so printing
+            break;
+    }
+    y += 2;
+    switch(mvwlinput(win, newMeaning,MeaningQuery,2,x,y)){
+        case 0:
+            // sucessfully got input
+            break;
+        case 1:
+            // no input so repeat from first
+            free(data->fp);
+            free(data);
+            return 1;
+            break;
+        case -1:
+            // esc is pressed
+            free(data->fp);
+            free(data);
+            return 0;
+            break;
+    }
+    // acessing new file and save
+    FILE* out = fopen(TMP_FILE,"w");
+    // copying until the letter 
+    long fpSRC = CopyInRange(out,data->fp,0,data->LetterPos);//constains src
+    // updating the nof meanings
+    fscanf(data->fp,"%c-%d,", &data->Letter,&data->nof_Words);
+    fprintf(out,"%c-%d,1,",data->Letter,data->nof_Words+1);
+    for(int i = 0;i<data->nof_Words;i++){
+        int l;fscanf(data->fp,"%d,",&l);
+        if(i == wordIndex){
+            fprintf(out,"%d,",data->nof_Meaning);
+        }else{
+            fprintf(out,"%d,",l);
+        }
+    }
+    fputc('\n', out);
+    fprintf(out,"^%s\n",data->Word);
+    fprintf(out,"~%s\n",newMeaning);
+    char temp[X];
+    int itemp[X];
+    fseek(data->fp, data->LetterPos,SEEK_SET);
+    // ToLetter(win,data,itemp);
+    long loc;
+    while(fgetc(data->fp) != '\n');
+
+    loc = ftell(data->fp);
+    fpSRC = CopyInRange(out,data->fp,loc,-1);
+    
+    closeFiles(win,data,out,"Successfully created New Word with Meaning");
+    free(data->fp);
+    free(data);
+    return returnChoice(win);
+}
+
+int AddMeaning(WINDOW* win){
+    /*
+        return -3 -> reached eof
+        retrun -2 -> no Word found in letter
+        return -1 -> letter not found
+        return 0  -> esc is pressed and process end sucessfully
+        return 1  -> no input so do from start
+    */
+
+    Data* data = (Data*)malloc(sizeof(Data));
+    data->fp = fopen(DATA_FILE,"r");
+    if(data->fp == NULL){
+        mvwprintw(win,Y/2,X/2-10,"Cant open the file");
+        wrefresh(win);
+    }
+
+    int x = X/20;
+    int y = Y/5;
+    initTemplate(win, "Add Another Meaning to Word");
+
+    const char WordQuery[] =    "Enter Word            : ";
+    const char MeaningQuery[] = "Enter the new Meaning : ";
+    char newMeaning[X+x];
+    switch(mvwlinput(win, data->Word, WordQuery,1,x,y)){
+        case 0:
+            // sucessfully got input
+            break;
+        case 1:
+            // no input so repeat from first
+            free(data->fp);
+            free(data);
+            return 1;
+            break;
+        case -1:
+            // esc is pressed
+            free(data->fp);
+            free(data);
+            return 0;
+            break;
+    }
+    // checking if Word exist
+    // moving to word in file
+    int wordIndex = ToWord(win,data);
+    switch (wordIndex){
+        case -1:
+            // letter not found
+            mvwprintw(win,Y-2,X/20,"Word Doesn't Exist in dict");
+            wrefresh(win);
+            Sleep(WAIT);
+            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+            wrefresh(win);
+            free(data->fp);
+            free(data);
+            return 1;
+            break;
+        case -2:
+            // no Word found in letter
+            mvwprintw(win,Y-2,X/20,"Word Doesn't Exist in dict so Enter a word that exit");
+            wrefresh(win);
+            Sleep(WAIT);
+            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+            wrefresh(win);
+            free(data->fp);
+            free(data);
+            return 1;
+            break;
+        default:
+            // word found so printing
+            break;
+    }
+    y += 2;
+    switch(mvwlinput(win, data->Meanings[data->nof_Meaning++],MeaningQuery,2,x,y)){
+        case 0:
+            // sucessfully got input
+            break;
+        case 1:
+            // no input so repeat from first
+            return 1;
+            break;
+        case -1:
+            // esc is pressed
+            return 0;
+            break;
+    }
+    // acessing new file and save
+    FILE* out = fopen(TMP_FILE,"w");
+    // copying until the letter 
+    long fpSRC = CopyInRange(out,data->fp,0,data->LetterPos);//constains src
+    // updating the nof meanings
+    fscanf(data->fp,"%c-%d,", &data->Letter,&data->nof_Words);
+    fprintf(out,"%c-%d,",data->Letter,data->nof_Words);
+    for(int i = 0;i<data->nof_Words;i++){
+        int l;fscanf(data->fp,"%d,",&l);
+        if(i == wordIndex){
+            fprintf(out,"%d,",data->nof_Meaning);
+        }else{
+            fprintf(out,"%d,",l);
+        }
+    }
+    fputc(fgetc(data->fp), out); // this add '\n'
+    // updated the topbar
+    CopyInRange(out,data->fp,ftell(data->fp),data->MeaningLoc[data->nof_Meaning-2]);
+    fprintf(out,"%s\n~", data->Meanings[data->nof_Meaning-1]);
+    CopyInRange(out,data->fp,ftell(data->fp),EOF);
+
+
+    closeFiles(win,data,out,"Successfully create new meaning for the Word");
+    free(data->fp);
+    free(data);
+    return returnChoice(win);
+}
+
+#include "defs.h"
+
+int search(WINDOW* win){
+
+    Data* data = (Data*)malloc(sizeof(Data));
+    data->fp = fopen(DATA_FILE,"r");
+    if(data->fp == NULL){
+        mvwprintw(win,20,20,"Cant open the file");
+        wrefresh(win);
+    }
+    initTemplate(win,SEARCH);
+    int x = X/20;
+    int y = Y/7;
+    const char Query[X] = "Enter the Word to search : ";
+    // mvwprintw(win,y,x,Query);
+    mvwhline(win,y+2,1,WA_HORIZONTAL,X-2);
+    wrefresh(win);
+    // getting input from the user 
+    switch(mvwlinput(win, data->Word, Query,1,x,y)){
+        case 0:
+            // sucessfully got input
+            data->Letter = data->Word[0];
+            break;
+        case 1:
+            // no input so repeat from first
+            return 1;
+            break;
+        case -1:
+            // esc is pressed
+            return 0;
+        case -2:
+            // no words in letter
+            return -1;
+            break;
+    }
+    
+    y += 5;
+
+    // moving to word in file
+    int wordIndex = ToWord(win,data);
+    switch (wordIndex){
+        case -1:
+            // letter not found
+            return -1;
+            break;
+        case -2:
+            // no Word found in letter
+            return -2;
+            break;
+        default:
+            // no problem
+            break;
+    }
+    mvwprintw(win,y,x,"Meaning for '%s' :",data->Word);
+    x += strlen(data->Word)+18;
+    y += 2;
+    DisplayList(win,x,y,data->Meanings,data->nof_Meaning);
+
+    return returnChoice(win);
+}
+
+int WordsInLetter(WINDOW* win){
+    Data* data = (Data*)malloc(sizeof(Data));
+    data->fp = fopen(DATA_FILE,"r");
+    if(data->fp == NULL){
+        mvwprintw(win,Y/2,X/2-10,"Cant open the file");
+        wrefresh(win);
+    }
+    const char LetterQuery[] ="";
+    int x = X/20;
+    int y = Y/7;
+    initTemplate(win,"Search for Word");
+    const char Query[X] = "Enter the Letter to search : ";
+    // mvwprintw(win,y,x,Query);
+    mvwhline(win,y+2,1,WA_HORIZONTAL,X-2);
+    wrefresh(win);
+    // getting input from the user 
+    switch(mvwlinput(win, data->Word, Query,1,x,y)){
+        case 0:
+            // sucessfully got input
+            data->Letter = data->Word[0];
+            break;
+        case 1:
+            // no input so repeat from first
+            return 1;
+            break;
+        case -1:
+            // esc is pressed
+            return 0;
+        case -2:
+            // no words in letter
+            return -1;
+            break;
+    }
+    y += 5;
+    int nofMeaning[X];
+    switch(ToLetter(win,data,nofMeaning)){
+        case -1:
+            //Eof reached
+            free(data->fp);
+            free(data);
+            return 1;
+            break;
+        case 0:
+            // no error 
+            break;
+        default:
+            break;
+    }  
+    if(data->nof_Words == 0){
+        mvwprintw(win, Y/2, X/2 - 17, "No Words Found in the Letter '%c'", data->Letter);
+        wrefresh(win);
+        free(data->fp);
+        free(data);
+        return returnChoice(win);
+    }
+    char WORDS[X][X+X];
+    for(int i= 0;i<data->nof_Words;i++){
+        long loc = NextWord(data->fp, WORDS[i]);
+        switch (loc){
+            case -1:
+                // return -> -1 reached eof
+                break;
+            case -2:
+                // return -> -2 reached next letter
+                break;
+            default:
+                // return -> >=0 no error 
+                break;
+        }
+    }
+    DisplayList(win,x,y,WORDS,data->nof_Words);
+    if(fclose(data->fp) != 0) {
+        perror("Error closing Data file");
+        return -1;
+    }
+    free(data->fp);
+    free(data);
+    return returnChoice(win);
+}
+
+#include "./defs.h"
+
+int removeWord(WINDOW* win){
+    /*
+        return -3 -> cant open File
+        return -2 -> No Words found in Letter '%c' 
+        return -1 -> NO Word found in letter
+        return  0 ->  all done no issue exiting the process
+        return  1 -> repeating the whole function
+    */
+    initTemplate(win,"Remove the Word and Meaning");
+    Data* data = (Data*)malloc(sizeof(Data));
+    data->fp = fopen(DATA_FILE,"r");
+    // if(data->fp == NULL){
+    //     perror("Cant open file in removeWord");
+    //     return -1;
+    // }
+    FILE* out = fopen(TMP_FILE, "r");
+    // if(out == NULL){
+    //     perror("Cant open file in removeWord");
+    //     return -1;
+    // }
+    const char query[] = "Enter Word to Remove : ";
+    switch (mvwlinput(win,data->Word,query, 1, X/20, Y/5)){
+        case 0:
+            // sucessfully got input
+            break;
+        case 1:
+            // no input so repeat from first
+            return 1;
+            break;
+        case -1:
+            // esc is pressed
+            return 0;
+            break;
+    }
+    int WordIndex = ToWord(win,data);
+    switch(WordIndex){
+        case -1:
+            // NO Word found in letter
+            mvwprintw(win,Y/2,X/2 - 10 ,"Word '%s' not Found",data->Word);
+            wrefresh(win);
+            Sleep(1000);
+            return -1;
+            break;
+        case -2:
+            // No Words found in Letter '%c' 
+            mvwprintw(win,Y/2,X/2 - 10 ,"No Words Found in Letter '%c'",data->Letter);
+            wrefresh(win);
+            Sleep(1000);
+            return -2;
+            break;
+        default:
+            /* Word Found so continue*/
+            break;
+    }
+
+    // updating the file
+    // copying until the letter 
+    long fpSRC = CopyInRange(out,data->fp,0,data->LetterPos);//constains src
+    // updating the nof meanings
+    fseek(data->fp,data->LetterPos,SEEK_SET);
+    fscanf(data->fp,"%c-%d,", &data->Letter,&data->nof_Words);
+    fprintf(out,"%c-%d,",data->Letter,data->nof_Words-1,WordIndex);
+    for(int i = 0;i<data->nof_Words;i++){
+        int l;
+        fscanf(data->fp,"%d,",&l);
+        if(WordIndex == i){
+            continue;
+        }
+        fprintf(out,"%d,",l);
+    }
+    fputc(fgetc(data->fp), out); // this add '\n'
+    
+    CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc);
+    char tmpWord[X];
+    NextWord(data->fp,tmpWord);
+    CopyInRange(out,data->fp,ftell(data->fp),EOF);
+
+    mvwprintw(win,Y-2,(X/20),"Writing in file");
+    wrefresh(win);
+
+    closeFiles(win,data,out,"Successfully delete the Word meaning Pair");
+
+    wrefresh(win);
+    return returnChoice(win);
+}
+
+
+int removeMeaning(WINDOW* win){
+    /*
+        return -1 -> cant open file
+    */
+    initTemplate(win,"Remove the Meaning");
+    Data* data = (Data*)malloc(sizeof(Data));
+    data->fp = fopen(DATA_FILE, "r");
+    FILE* out = fopen(TMP_FILE, "w");
+    int x = X/20;
+    int y = Y/7;
+    const char query[] = "Enter the word Remove : ";
+    mvwhline(win,y+2,1,WA_HORIZONTAL,X-2);
+    wrefresh(win);
+    switch (mvwlinput(win,data->Word,query, 1, x, y)){
+        case 0:
+            data->Letter = data->Word[0];
+            // sucessfully got input
+            break;
+        case 1:
+            // no input so repeat from first
+            return 1;
+            break;
+        case -1:
+            // esc is pressed
+            return 0;
+            break;
+    }
+    int WordIndex = ToWord(win,data);
+    switch(WordIndex){
+        case -1:
+            // NO Word found in letter
+            mvwprintw(win,Y/2,X/2 - 10 ,"Word '%s' not Found",data->Word);
+            wrefresh(win);
+            Sleep(1000);
+            return -1;
+            break;
+        case -2:
+            // No Words found in Letter '%c' 
+            mvwprintw(win,Y/2,X/2 - 10 ,"No Words Found in Letter '%c'",data->Letter);
+            wrefresh(win);
+            Sleep(1000);
+            return -2;
+            break;
+        default:
+            /* Word Found so continue*/
+            break;
+    }
+    if(data->nof_Meaning == 0){
+        mvwprintw(win,Y/2,X/2-16,"NO meaning found in '%s",data->Word);
+        wrefresh(win);
+        return returnChoice(win);
+    }
+    y += 5;
+    mvwprintw(win,y,x,"Select the meaning and type Enter :");
+    int indexChosen = DisplayList(win,x+10,y+2,data->Meanings,data->nof_Meaning);
+
+    long fpSRC = CopyInRange(out, data->fp,0,data->LetterPos);
+
+    fscanf(data->fp,"%c-%d,", &data->Letter,&data->nof_Words);
+    fprintf(out,"%c-%d,",data->Letter,data->nof_Words);
+    for(int i = 0;i<data->nof_Words;i++){
+        int l;fscanf(data->fp,"%d,",&l);
+        if(i == WordIndex){
+            fprintf(out,"%d,",data->nof_Meaning-1);
+        }else{
+            fprintf(out,"%d,",l);
+        }
+    }
+    fpSRC = CopyInRange(out,data->fp,ftell(data->fp), data->MeaningLoc[indexChosen]-1);
+    if(indexChosen == data->nof_Meaning - 1 || (indexChosen == 0 && data->nof_Meaning == 1)){
+        char TmpWord[X];
+        long loc = NextWord(data->fp,TmpWord);
+        if(loc == -2){
+            loc = NextLetter(data->fp,&TmpWord[0]);
+        }
+        fpSRC = CopyInRange(out,data->fp,loc-1,EOF);
+    }else{
+        fpSRC = CopyInRange(out,data->fp,data->MeaningLoc[indexChosen+1]-1,EOF);
+    }
+    mvwprintw(win,Y-2,2,"%d",indexChosen);
+    wrefresh(win);
+
+    mvwprintw(win,Y-2,(X/2)-8,"Writing in file");
+    wrefresh(win);
+
+    closeFiles(win,data,out,"Successfully delete the Word meaning Pair");
+    fclose(data->fp);
+    fclose(out);
+    wrefresh(win);
+    return returnChoice(win);
+}

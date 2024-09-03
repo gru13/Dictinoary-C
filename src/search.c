@@ -5,14 +5,15 @@ int search(WINDOW* win){
     Data* data = (Data*)malloc(sizeof(Data));
     data->fp = fopen(DATA_FILE,"r");
     if(data->fp == NULL){
-        mvwprintw(win,20,20,"Cant open the file");
+        perror("Cant open the file in Search");
+        mvwprintw(win,Y-1,X/20,"Cant open the file in Search");
         wrefresh(win);
     }
     initTemplate(win,SEARCH);
     int x = X/20;
     int y = Y/7;
     const char Query[X] = "Enter the Word to search : ";
-    mvwprintw(win,y,x,Query);
+    // mvwprintw(win,y,x,Query);
     mvwhline(win,y+2,1,WA_HORIZONTAL,X-2);
     wrefresh(win);
     // getting input from the user 
@@ -55,7 +56,11 @@ int search(WINDOW* win){
     x += strlen(data->Word)+18;
     y += 2;
     DisplayList(win,x,y,data->Meanings,data->nof_Meaning);
-
+    if (data->fp != NULL) {
+        fclose(data->fp);
+        data->fp = NULL;
+    }
+    free(data);
     return returnChoice(win);
 }
 
@@ -63,7 +68,8 @@ int WordsInLetter(WINDOW* win){
     Data* data = (Data*)malloc(sizeof(Data));
     data->fp = fopen(DATA_FILE,"r");
     if(data->fp == NULL){
-        mvwprintw(win,Y/2,X/2-10,"Cant open the file");
+        mvwprintw(win,Y/2,X/2-10,"Cant open the file in WordsInLetter");
+        perror("Cant open the file in WordsInLetter");
         wrefresh(win);
     }
     const char LetterQuery[] ="";
@@ -71,7 +77,7 @@ int WordsInLetter(WINDOW* win){
     int y = Y/7;
     initTemplate(win,"Search for Word");
     const char Query[X] = "Enter the Letter to search : ";
-    mvwprintw(win,y,x,Query);
+    // mvwprintw(win,y,x,Query);
     mvwhline(win,y+2,1,WA_HORIZONTAL,X-2);
     wrefresh(win);
     // getting input from the user 
@@ -110,6 +116,10 @@ int WordsInLetter(WINDOW* win){
     if(data->nof_Words == 0){
         mvwprintw(win, Y/2, X/2 - 17, "No Words Found in the Letter '%c'", data->Letter);
         wrefresh(win);
+        if (data->fp != NULL) {
+            fclose(data->fp);
+            data->fp = NULL;
+        }
         free(data->fp);
         free(data);
         return returnChoice(win);
@@ -133,6 +143,10 @@ int WordsInLetter(WINDOW* win){
     if(fclose(data->fp) != 0) {
         perror("Error closing Data file");
         return -1;
+    }
+    if (data->fp != NULL) {
+        fclose(data->fp);
+        data->fp = NULL;
     }
     free(data->fp);
     free(data);

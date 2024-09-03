@@ -103,7 +103,7 @@ int returnChoice(WINDOW* win){
 int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
     /*
         return ESC     -> if ESC pressed
-        return cursorY -> if enter is pressed
+        return cursorY + ofsetY -> if enter is pressed
     */
     int cursorY = 0,ofsetY = 0,ofsetX = 0;
     int heigth = Y-y-4;
@@ -141,7 +141,7 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
             case enter:
                 blankScreen(win,x-3,y,heigth,width);
                 wrefresh(win);
-                return cursorY;
+                return cursorY + ofsetY;
             case ESC:
                 blankScreen(win,x-3,y,heigth,width);
                 wrefresh(win);
@@ -210,7 +210,7 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
     }
     blankScreen(win,x-3,y,heigth,width);
     wrefresh(win);
-    return cursorY;
+    return cursorY + ofsetY;
 } 
 
 
