@@ -78,6 +78,7 @@ int main(){
             default:
                 break;
         }  
+        Sleep(500);
     }
     endwin();
     return 0;

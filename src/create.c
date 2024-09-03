@@ -82,6 +82,7 @@ int CreatePair(WINDOW* win){
     if(out == NULL){
         perror("Cant open out file in CreatePair");
         mvwprintw(win,Y/2,X/2-10,"Cant open the out file in create pair");
+        free(data);
         return -1;
     }
     // copying until the letter 

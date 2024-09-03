@@ -69,7 +69,9 @@
 @g-0,
 @h-0,
 @i-0,
-@j-1,1,
+@j-2,1,1,
+^jug
+~this is a jug
 ^joker
 ~this joker
 @k-1,2,

@@ -1,13 +1,19 @@
 #include "defs.h"
 
 int search(WINDOW* win){
-
+    /*
+        return -1 -> cant open old file
+        return  0 -> all done exiting the error
+        return  1 -> all done and repeating 
+    */
     Data* data = (Data*)malloc(sizeof(Data));
     data->fp = fopen(DATA_FILE,"r");
     if(data->fp == NULL){
         perror("Cant open the file in Search");
         mvwprintw(win,Y-1,X/20,"Cant open the file in Search");
         wrefresh(win);
+        free(data);
+        return -1;
     }
     initTemplate(win,SEARCH);
     int x = X/20;
@@ -71,6 +77,8 @@ int WordsInLetter(WINDOW* win){
         mvwprintw(win,Y/2,X/2-10,"Cant open the file in WordsInLetter");
         perror("Cant open the file in WordsInLetter");
         wrefresh(win);
+        free(data);
+        return -1;
     }
     const char LetterQuery[] ="";
     int x = X/20;
