@@ -8,7 +8,7 @@ void initTemplate(WINDOW* win, const char* heading){
     wrefresh(win);
 }
 
-void blankScreen(WINDOW* win, int x, int y, int h, int w){
+int blankScreen(WINDOW* win, int x, int y, int h, int w){
     for(int i = 0; i < h; i++){
         mvwhline(win,y+i,x,' ',w);
     }
@@ -126,12 +126,15 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
         mvwprintw(win,y+cursorY,arrowX,"->");
         wrefresh(win);
         int choice = wgetch(win);
+        char Num[100];
+        int numIndex = 0;
+        Num[0] = '\0';
         switch (choice){
             case enter:
-                blankScreen(win,x,y,heigth,width);
+                blankScreen(win,x-3,y,heigth,width);
                 return cursorY;
             case ESC:
-                blankScreen(win,x,y,heigth,width);
+                blankScreen(win,x-3,y,heigth,width);
                 return ESC;
             case down:
                 ofsetX = 0;
@@ -170,10 +173,32 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
                 ofsetX = (ofsetX <= 0)?0:ofsetX-1;
                 break;
             default:
+                 while(choice >= '0' && choice <= '9'){
+                    Num[numIndex++] = choice;
+                    Num[numIndex] = '\0';
+                    choice = wgetch(win);
+                    if(choice == enter){
+                        break;
+                    }
+                }
+                int oldY = cursorY;
+                int n = atoi(Num);
+                if(n > 0 && n <= listLen){
+                    cursorY = n - 1;
+                    if(cursorY < heigth){
+                        ofsetY = 0;
+                    }else if(cursorY >= heigth){
+                        ofsetY = cursorY - heigth + 1;
+                        cursorY = heigth-1;
+                    }
+                }
+                mvwprintw(win, y+oldY, arrowX, "  ");
+                mvwprintw(win, y+cursorY, arrowX, "->");
+                wrefresh(win);
                 break;
         }
     }
-    blankScreen(win,x,y,heigth,width);
+    blankScreen(win,x-3,y,heigth,width);
     return cursorY;
 } 
 

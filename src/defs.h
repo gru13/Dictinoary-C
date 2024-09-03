@@ -84,6 +84,7 @@ int get1LineInput(WINDOW* win, char output[X], const char Query[X], int x, int y
 int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y);
 int returnChoice(WINDOW* win);
 int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen);
+int blankScreen(WINDOW* win, int x, int y, int h, int w);
 /*
     defined in Remove.c
 */

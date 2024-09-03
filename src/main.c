@@ -44,6 +44,7 @@ int main(){
             case 4:
                 break;
             case 5:
+                while(0){}
                 break;
             case 6:
                 Exit = 0;
