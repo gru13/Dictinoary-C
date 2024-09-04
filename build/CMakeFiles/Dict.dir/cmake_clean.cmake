@@ -1,20 +1,12 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Dict.dir/src/Display.c.obj"
-  "CMakeFiles/Dict.dir/src/Display.c.obj.d"
-  "CMakeFiles/Dict.dir/src/FileHandling.c.obj"
-  "CMakeFiles/Dict.dir/src/FileHandling.c.obj.d"
-  "CMakeFiles/Dict.dir/src/Remove.c.obj"
-  "CMakeFiles/Dict.dir/src/Remove.c.obj.d"
-  "CMakeFiles/Dict.dir/src/create.c.obj"
-  "CMakeFiles/Dict.dir/src/create.c.obj.d"
-  "CMakeFiles/Dict.dir/src/main.c.obj"
-  "CMakeFiles/Dict.dir/src/main.c.obj.d"
-  "CMakeFiles/Dict.dir/src/search.c.obj"
-  "CMakeFiles/Dict.dir/src/search.c.obj.d"
-  "D:/codings/Dictinoary/out/Dict.exe"
-  "D:/codings/Dictinoary/out/Dict.exe.manifest"
-  "D:/codings/Dictinoary/out/Dict.pdb"
-  "libDict.dll.a"
+  "../out/Dict"
+  "../out/Dict.pdb"
+  "CMakeFiles/Dict.dir/src/Display.c.o"
+  "CMakeFiles/Dict.dir/src/FileHandling.c.o"
+  "CMakeFiles/Dict.dir/src/Remove.c.o"
+  "CMakeFiles/Dict.dir/src/create.c.o"
+  "CMakeFiles/Dict.dir/src/main.c.o"
+  "CMakeFiles/Dict.dir/src/search.c.o"
 )
 
 # Per-language clean rules from dependency scanning.

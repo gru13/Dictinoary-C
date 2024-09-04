@@ -5,5 +5,11 @@
         "string.h": "c",
         "unistd.h": "c",
         "ctype.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "/workspaces/Dictinoary-C",
+    "cSpell.words": [
+        "mvwlinput",
+        "topbar"
+    ],
+    "cmake.ignoreCMakeListsMissing": true
 }

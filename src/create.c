@@ -3,9 +3,9 @@
 int CreatePair(WINDOW* win){
     /*
         return -3 -> reached eof
-        retrun -2 -> no Word found in letter
+        return -2 -> no Word found in letter
         return -1 -> letter not found
-        return 0  -> esc is pressed and process end sucessfully
+        return 0  -> esc is pressed and process end successfully
         return 1  -> no input so do from start
     */
 
@@ -27,7 +27,7 @@ int CreatePair(WINDOW* win){
     strcpy(data->Word,"dart");
     switch(mvwlinput(win, data->Word, WordQuery,1,x,y)){
         case 0:
-            // sucessfully got input
+            // successfully got input
             break;
         case 1:
             // no input so repeat from first
@@ -64,7 +64,7 @@ int CreatePair(WINDOW* win){
     y += 2;
     switch(mvwlinput(win, newMeaning,MeaningQuery,2,x,y)){
         case 0:
-            // sucessfully got input
+            // successfully got input
             break;
         case 1:
             // no input so repeat from first
@@ -77,7 +77,7 @@ int CreatePair(WINDOW* win){
             return 0;
             break;
     }
-    // acessing new file and save
+    // accessing new file and save
     FILE* out = fopen(TMP_FILE,"w");
     if(out == NULL){
         perror("Cant open out file in CreatePair");
@@ -101,14 +101,6 @@ int CreatePair(WINDOW* win){
     fputc('\n', out);
     fprintf(out,"^%s\n",data->Word);
     fprintf(out,"~%s",newMeaning);
-    char temp[X];
-    int itemp[X];
-    // fseek(data->fp, data->LetterPos,SEEK_SET);
-    // if(Letter(win,data,itemp) >= 0){
-    //     long loc;
-    //     while(fgetc(data->fp) != '\n');
-
-    // }
     long loc = ftell(data->fp);
     fpSRC = CopyInRange(out,data->fp,loc,EOF);
     
@@ -120,17 +112,17 @@ int CreatePair(WINDOW* win){
 int AddMeaning(WINDOW* win){
     /*
         return -3 -> reached eof
-        retrun -2 -> no Word found in letter
+        return -2 -> no Word found in letter
         return -1 -> letter not found
-        return 0  -> esc is pressed and process end sucessfully
+        return 0  -> esc is pressed and process end successfully
         return 1  -> no input so do from start
     */
 
     Data* data = (Data*)malloc(sizeof(Data));
     data->fp = fopen(DATA_FILE,"r");
     if(data->fp == NULL){
-        mvwprintw(win,Y/2,X/2-10,"Cant open DATA the file in Addmeaing");
-        perror("Cant open DATA the file in Addmeaing");
+        mvwprintw(win,Y/2,X/2-10,"Cant open DATA the file in Add meaning");
+        perror("Cant open DATA the file in Add meaning");
         wrefresh(win);
     }
 
@@ -143,7 +135,7 @@ int AddMeaning(WINDOW* win){
     char newMeaning[X+x];
     switch(mvwlinput(win, data->Word, WordQuery,1,x,y)){
         case 0:
-            // sucessfully got input
+            // successfully got input
             break;
         case 1:
             // no input so repeat from first
@@ -187,7 +179,7 @@ int AddMeaning(WINDOW* win){
     y += 2;
     switch(mvwlinput(win, data->Meanings[data->nof_Meaning++],MeaningQuery,2,x,y)){
         case 0:
-            // sucessfully got input
+            // successfully got input
             break;
         case 1:
             // no input so repeat from first
@@ -198,10 +190,10 @@ int AddMeaning(WINDOW* win){
             return 0;
             break;
     }
-    // acessing new file and save
+    // accessing new file and save
     FILE* out = fopen(TMP_FILE,"w");
     if(out == NULL){
-        perror("Cant open file out in AddMeaing");
+        perror("Cant open file out in AddMeaning");
         return -1;
     }
     // copying until the letter 

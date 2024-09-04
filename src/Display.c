@@ -22,7 +22,7 @@ int blankScreen(WINDOW* win, int x, int y, int h, int w){
 int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int x, int y){
     /*
         return -1 -> esc is pressed
-        return  0 -> sucessfully got the input
+        return  0 -> successfully got the input
         return  1 -> no input typed so recalling the function
     */
     int index = 0, choice = 0;
@@ -32,7 +32,7 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
     x += strlen(query);
     wrefresh(win);
     wmove(win,y,x);
-    // getting Meaing
+    // getting Meaning
     int row = 0;
     do{
         if(row >= nofRow){
@@ -67,7 +67,7 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
             index--;
             wmove(win,y+row,index -  (X-6-x)*row + x);
             wrefresh(win);
-        }else if(choice == rigth){
+        }else if(choice == right){
             if(index == strlen(output)-1){
                 continue;
             }
@@ -97,7 +97,7 @@ int returnChoice(WINDOW* win){
         this function for return , this determine that
         the current process end or continue from first again
     */
-    mvwprintw(win,Y/2+1,X/2-11,"<Enter> : next entery");
+    mvwprintw(win,Y/2+1,X/2-11,"<Enter> : next entry");
     mvwprintw(win,Y/2+2,X/2-11,"<Esc> : For Escape");
     wrefresh(win);
     int choice;
@@ -188,7 +188,7 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
                 mvwprintw(win,y+cursorY,arrowX,"->");
                 wrefresh(win);
                 break;
-            case rigth:
+            case right:
                 if(ofsetX + X - 10 - x < strlen(List[cursorY+ofsetY])){
                     ofsetX++;
                 }

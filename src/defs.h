@@ -3,21 +3,22 @@
 #include <string.h>
 #include <curses.h>
 #include <ctype.h>
-#include <io.h>
+
 
 #ifdef __linux__
     #include<unistd.h>
     #define CLEAR_SCRN "clear"
-    #define Sleep sleep
+    #define Sleep(t) usleep((t)*(1000))
 #elif defined(_WIN32)
     #define CLEAR_SCRN "cls"
     #include <windows.h>
+    #include <io.h>
 #endif
 
 #define enter 10
 #define down 'P' // down
 #define up 'H' // up
-#define rigth 'M' // rigth
+#define right 'M' // right
 #define ESC 27  
 #define left 'K' // left
 #define bsc 8
@@ -42,7 +43,7 @@ typedef struct data{
 }Data;
 /*
     Defined in main.c
-        this is the Entery point
+        this is the Entry point
 */
 int main();
 int maxlenArray(char arr[X][X+X],int arrLen);
@@ -63,7 +64,7 @@ int CreatePair(WINDOW* win);
 int AddMeaning(WINDOW* win);
 /*
     Defined in FileHandling.c
-        this file contains the movement in file and updation 
+        this file contains the movement in file and updating 
 */
 
 int ToWord(WINDOW* win, Data* data);

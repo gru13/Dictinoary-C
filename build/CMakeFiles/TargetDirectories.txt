@@ -1,3 +1,3 @@
-D:/codings/Dictinoary/build/CMakeFiles/Dict.dir
-D:/codings/Dictinoary/build/CMakeFiles/edit_cache.dir
-D:/codings/Dictinoary/build/CMakeFiles/rebuild_cache.dir
+/workspaces/Dictinoary-C/build/CMakeFiles/rebuild_cache.dir
+/workspaces/Dictinoary-C/build/CMakeFiles/edit_cache.dir
+/workspaces/Dictinoary-C/build/CMakeFiles/Dict.dir

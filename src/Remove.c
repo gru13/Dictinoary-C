@@ -81,7 +81,7 @@ int removeWord(WINDOW* win){
     // updating the nof meanings
     fseek(data->fp,data->LetterPos,SEEK_SET);
     fscanf(data->fp,"%c-%d,", &data->Letter,&data->nof_Words);
-    fprintf(out,"%c-%d,",data->Letter,data->nof_Words-1,WordIndex);
+    fprintf(out,"%c-%d,",data->Letter,data->nof_Words-1);
     for(int i = 0;i<data->nof_Words;i++){
         int l;
         fscanf(data->fp,"%d,",&l);
@@ -91,7 +91,7 @@ int removeWord(WINDOW* win){
     }
     // fputc('\n',out);
     // fgetc(data->fp);
-    // fput(fgetc(data->fp), out); // this add '\n'
+    // fputc(fgetc(data->fp), out); // this add '\n'
     char tmpWord[X];
     int nofMw[X];
     CopyInRange(out,data->fp,ftell(data->fp)+1,data->WordLoc-1);
