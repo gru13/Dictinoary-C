@@ -85,20 +85,26 @@ int removeWord(WINDOW* win){
     for(int i = 0;i<data->nof_Words;i++){
         int l;
         fscanf(data->fp,"%d,",&l);
-        if(WordIndex == i){
-            continue;
+        if(WordIndex != i){
+            fprintf(out,"%d,",l);
         }
-        fprintf(out,"%d,",l);
     }
-    fputc(fgetc(data->fp), out); // this add '\n'
-    
-    CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc);
+    // fputc(fgetc(data->fp), out); // this add '\n'
     char tmpWord[X];
-    NextWord(data->fp,tmpWord);
-    CopyInRange(out,data->fp,ftell(data->fp),EOF);
+    CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc-1);
+    if(WordIndex == data->nof_Words - 1){
+        int noM[X];
+        ToLetter(win,data,noM);
+        long loc = NextLetter(data->fp,&tmpWord[0]);
+        CopyInRange(out,data->fp,loc-1,EOF);
+    }else{
+        ToWord(win,data);
+        long loc = NextWord(data->fp,tmpWord);
+        CopyInRange(out,data->fp,loc-1,EOF);
+    }
 
 
-    closeFiles(win,data,out,"Successfully delete the Word meaning Pair");
+    closeFiles(win,data,out,"Successfully delete the Word meaning");
     wrefresh(win);
     
     if (data->fp != NULL) {

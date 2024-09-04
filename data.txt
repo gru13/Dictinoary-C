@@ -1,15 +1,6 @@
-@a-5,1,1,0,2,36,
-^antt
-~tjid d
-^anj
-~this anj
-^ant
-^apple
-~It is a furit
-~It is Red in color
+@a-1,35,
 ^air
 ~this Air
-~Thus Air
 ~this Air
 ~Thus Air
 ~this Air
@@ -44,13 +35,14 @@
 ~Thus Air
 ~this Air
 ~Thus Air
-@b-3,2,2,1,
+@b-3,2,3,1,
 ^bat
 ~It is a playing tool qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
 ~It is used in Cricket, Baseball qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
 ^byte
 ~Unit of measurement
 ~comes after Bit
+~th
 ^bthr
 ~thus
 @c-1,3,
@@ -58,31 +50,18 @@
 ~this is a cat
 ~that was a cat
 ~this is a cat
-@d-2,1,2,
+@d-2,1,0,
 ^data
 ~this data
 ^dog
-~this a dog
-~this is dog
-@e-0,
 @f-0,
 @g-0,
 @h-0,
 @i-0,
-@j-2,2,1,
-^
-~this d j
-~this is a jug
+@j-1,0,
 ^joker
-~this joker
-@k-1,2,
-^kk
-~this ss kk
-~this kk
-@l-1,1,
+@l-1,0,
 ^lucky
-~this luck
-@m-0,
 @n-0,
 @o-0,
 @p-0,

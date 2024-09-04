@@ -10,7 +10,7 @@ void initTemplate(WINDOW* win, const char* heading){
 
 int blankScreen(WINDOW* win, int x, int y, int h, int w){
     /*
-        blank the screen 
+        blank the screen
     */
     for(int i = 0; i < h; i++){
         mvwhline(win,y+i,x,' ',w);
@@ -81,7 +81,7 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
             Sleep(1000);
             mvwprintw(win, Y-2, x, "                             ");
             wrefresh(win);
-            return 1; 
+            return 1;
         }else if(choice == ESC){
             curs_set(FALSE);
             return -1;
@@ -94,7 +94,7 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
 
 int returnChoice(WINDOW* win){
     /*
-        this function for return , this determine that 
+        this function for return , this determine that
         the current process end or continue from first again
     */
     mvwprintw(win,Y/2+1,X/2-11,"<Enter> : next entery");
@@ -225,6 +225,6 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
     blankScreen(win,x-3,y,heigth,width);
     wrefresh(win);
     return cursorY + ofsetY;
-} 
+}
 
 

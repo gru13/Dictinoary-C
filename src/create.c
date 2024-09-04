@@ -216,13 +216,26 @@ int AddMeaning(WINDOW* win){
             fprintf(out,"%d,",l);
         }
     }
-    fputc(fgetc(data->fp), out); // this add '\n'
+    // fputc(fgetc(data->fp), out); // this add '\n'
     // updated the topbar
-    CopyInRange(out,data->fp,ftell(data->fp),data->MeaningLoc[data->nof_Meaning-2]);
-    fprintf(out,"%s\n~", data->Meanings[data->nof_Meaning-1]);
-    CopyInRange(out,data->fp,ftell(data->fp),EOF);
+    CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc-1);
+    fprintf(out,"^%s\n",data->Word);
+    for(int i =0 ;i<data->nof_Meaning;i++){
+        fprintf(out,"~%s\n", data->Meanings[i]);
+    }
+    ToWord(win,data);
+    char tmpCA[X];
+    long loc = NextWord(data->fp,tmpCA);
+    if(loc == -4){
+        char tmpC;
+        loc = NextLetter(data->fp,&tmpC);
+        if(loc != -1){
+            CopyInRange(out,data->fp,loc-1,EOF);
+        }
+    }else{
+        CopyInRange(out,data->fp,loc-1,EOF);
+    }
 
-    
     closeFiles(win,data,out,"Successfully create new meaning for the Word");
     free(data);
     return returnChoice(win);
