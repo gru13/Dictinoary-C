@@ -1,1 +1,0 @@
-/usr/bin/cc    CMakeFiles/Dict.dir/src/main.c.o CMakeFiles/Dict.dir/src/search.c.o CMakeFiles/Dict.dir/src/create.c.o CMakeFiles/Dict.dir/src/Display.c.o CMakeFiles/Dict.dir/src/FileHandling.c.o CMakeFiles/Dict.dir/src/Remove.c.o  -o ../out/Dict  -lncurses 
