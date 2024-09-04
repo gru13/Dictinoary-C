@@ -100,16 +100,17 @@ int CreatePair(WINDOW* win){
     }
     fputc('\n', out);
     fprintf(out,"^%s\n",data->Word);
-    fprintf(out,"~%s\n",newMeaning);
+    fprintf(out,"~%s",newMeaning);
     char temp[X];
     int itemp[X];
-    fseek(data->fp, data->LetterPos,SEEK_SET);
-    // ToLetter(win,data,itemp);
-    long loc;
-    while(fgetc(data->fp) != '\n');
+    // fseek(data->fp, data->LetterPos,SEEK_SET);
+    // if(Letter(win,data,itemp) >= 0){
+    //     long loc;
+    //     while(fgetc(data->fp) != '\n');
 
-    loc = ftell(data->fp);
-    fpSRC = CopyInRange(out,data->fp,loc,-1);
+    // }
+    long loc = ftell(data->fp);
+    fpSRC = CopyInRange(out,data->fp,loc,EOF);
     
     closeFiles(win,data,out,"Successfully created New Word with Meaning");
     free(data);

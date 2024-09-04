@@ -25,7 +25,7 @@
 #define TMP_FILE "./tmp.txt"
 #define Y 30
 #define X 100
-#define WAIT 400
+#define WAIT 50
 #define TITLE "DICTIONARY"
 #define SEARCH "Searching Meaning for the Word"
 

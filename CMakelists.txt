@@ -4,7 +4,7 @@ project(Dict VERSION 0.1.0 LANGUAGES C)
 
 add_executable(Dict ./src/main.c  ./src/search.c  ./src/create.c ./src/Display.c ./src/FileHandling.c ./src/Remove.c)
 
-target_link_libraries(Dict ncurses pthread)
+target_link_libraries(Dict ncurses)
 
 set_target_properties(Dict PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "../out"

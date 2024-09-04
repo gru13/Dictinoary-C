@@ -45,21 +45,21 @@ int main(){
     int x = X/2 - maxlenArray(options,nof_opts)/2 - 15;
     int y = Y/2 - nof_opts/2;
     while(Exit){
-        if(checkFileExist(TMP_FILE)){
-            int remove_attempts = 0;
-            while (remove(DATA_FILE) != 0 && remove_attempts < 5) {
-                Sleep(500);  // Wait a bit before trying again
-                remove_attempts++;
-            }
+        // if(checkFileExist(TMP_FILE)){
+        //     int remove_attempts = 0;
+        //     while (remove(DATA_FILE) != 0 && remove_attempts < 5) {
+        //         Sleep(500);  // Wait a bit before trying again
+        //         remove_attempts++;
+        //     }
 
-            if (remove_attempts == 5) {
-                return -1;
-            }
+        //     if (remove_attempts == 5) {
+        //         return -1;
+        //     }
 
-            if (rename(TMP_FILE, DATA_FILE) != 0) {
-                return -2;
-            }
-        }
+        //     if (rename(TMP_FILE, DATA_FILE) != 0) {
+        //         return -2;
+        //     }
+        // }
         initTemplate(win,TITLE);
         int choice = DisplayList(win,x,y,options,nof_opts);
         switch (choice){
