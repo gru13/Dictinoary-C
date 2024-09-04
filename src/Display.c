@@ -60,6 +60,20 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
             mvwaddch(win,y+row,index - (X-6-x)*row + x,' ');
             wrefresh(win);
             output[index] = '\0';
+        }else if(choice == left){
+            if(index == 0){
+                continue;
+            }
+            index--;
+            wmove(win,y+row,index -  (X-6-x)*row + x);
+            wrefresh(win);
+        }else if(choice == rigth){
+            if(index == strlen(output)-1){
+                continue;
+            }
+            index++;
+            wmove(win,y+row,index -  (X-6-x)*row + x);
+            wrefresh(win);
         }else if(choice == 10 &&(index == 0 || strlen(output) == 0)){
             curs_set(FALSE);
             mvwprintw(win, Y-2, x, "Type something to press Enter");
