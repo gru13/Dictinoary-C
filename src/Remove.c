@@ -72,7 +72,7 @@ int removeWord(WINDOW* win){
 
     // updating the file
     // copying until the letter 
-    FILE* out = fopen(TMP_FILE, "r");
+    FILE* out = fopen(TMP_FILE, "w");
     if(out == NULL){
         perror("Cant open out file in removeWord");
         return -1;

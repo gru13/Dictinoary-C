@@ -74,7 +74,7 @@ long NextMeaning(FILE* fp, char sent[X+X]);
 int CopyInRange(FILE* to, FILE* from ,long start, long until);
 int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]);
 int ResetFile(WINDOW* win, int flag);
-int checkFileExist();
+int checkFileExist(const char* file_name);
 
 /*
     defined in Display.c

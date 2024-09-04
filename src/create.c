@@ -222,7 +222,7 @@ int AddMeaning(WINDOW* win){
     fprintf(out,"%s\n~", data->Meanings[data->nof_Meaning-1]);
     CopyInRange(out,data->fp,ftell(data->fp),EOF);
 
-
+    
     closeFiles(win,data,out,"Successfully create new meaning for the Word");
     free(data);
     return returnChoice(win);

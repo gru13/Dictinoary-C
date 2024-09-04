@@ -237,69 +237,24 @@ int ResetFile(WINDOW* win, int flag){
    }
 }
 
-int checkFileExist(){
+int checkFileExist(const char* file_name){
     /*
         return 1 -> if exist 
         return 0 -> if not exist
     */
-    if (access(DATA_FILE, F_OK) != -1){
+    if (access(file_name, F_OK) != -1){
         return 1;
     }else{
         return 0;
     }
 }
 
-// int closeFiles(WINDOW* win, Data* data, FILE* out,const char successText[X]){
-//     /*
-//         return 0   -> no error
-//         return -1  -> can't delete the old file
-//         return -2  -> cant rename file
-//     */
-//     mvwprintw(win,Y-2,(X/20),"Writing in file");
-//     wrefresh(win);
-//     Sleep(1000);
-//     if(fflush(data->fp) != 0) {
-//         perror("Error in Flushing  Data file");
-//         return -1;
-//     }
-//     if(fflush(out) != 0) {
-//         perror("Error in flushing out file");
-//         return -1;
-//     }
-//     if(fclose(data->fp) != 0) {
-//         perror("Error closing Data file");
-//         return -1;
-//     }
-//     if(fclose(out) != 0) {
-//         perror("Error closing out file");
-//         return -1;
-//     }
-//     Sleep(200);
-//     if(remove(DATA_FILE)){
-//         mvwprintw(win,Y-2,X/20,"error in deleting the old file");
-//         wrefresh(win);
-//         Sleep(1000);
-//         return -1;
-//     }
-//     Sleep(200);
-//     if(rename(TMP_FILE, DATA_FILE)){
-//         mvwprintw(win,Y-2,X/20,"error in Renaming the file");
-//         wrefresh(win);
-//         Sleep(1000);
-//         return -2;
-//     }else{
-//         mvwprintw(win,Y/2,X/2-strlen(successText)/2,successText);
-//         wrefresh(win);
-//     }
-//     return 0;
-// }
 
 int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]) {
     mvwprintw(win, Y-2, (X/20), "Writing in file");
     wrefresh(win);
     Sleep(1000);
 
-    // Close all file handles
     if (data->fp != NULL) {
         fclose(data->fp);
         data->fp = NULL;
@@ -309,10 +264,8 @@ int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]) {
         out = NULL;
     }
 
-    // Give the system a moment to release file locks
     Sleep(500);
 
-    // Attempt to remove the old file
     int remove_attempts = 0;
     while (remove(DATA_FILE) != 0 && remove_attempts < 5) {
         Sleep(500);  // Wait a bit before trying again
@@ -326,7 +279,6 @@ int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]) {
         return -1;
     }
 
-    // Rename the temporary file
     if (rename(TMP_FILE, DATA_FILE) != 0) {
         mvwprintw(win, Y-2, X/20, "Error in renaming the file");
         wrefresh(win);
