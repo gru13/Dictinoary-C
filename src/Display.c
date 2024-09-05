@@ -51,7 +51,7 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
             index++;
             row = (index)/(X-x-6);
             output[index] = '\0';
-        }else if(choice == bsc){
+        }else if(choice == BACKSPACE){
             if(index == 0){
                 continue;
             }
@@ -60,14 +60,14 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
             mvwaddch(win,y+row,index - (X-6-x)*row + x,' ');
             wrefresh(win);
             output[index] = '\0';
-        }else if(choice == left){
+        }else if(choice == KEY_LEFT){
             if(index == 0){
                 continue;
             }
             index--;
             wmove(win,y+row,index -  (X-6-x)*row + x);
             wrefresh(win);
-        }else if(choice == right){
+        }else if(choice == KEY_RIGHT){
             if(index == strlen(output)-1){
                 continue;
             }
@@ -86,7 +86,7 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
             curs_set(FALSE);
             return -1;
         }
-    }while(choice != enter);
+    }while(choice != ENTER);
     output[index] = '\0';
     curs_set(FALSE);
     return 0;
@@ -103,7 +103,7 @@ int returnChoice(WINDOW* win){
     int choice;
     while(TRUE){
         choice = wgetch(win);
-        if(choice == enter){
+        if(choice == ENTER){
             choice = 1;
             break;
         }
@@ -117,7 +117,7 @@ int returnChoice(WINDOW* win){
 int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
     /*
         return ESC     -> if ESC pressed
-        return cursorY + ofsetY -> if enter is pressed
+        return cursorY + ofsetY -> if ENTER is pressed
     */
     int cursorY = 0,ofsetY = 0,ofsetX = 0;
     int heigth = Y-y-4;
@@ -152,7 +152,7 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
         int numIndex = 0;
         Num[0] = '\0';
         switch (choice){
-            case enter:
+            case ENTER:
                 blankScreen(win,x-3,y,heigth,width);
                 wrefresh(win);
                 return cursorY + ofsetY;
@@ -160,7 +160,7 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
                 blankScreen(win,x-3,y,heigth,width);
                 wrefresh(win);
                 return ESC;
-            case down:
+            case KEY_DOWN:
                 ofsetX = 0;
                 mvwprintw(win,y+cursorY,arrowX,"  ");
                 cursorY++;
@@ -174,7 +174,7 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
                 mvwprintw(win,y+cursorY,arrowX,"->");
                 wrefresh(win);
                 break;
-            case up:
+            case KEY_UP:
                 ofsetX = 0;
                 mvwprintw(win,y+cursorY,arrowX,"  ");
                 cursorY--;
@@ -188,12 +188,12 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
                 mvwprintw(win,y+cursorY,arrowX,"->");
                 wrefresh(win);
                 break;
-            case right:
+            case KEY_RIGHT:
                 if(ofsetX + X - 10 - x < strlen(List[cursorY+ofsetY])){
                     ofsetX++;
                 }
                 break;
-            case left:
+            case KEY_LEFT:
                 ofsetX = (ofsetX <= 0)?0:ofsetX-1;
                 break;
             default:
@@ -201,7 +201,7 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
                     Num[numIndex++] = choice;
                     Num[numIndex] = '\0';
                     choice = wgetch(win);
-                    if(choice == enter){
+                    if(choice == ENTER){
                         break;
                     }
                 }

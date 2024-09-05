@@ -1,3 +1,3 @@
 D:/codings/Dictinoary/build/CMakeFiles/Dict.dir
-D:/codings/Dictinoary/build/CMakeFiles/ALL_BUILD.dir
-D:/codings/Dictinoary/build/CMakeFiles/ZERO_CHECK.dir
+D:/codings/Dictinoary/build/CMakeFiles/edit_cache.dir
+D:/codings/Dictinoary/build/CMakeFiles/rebuild_cache.dir

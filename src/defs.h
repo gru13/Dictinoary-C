@@ -15,13 +15,9 @@
     #include <io.h>
 #endif
 
-#define enter 10
-#define down 'P' // down
-#define up 'H' // up
-#define right 'M' // right
+#define ENTER  10
 #define ESC 27  
-#define left 'K' // left
-#define bsc 8
+#define BACKSPACE 8
 #define DATA_FILE "./data.txt"
 #define TMP_FILE "./tmp.txt"
 #define Y 30

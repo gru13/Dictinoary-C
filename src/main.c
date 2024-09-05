@@ -1,8 +1,5 @@
 #include "defs.h"
 
-
-
-
 int main(){
     char options[][X+X] = {"Search for Word",
                         "Create a Word and Meaning",
@@ -16,11 +13,11 @@ int main(){
     int nof_opts = 8;
 
     initscr();
-    keypad(stdscr,TRUE);
+    WINDOW* win = newwin(Y,X,0,0);
+    keypad(win,TRUE);
     cbreak();
     noecho();
     curs_set(FALSE);
-    WINDOW* win = newwin(Y,X,0,0);
     int Exit = 1;
 
     if(!checkFileExist(DATA_FILE)){
@@ -31,7 +28,7 @@ int main(){
         wrefresh(win);
         while(TRUE){
             int choice = wgetch(win);
-            if(choice == enter){
+            if(choice == ENTER){
                 ResetFile(win,0);
                 break;
             }

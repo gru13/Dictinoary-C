@@ -15,5 +15,8 @@ set_target_properties(Dict PROPERTIES
 
 target_include_directories(Dict PRIVATE ${PROJECT_SOURCE_DIR}/src)
 
+set(CMAKE_C_COMPILER "C:/MinGW/bin/gcc.exe")
+
+
 # Copy data.txt to the output directory
 file(COPY ${PROJECT_SOURCE_DIR}/src/data.txt DESTINATION ${CMAKE_BINARY_DIR}/../out)

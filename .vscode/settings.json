@@ -6,10 +6,7 @@
         "unistd.h": "c",
         "ctype.h": "c"
     },
-    "cmake.sourceDirectory": "/workspaces/Dictinoary-C",
     "cSpell.words": [
-        "mvwlinput",
-        "topbar"
+        "mvwlinput"
     ],
-    "cmake.ignoreCMakeListsMissing": true
 }

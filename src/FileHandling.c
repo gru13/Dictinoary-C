@@ -10,7 +10,7 @@ int ToWord(WINDOW* win,Data* data){
         return >=0 -> if word is found
     */
     rewind(data->fp);
-   int nofMeaning[X]; char Meaning[X][X+X];
+    int nofMeaning[X]; char Meaning[X][X+X];
     data->Letter = data->Word[0];
     switch(ToLetter(win,data,nofMeaning)){
         case -1:
