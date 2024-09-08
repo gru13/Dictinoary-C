@@ -171,6 +171,7 @@ long NextMeaning(FILE* fp, char sent[X+X]){
     /*
         return -> -1 reached eof
         return -> -2 reached next Word
+        return -> -3 reached next Letter
         return -> >=0 no error 
     */ 
     char p;
@@ -179,6 +180,9 @@ long NextMeaning(FILE* fp, char sent[X+X]){
         if(p == EOF){
             perror("reached end of file in next Word");
             return -1;
+        }
+        if(p == '@'){
+            return -3;
         }
         if(p == '^'){
             return -2;

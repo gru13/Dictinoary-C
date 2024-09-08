@@ -48,10 +48,16 @@ int search(WINDOW* win){
     switch (wordIndex){
         case -1:
             // letter not found
+            mvwprintw(win,Y/2,X/2 - 19 ,"Word Not Found, <Enter> to Continue");
+            wrefresh(win);
+            while(wgetch(win) != ENTER);
             return -1;
             break;
         case -2:
             // no Word found in letter
+            mvwprintw(win,Y/2,X/2 - 25, "Word not Found in Letter '%c', <Enter> to Continue", data->Letter);
+            wrefresh(win);
+            while(wgetch(win) != ENTER);
             return -2;
             break;
         default:
@@ -61,7 +67,7 @@ int search(WINDOW* win){
     mvwprintw(win,y,x,"Meaning for '%s' :",data->Word);
     x += strlen(data->Word)+18;
     y += 2;
-    DisplayList(win,x,y,data->Meanings,data->nof_Meaning);
+    DisplayList(win,x,y,data->Meanings,data->nof_Meaning, 0);
     if (data->fp != NULL) {
         fclose(data->fp);
         data->fp = NULL;
@@ -147,7 +153,7 @@ int WordsInLetter(WINDOW* win){
                 break;
         }
     }
-    DisplayList(win,x,y,WORDS,data->nof_Words);
+    DisplayList(win,x,y,WORDS,data->nof_Words, 0);
     if(fclose(data->fp) != 0) {
         perror("Error closing Data file");
         return -1;

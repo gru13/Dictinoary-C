@@ -126,7 +126,6 @@ int AddMeaning(WINDOW* win){
         CloseData(data);
 
     }
-
     int x = X/20;
     int y = Y/5;
     initTemplate(win, "Add Another Meaning to Word");
@@ -185,6 +184,7 @@ int AddMeaning(WINDOW* win){
             break;
         case 1:
             // no input so repeat from first
+            data->nof_Meaning--;
             goto Meaning_AddMeaning;
             break;
         case -1:
@@ -212,19 +212,20 @@ int AddMeaning(WINDOW* win){
             fprintf(out,"%d,",l);
         }
     }
-    // fputc(fgetc(data->fp), out); // this add '\n'
-    // updated the topbar
-    CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc-1);
+    // updating the before meanings
+    long srcLoc = CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc-1);
     fprintf(out,"^%s\n",data->Word);
-    for(int i =0 ;i<data->nof_Meaning;i++){
+    for(int i = 0 ;i<data->nof_Meaning;i++){
         fprintf(out,"~%s\n", data->Meanings[i]);
     }
-    
-    char tmpC;
-    long loc = NextLetter(data->fp, &tmpC);
-    loc = (loc == -1)?-1:loc -1;
-    
-    // CopyInRange(out,data->fp,ftell(data->fp),EOF);
+    char tmpWord[X];
+    fseek(data->fp,data->WordLoc,SEEK_SET);
+    long loc = NextWord(data->fp, tmpWord);
+    if(loc == -2){
+        fseek(data->fp,data->WordLoc,SEEK_SET);
+        loc = NextLetter(data->fp, &tmpWord[0]);
+    }
+    loc = (loc == -1)?-1:loc - 1; // in case reached EOF
     CopyInRange(out,data->fp,loc,EOF);
     closeFiles(win,data,out,"Successfully create new meaning for the Word");
     free(data);

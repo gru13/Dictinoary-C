@@ -35,16 +35,14 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
     // getting Meaning
     int row = 0;
     do{
-        if(row >= nofRow){
-            break;
-        }
+
         choice = wgetch(win);
         if(choice == -1){
             continue;
         }
         if(index == 0 && choice == ' '){
             continue;
-        }else if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-' || (choice >= 'A' && choice <= 'Z' ) ){
+        }else if(row < nofRow &&(choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-' || (choice >= 'A' && choice <= 'Z' ) ){
             output[index] = (char)choice;
             mvwaddch(win,y+row,index - (X-6-x)*row + x,output[index]);
             wrefresh(win);
@@ -61,7 +59,7 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
             wrefresh(win);
             output[index] = '\0';
         }else if(choice == KEY_LEFT){
-            if(index == 0){
+            if(index == x){
                 continue;
             }
             index--;
@@ -114,18 +112,16 @@ int returnChoice(WINDOW* win){
     }
     return choice;
 }
-int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
+int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen, int initLoc){
     /*
         return ESC     -> if ESC pressed
         return cursorY + ofsetY -> if ENTER is pressed
     */
-    int cursorY = 0,ofsetY = 0,ofsetX = 0;
+    int cursorY = initLoc,ofsetY = 0,ofsetX = 0;
     int heigth = Y-y-4;
     heigth = (heigth >= listLen)?listLen:heigth;
     int width = X-x-5;
     int arrowX = x;
-
-
     x += 3;
     while(TRUE){
          for(int i =0 ;i<listLen && i < heigth;i++){

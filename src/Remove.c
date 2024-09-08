@@ -178,7 +178,7 @@ int removeMeaning(WINDOW* win){
     y += 5;
     FILE* out = fopen(TMP_FILE, "w");
     mvwprintw(win,y,x,"Select the meaning and Press Enter :");
-    int indexChosen = DisplayList(win,x+10,y+2,data->Meanings,data->nof_Meaning);
+    int indexChosen = DisplayList(win,x+10,y+2,data->Meanings,data->nof_Meaning, 0);
 
     long fpSRC = CopyInRange(out, data->fp,0,data->LetterPos);
 
@@ -192,17 +192,20 @@ int removeMeaning(WINDOW* win){
             fprintf(out,"%d,",l);
         }
     }
-    fpSRC = CopyInRange(out,data->fp,ftell(data->fp), data->MeaningLoc[indexChosen]-1);
-    if(indexChosen == data->nof_Meaning - 1 || (indexChosen == 0 && data->nof_Meaning == 1)){
-        char TmpWord[X];
-        long loc = NextWord(data->fp,TmpWord);
-        if(loc == -2){
-            loc = NextLetter(data->fp,&TmpWord[0]);
-        }
-        fpSRC = CopyInRange(out,data->fp,loc-1,EOF);
-    }else{
-        fpSRC = CopyInRange(out,data->fp,data->MeaningLoc[indexChosen+1]-1,EOF);
+    fpSRC = CopyInRange(out,data->fp,ftell(data->fp), data->MeaningLoc[indexChosen] - 1 );
+    char tmpSent[X+X];
+    fseek(data->fp,data->MeaningLoc[indexChosen], SEEK_SET);
+    long loc = NextMeaning(data->fp, tmpSent);
+    if(loc == -2){
+        fseek(data->fp,data->MeaningLoc[indexChosen], SEEK_SET);
+        loc = NextWord(data->fp, tmpSent);
     }
+    if(loc == -3){
+        fseek(data->fp,data->MeaningLoc[indexChosen], SEEK_SET);
+        loc = NextLetter(data->fp, &tmpSent[0]);
+    }
+    loc = (loc == -1)?-1:loc-1;
+    fpSRC = CopyInRange(out, data->fp, loc, EOF);
     mvwprintw(win,Y-2,2,"%d",indexChosen);
     wrefresh(win);
 
