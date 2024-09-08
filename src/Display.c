@@ -44,7 +44,7 @@ int mvwlinput(WINDOW* win,char output[X+X], const char query[X],int nofRow, int 
         }
         if(index == 0 && choice == ' '){
             continue;
-        }else if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-'){
+        }else if((choice >= 'a' && choice <= 'z' ) || choice == ' ' || choice == '-' || (choice >= 'A' && choice <= 'Z' ) ){
             output[index] = (char)choice;
             mvwaddch(win,y+row,index - (X-6-x)*row + x,output[index]);
             wrefresh(win);
@@ -121,8 +121,11 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
     */
     int cursorY = 0,ofsetY = 0,ofsetX = 0;
     int heigth = Y-y-4;
+    heigth = (heigth >= listLen)?listLen:heigth;
     int width = X-x-5;
     int arrowX = x;
+
+
     x += 3;
     while(TRUE){
          for(int i =0 ;i<listLen && i < heigth;i++){
@@ -168,7 +171,8 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
                     cursorY--;
                     ofsetY++;
                     if(ofsetY + cursorY >=  listLen){
-                        ofsetY--;
+                        ofsetY = 0;
+                        cursorY = 0;
                     }
                 }
                 mvwprintw(win,y+cursorY,arrowX,"->");
@@ -179,10 +183,11 @@ int DisplayList(WINDOW* win,int x, int y,char List[X][X+X], int listLen){
                 mvwprintw(win,y+cursorY,arrowX,"  ");
                 cursorY--;
                 if(cursorY <= -1){
-                    cursorY++;
+                    cursorY = 0;
                     ofsetY--;
-                    if(ofsetY <= 0){
-                        ofsetY = 0;
+                    if(ofsetY < 0){
+                        cursorY = heigth - 1;
+                        ofsetY = listLen - heigth;
                     }
                 }
                 mvwprintw(win,y+cursorY,arrowX,"->");

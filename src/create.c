@@ -24,19 +24,18 @@ int CreatePair(WINDOW* win){
     const char WordQuery[] = "Enter Word        : ";
     const char MeaningQuery[] = "Enter the Meaning : ";
     char newMeaning[X+x];
-    strcpy(data->Word,"dart");
+    Word_CreatePair:
     switch(mvwlinput(win, data->Word, WordQuery,1,x,y)){
         case 0:
             // successfully got input
             break;
         case 1:
             // no input so repeat from first
-            free(data);
-            return 1;
+            goto Word_CreatePair;
             break;
         case -1:
             // esc is pressed
-            free(data);
+            CloseData(data);
             return 0;
             break;
     }
@@ -51,29 +50,29 @@ int CreatePair(WINDOW* win){
             // no Word found in letter
             break;
         default:
-            mvwprintw(win,Y-2,X/20,"Word Exist in dict");
+            mvwprintw(win,Y-2,X/20,"Word Exist in dict, Enter to Continue");
             wrefresh(win);
-            Sleep(WAIT);
+            while(wgetch(win) != ENTER);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
-            free(data);
+            CloseData(data);
             return 1;
             // word found so printing
             break;
     }
     y += 2;
+    Meaning_CreatePair:
     switch(mvwlinput(win, newMeaning,MeaningQuery,2,x,y)){
         case 0:
             // successfully got input
             break;
         case 1:
             // no input so repeat from first
-            free(data);
-            return 1;
+            goto Meaning_CreatePair;
             break;
         case -1:
             // esc is pressed
-            free(data);
+            CloseData(data);
             return 0;
             break;
     }
@@ -82,7 +81,7 @@ int CreatePair(WINDOW* win){
     if(out == NULL){
         perror("Cant open out file in CreatePair");
         mvwprintw(win,Y/2,X/2-10,"Cant open the out file in create pair");
-        free(data);
+        CloseData(data);
         return -1;
     }
     // copying until the letter 
@@ -105,7 +104,7 @@ int CreatePair(WINDOW* win){
     fpSRC = CopyInRange(out,data->fp,loc,EOF);
     
     closeFiles(win,data,out,"Successfully created New Word with Meaning");
-    free(data);
+    CloseData(data);
     return returnChoice(win);
 }
 
@@ -124,6 +123,8 @@ int AddMeaning(WINDOW* win){
         mvwprintw(win,Y/2,X/2-10,"Cant open DATA the file in Add meaning");
         perror("Cant open DATA the file in Add meaning");
         wrefresh(win);
+        CloseData(data);
+
     }
 
     int x = X/20;
@@ -133,18 +134,18 @@ int AddMeaning(WINDOW* win){
     const char WordQuery[] =    "Enter Word            : ";
     const char MeaningQuery[] = "Enter the new Meaning : ";
     char newMeaning[X+x];
+    Word_AddMeaning:
     switch(mvwlinput(win, data->Word, WordQuery,1,x,y)){
         case 0:
             // successfully got input
             break;
         case 1:
             // no input so repeat from first
-            free(data);
-            return 1;
+            goto Word_AddMeaning;
             break;
         case -1:
             // esc is pressed
-            free(data);
+            CloseData(data);
             return 0;
             break;
     }
@@ -156,20 +157,20 @@ int AddMeaning(WINDOW* win){
             // letter not found
             mvwprintw(win,Y-2,X/20,"Word Doesn't Exist in dict");
             wrefresh(win);
-            Sleep(WAIT);
+            while(wgetch(win) != ENTER);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
-            free(data);
+            CloseData(data);
             return 1;
             break;
         case -2:
             // no Word found in letter
             mvwprintw(win,Y-2,X/20,"Word Doesn't Exist in dict so Enter a word that exit");
             wrefresh(win);
-            Sleep(WAIT);
+            while(wgetch(win) != ENTER);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
-            free(data);
+            CloseData(data);
             return 1;
             break;
         default:
@@ -177,16 +178,18 @@ int AddMeaning(WINDOW* win){
             break;
     }
     y += 2;
+    Meaning_AddMeaning:
     switch(mvwlinput(win, data->Meanings[data->nof_Meaning++],MeaningQuery,2,x,y)){
         case 0:
             // successfully got input
             break;
         case 1:
             // no input so repeat from first
-            return 1;
+            goto Meaning_AddMeaning;
             break;
         case -1:
             // esc is pressed
+            CloseData(data);
             return 0;
             break;
     }
@@ -216,19 +219,13 @@ int AddMeaning(WINDOW* win){
     for(int i =0 ;i<data->nof_Meaning;i++){
         fprintf(out,"~%s\n", data->Meanings[i]);
     }
-    ToWord(win,data);
-    char tmpCA[X];
-    long loc = NextWord(data->fp,tmpCA);
-    if(loc == -4){
-        char tmpC;
-        loc = NextLetter(data->fp,&tmpC);
-        if(loc != -1){
-            CopyInRange(out,data->fp,loc-1,EOF);
-        }
-    }else{
-        CopyInRange(out,data->fp,loc-1,EOF);
-    }
-
+    
+    char tmpC;
+    long loc = NextLetter(data->fp, &tmpC);
+    loc = (loc == -1)?-1:loc -1;
+    
+    // CopyInRange(out,data->fp,ftell(data->fp),EOF);
+    CopyInRange(out,data->fp,loc,EOF);
     closeFiles(win,data,out,"Successfully create new meaning for the Word");
     free(data);
     return returnChoice(win);

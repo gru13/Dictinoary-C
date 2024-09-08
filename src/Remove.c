@@ -22,7 +22,7 @@ int removeWord(WINDOW* win){
             break;
         case 1:
             // no input so repeat from first
-            if (data->fp != NULL) {
+            if (data->fp != NULL){
                 fclose(data->fp);
                 data->fp = NULL;
             }
@@ -31,7 +31,7 @@ int removeWord(WINDOW* win){
             break;
         case -1:
             // esc is pressed
-            if (data->fp != NULL) {
+            if (data->fp != NULL){
                 fclose(data->fp);
                 data->fp = NULL;
             }
@@ -89,22 +89,26 @@ int removeWord(WINDOW* win){
             fprintf(out,"%d,",l);
         }
     }
-    // fputc('\n',out);
-    // fgetc(data->fp);
-    // fputc(fgetc(data->fp), out); // this add '\n'
-    char tmpWord[X];
-    int nofMw[X];
-    CopyInRange(out,data->fp,ftell(data->fp)+1,data->WordLoc-1);
-    ToWord(win, data);
+    CopyInRange(out,data->fp,ftell(data->fp),data->WordLoc-1);
+    fseek(data->fp,data->WordLoc,SEEK_SET);
+    while(TRUE){
+        char c = fgetc(data->fp);
+        if(c == EOF){
+            break;
+        }
+        if(c == '@'){
+            ungetc('@',data->fp);
+            break;
+        }
+        if(c == '^'){
+            ungetc('^',data->fp);
+            break;
+        }
+    }
     CopyInRange(out,data->fp,ftell(data->fp),EOF);
     closeFiles(win,data,out,"Successfully delete the Word meaning");
     wrefresh(win);
-    
-    if (data->fp != NULL) {
-        fclose(data->fp);
-        data->fp = NULL;
-    }
-    free(data);
+    CloseData(data);
     return returnChoice(win);
 }
 
@@ -129,25 +133,17 @@ int removeMeaning(WINDOW* win){
     wrefresh(win);
     switch (mvwlinput(win,data->Word,query, 1, x, y)){
         case 0:
-            data->Letter = data->Word[0];
+            data->Letter = tolower(data->Word[0]);
             // sucessfully got input
             break;
         case 1:
             // no input so repeat from first
-            if (data->fp != NULL) {
-                fclose(data->fp);
-                data->fp = NULL;
-            }
-            free(data);
+            CloseData(data);
             return 1;
             break;
         case -1:
             // esc is pressed
-            if (data->fp != NULL) {
-                fclose(data->fp);
-                data->fp = NULL;
-            }
-            free(data);
+            CloseData(data);
             return 0;
             break;
     }
@@ -158,11 +154,7 @@ int removeMeaning(WINDOW* win){
             mvwprintw(win,Y/2,X/2 - 10 ,"Word '%s' not Found",data->Word);
             wrefresh(win);
             Sleep(1000);
-            if (data->fp != NULL) {
-                fclose(data->fp);
-                data->fp = NULL;
-            }
-            free(data);
+            CloseData(data);
             return -1;
             break;
         case -2:
@@ -170,11 +162,7 @@ int removeMeaning(WINDOW* win){
             mvwprintw(win,Y/2,X/2 - 10 ,"No Words Found in Letter '%c'",data->Letter);
             wrefresh(win);
             Sleep(1000);
-            if (data->fp != NULL) {
-                fclose(data->fp);
-                data->fp = NULL;
-            }
-            free(data);
+            CloseData(data);
             return -2;
             break;
         default:
@@ -184,16 +172,12 @@ int removeMeaning(WINDOW* win){
     if(data->nof_Meaning == 0){
         mvwprintw(win,Y/2,X/2-16,"NO meaning found in '%s",data->Word);
         wrefresh(win);
-        if (data->fp != NULL) {
-            fclose(data->fp);
-            data->fp = NULL;
-        }
-        free(data);
+        CloseData(data);
         return returnChoice(win);
     }
     y += 5;
     FILE* out = fopen(TMP_FILE, "w");
-    mvwprintw(win,y,x,"Select the meaning and type Enter :");
+    mvwprintw(win,y,x,"Select the meaning and Press Enter :");
     int indexChosen = DisplayList(win,x+10,y+2,data->Meanings,data->nof_Meaning);
 
     long fpSRC = CopyInRange(out, data->fp,0,data->LetterPos);
@@ -223,10 +207,6 @@ int removeMeaning(WINDOW* win){
     wrefresh(win);
 
     closeFiles(win,data,out,"Successfully delete the Word meaning Pair");
-    if (data->fp != NULL) {
-        fclose(data->fp);
-        data->fp = NULL;
-    }
-    free(data);
+    CloseData(data);
     return returnChoice(win);
 }

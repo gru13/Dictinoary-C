@@ -1,3 +1,9 @@
 D:/codings/Dictinoary/build/CMakeFiles/Dict.dir
+D:/codings/Dictinoary/build/CMakeFiles/package.dir
+D:/codings/Dictinoary/build/CMakeFiles/package_source.dir
 D:/codings/Dictinoary/build/CMakeFiles/edit_cache.dir
 D:/codings/Dictinoary/build/CMakeFiles/rebuild_cache.dir
+D:/codings/Dictinoary/build/CMakeFiles/list_install_components.dir
+D:/codings/Dictinoary/build/CMakeFiles/install.dir
+D:/codings/Dictinoary/build/CMakeFiles/install/local.dir
+D:/codings/Dictinoary/build/CMakeFiles/install/strip.dir

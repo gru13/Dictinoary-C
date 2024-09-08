@@ -11,24 +11,28 @@ int ToWord(WINDOW* win,Data* data){
     */
     rewind(data->fp);
     int nofMeaning[X]; char Meaning[X][X+X];
-    data->Letter = data->Word[0];
+    data->Letter = tolower(data->Word[0]);
     switch(ToLetter(win,data,nofMeaning)){
         case -1:
             // letter not found
-            mvwprintw(win,Y-2,X/20,"Letter '%c' not Found",data->Letter);
-            wrefresh(win);
-            Sleep(WAIT);
-            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
-            wrefresh(win);
+            if(DEBUG){
+                mvwprintw(win,Y-2,X/20,"Letter '%c' not Found",data->Letter);
+                wrefresh(win);
+                Sleep(WAIT);
+                mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+                wrefresh(win);
+            }
             return -1;
         case -2:
             // no Word found in letter
-            mvwprintw(win,Y-2,X/20,"No Words found in Letter '%c' ",data->Letter);
-            wrefresh(win);
-            Sleep(WAIT);
-            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
-            wrefresh(win);
+           if(DEBUG){
+                mvwprintw(win,Y-2,X/20,"No Words found in Letter '%c' ",data->Letter);
+                wrefresh(win);
+                Sleep(WAIT);
+                mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+                wrefresh(win);
             return -2;
+            }
         default :
             // no problem so proceed
             break;
@@ -49,28 +53,31 @@ int ToWord(WINDOW* win,Data* data){
             default:
                 break;
         }
-        mvwprintw(win,Y-2,X/20,"Word : %s",key);
-        wrefresh(win);
-        Sleep(WAIT);
+            
+        if(DEBUG){
+            mvwprintw(win,Y-2,X/20,"Word : %s",key);
+            wrefresh(win);
+            Sleep(WAIT);
+            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
+            wrefresh(win);
+        }
         if(strcmp(key,data->Word) == 0){
             data->WordLoc = loc;
             data->nof_Meaning = nofMeaning[i];
-            mvwhline(win,Y-2,X/20,' ',X - X/20-2);
-            wrefresh(win);
             for (int j = 0; j < data->nof_Meaning; j++){
                 data->MeaningLoc[j] = NextMeaning(data->fp,data->Meanings[j]);
             }
             return i;
         }
+    }
+
+    if(DEBUG){
+        mvwprintw(win,Y-2,X/20,"Word '%s' not found in Letter '%c' ",data->Word,data->Letter);
+        wrefresh(win);
+        Sleep(WAIT);
         mvwhline(win,Y-2,X/20,' ',X - X/20-2);
         wrefresh(win);
     }
-
-    mvwprintw(win,Y-2,X/20,"Word '%s' not found in Letter '%c' ",data->Word,data->Letter);
-    wrefresh(win);
-    Sleep(WAIT);
-    mvwhline(win,Y-2,X/20,' ',X - X/20-2);
-    wrefresh(win);
     return -1;
 }
 
@@ -91,13 +98,17 @@ int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]){
             default:
                 break;
         }
-        mvwprintw(win,Y-2,X/20,"Letter : %c",p);
-        wrefresh(win);
-        Sleep(200);
-        if(p == data->Letter){
-            data->LetterPos = loc;
+
+        if(DEBUG){
+            mvwprintw(win,Y-2,X/20,"Letter : %c",p);
+            wrefresh(win);
+            Sleep(WAIT);
             mvwhline(win,Y-2,X/20,' ',X - X/20-2);
             wrefresh(win);
+        }
+
+        if(p == data->Letter){
+            data->LetterPos = loc;
             fscanf(data->fp,"-%d,",&data->nof_Words);
             if(data->nof_Words == 0){
                 return -2;
@@ -107,8 +118,6 @@ int ToLetter(WINDOW* win ,Data* data,int nofMeaning[X]){
             }
             return 0;
         }
-        mvwhline(win,Y-2,X/20,' ',X - X/20-2);
-        wrefresh(win);
     }
     return -1;
 }
@@ -212,17 +221,39 @@ int ResetFile(WINDOW* win, int flag){
         return -2 -> cant close the file4
         return  0 -> all ok
      */
+   if(flag){
+        initTemplate(win,"Reseting the file");
+        mvwprintw(win,Y/2,X/2 - 10,"Press 'Enter' TO RESET");
+        mvwprintw(win,Y/2+1,X/2 - 15,"Press 'ESC' to Exit the operation");
+        wrefresh(win);
+        while(TRUE){
+            char w = wgetch(win);
+            if(w == ESC){
+                flag = 0;
+                mvwprintw(win,Y/2,X/2 - 10,"                      ");
+                mvwprintw(win,Y/2+1,X/2 - 15,"                                 ");
+                wrefresh(win);
+                goto END_RESETFILE;
+                break;
+            }
+            if(w == ENTER){
+                mvwprintw(win,Y/2,X/2 - 10,"                      ");
+                mvwprintw(win,Y/2+1,X/2 - 15,"                                 ");
+                wrefresh(win);
+                break;
+            }
+        }
+        
+   }
    FILE* fp = fopen(DATA_FILE,"w");
    if(fp == NULL){
     return -1;
-   }
-   if(flag){
-        initTemplate(win,"Reseting the file");
    }
 
    for (char l = 'a'; l <= 'z'; l++){
     fprintf(fp,"@%c-0,\n",l);
    }
+   END_RESETFILE:
    if(fclose(fp) != 0) {
         perror("Error closing Data file");
         return -2;
@@ -230,11 +261,11 @@ int ResetFile(WINDOW* win, int flag){
 
    if(flag){
         mvwprintw(win, Y/2,X/2-10,"FILE RESET Complete");
+        mvwprintw(win, Y/2+2,X/2-11,"Press <Enter> to Exit");
         wrefresh(win);
-        return returnChoice(win);
-   }else{
-    return 0;
+        while (wgetch(win) != ENTER);
    }
+    return 0;
 }
 
 int checkFileExist(const char* file_name){
@@ -289,5 +320,15 @@ int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]) {
         wrefresh(win);
     }
 
+    return 0;
+}
+
+
+int CloseData(Data* data){
+    if (data->fp != NULL){
+        fclose(data->fp);
+        data->fp = NULL;
+    }            
+    free(data);
     return 0;
 }

@@ -26,7 +26,7 @@ int search(WINDOW* win){
     switch(mvwlinput(win, data->Word, Query,1,x,y)){
         case 0:
             // sucessfully got input
-            data->Letter = data->Word[0];
+            data->Letter = tolower(data->Word[0]);
             break;
         case 1:
             // no input so repeat from first
@@ -92,7 +92,7 @@ int WordsInLetter(WINDOW* win){
     switch(mvwlinput(win, data->Word, Query,1,x,y)){
         case 0:
             // sucessfully got input
-            data->Letter = data->Word[0];
+            data->Letter = tolower(data->Word[0]);
             break;
         case 1:
             // no input so repeat from first

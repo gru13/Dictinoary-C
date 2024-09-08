@@ -1,7 +1,4 @@
-@a-2,2,36
-^apple
-~It is a furit
-~It is Red in color
+@a-1,36,
 ^air
 ~this Air
 ~Thus Air
@@ -39,7 +36,7 @@
 ~Thus Air
 ~this Air
 ~Thus Air
-@b-3,2,2,1
+@b-3,2,2,0,
 ^bat
 ~It is a playing tool qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
 ~It is used in Cricket, Baseball qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjkl
@@ -47,8 +44,6 @@
 ~Unit of measurement
 ~comes after Bit
 ^bthr
-~three
-@c-0,
 @d-0,
 @e-0,
 @f-0,

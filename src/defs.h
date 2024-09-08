@@ -22,9 +22,11 @@
 #define TMP_FILE "./tmp.txt"
 #define Y 30
 #define X 100
-#define WAIT 50
+#define WAIT 300
 #define TITLE "DICTIONARY"
 #define SEARCH "Searching Meaning for the Word"
+
+extern int DEBUG; 
 
 typedef struct data{
     FILE* fp;
@@ -72,6 +74,7 @@ int CopyInRange(FILE* to, FILE* from ,long start, long until);
 int closeFiles(WINDOW* win, Data* data, FILE* out, const char successText[X]);
 int ResetFile(WINDOW* win, int flag);
 int checkFileExist(const char* file_name);
+int CloseData(Data* data);
 
 /*
     defined in Display.c
