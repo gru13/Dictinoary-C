@@ -22,20 +22,12 @@ int removeWord(WINDOW* win){
             break;
         case 1:
             // no input so repeat from first
-            if (data->fp != NULL){
-                fclose(data->fp);
-                data->fp = NULL;
-            }
-            free(data);
+            CloseData(data);
             return 1;
             break;
         case -1:
             // esc is pressed
-            if (data->fp != NULL){
-                fclose(data->fp);
-                data->fp = NULL;
-            }
-            free(data);
+            CloseData(data);
             return 0;
             break;
     }
@@ -46,11 +38,7 @@ int removeWord(WINDOW* win){
             mvwprintw(win,Y/2,X/2 - 10 ,"Word '%s' not Found",data->Word);
             wrefresh(win);
             Sleep(1000);
-            if (data->fp != NULL) {
-                fclose(data->fp);
-                data->fp = NULL;
-            }
-            free(data);
+            CloseData(data);
             return -1;
             break;
         case -2:
@@ -58,11 +46,7 @@ int removeWord(WINDOW* win){
             mvwprintw(win,Y/2,X/2 - 10 ,"No Words Found in Letter '%c'",data->Letter);
             wrefresh(win);
             Sleep(1000);
-            if (data->fp != NULL) {
-                fclose(data->fp);
-                data->fp = NULL;
-            }
-            free(data);
+            CloseData(data);
             return -2;
             break;
         default:
@@ -96,12 +80,12 @@ int removeWord(WINDOW* win){
         if(c == EOF){
             break;
         }
-        if(c == '@'){
-            ungetc('@',data->fp);
+        if(c == LETTER_SYMBOL){
+            ungetc(LETTER_SYMBOL,data->fp);
             break;
         }
-        if(c == '^'){
-            ungetc('^',data->fp);
+        if(c == WORD_SYMBOL){
+            ungetc(WORD_SYMBOL,data->fp);
             break;
         }
     }

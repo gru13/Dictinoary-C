@@ -133,7 +133,7 @@ long NextLetter(FILE* fp, char*p){
             perror("reached end of file in next Letter");
             return -1;
         }
-        if(*p == '@'){
+        if(*p == LETTER_SYMBOL){
             break;
         }
     }
@@ -155,10 +155,10 @@ long NextWord(FILE* fp, char words[X]){
             perror("reached end of file in next Word");
             return -1;
         }
-        if(p == '@'){
+        if(p == LETTER_SYMBOL){
             return -2;
         }
-        if(p == '^'){
+        if(p == WORD_SYMBOL){
             break;
         }
     }
@@ -181,13 +181,13 @@ long NextMeaning(FILE* fp, char sent[X+X]){
             perror("reached end of file in next Word");
             return -1;
         }
-        if(p == '@'){
+        if(p == LETTER_SYMBOL){
             return -3;
         }
-        if(p == '^'){
+        if(p == WORD_SYMBOL){
             return -2;
         }
-        if(p == '~'){
+        if(p == MEANING_SYMBOL){
             break;
         }
     }

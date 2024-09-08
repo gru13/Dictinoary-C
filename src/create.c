@@ -228,6 +228,6 @@ int AddMeaning(WINDOW* win){
     loc = (loc == -1)?-1:loc - 1; // in case reached EOF
     CopyInRange(out,data->fp,loc,EOF);
     closeFiles(win,data,out,"Successfully create new meaning for the Word");
-    free(data);
+    CloseData(data);
     return returnChoice(win);
 }

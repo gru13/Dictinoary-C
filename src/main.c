@@ -9,6 +9,7 @@ int main(){
                         "Remove Word and Meaning",
                         "Remove a Meaning",
                         "list Words in a letter",
+                        "Print All Words",
                         "Reset the file",
                         "Exit"};
     int State = TRUE;
@@ -87,9 +88,12 @@ int main(){
                 while(WordsInLetter(win));
                 break;
             case 6:
-                ResetFile(win,1);
+                while(AllWords(win));
                 break;
             case 7:
+                ResetFile(win,1);
+                break;
+            case 8:
                 Exit = 0;
                 break;
             default:

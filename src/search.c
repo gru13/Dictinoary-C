@@ -12,7 +12,7 @@ int search(WINDOW* win){
         perror("Cant open the file in Search");
         mvwprintw(win,Y-1,X/20,"Cant open the file in Search");
         wrefresh(win);
-        free(data);
+        CloseData(data);
         return -1;
     }
     initTemplate(win,SEARCH);
@@ -68,11 +68,7 @@ int search(WINDOW* win){
     x += strlen(data->Word)+18;
     y += 2;
     DisplayList(win,x,y,data->Meanings,data->nof_Meaning, 0);
-    if (data->fp != NULL) {
-        fclose(data->fp);
-        data->fp = NULL;
-    }
-    free(data);
+    CloseData(data);
     return returnChoice(win);
 }
 
@@ -83,13 +79,12 @@ int WordsInLetter(WINDOW* win){
         mvwprintw(win,Y/2,X/2-10,"Cant open the file in WordsInLetter");
         perror("Cant open the file in WordsInLetter");
         wrefresh(win);
-        free(data);
+        CloseData(data);
         return -1;
     }
-    const char LetterQuery[] ="";
     int x = X/20;
     int y = Y/7;
-    initTemplate(win,"Search for Word");
+    initTemplate(win,"ALL WORDS in Letter");
     const char Query[X] = "Enter the Letter to search : ";
     // mvwprintw(win,y,x,Query);
     mvwhline(win,y+2,1,WA_HORIZONTAL,X-2);
@@ -117,8 +112,7 @@ int WordsInLetter(WINDOW* win){
     switch(ToLetter(win,data,nofMeaning)){
         case -1:
             //Eof reached
-            free(data->fp);
-            free(data);
+            CloseData(data);
             return 1;
             break;
         case 0:
@@ -130,12 +124,7 @@ int WordsInLetter(WINDOW* win){
     if(data->nof_Words == 0){
         mvwprintw(win, Y/2, X/2 - 17, "No Words Found in the Letter '%c'", data->Letter);
         wrefresh(win);
-        if (data->fp != NULL) {
-            fclose(data->fp);
-            data->fp = NULL;
-        }
-        free(data->fp);
-        free(data);
+        CloseData(data);
         return returnChoice(win);
     }
     char WORDS[X][X+X];
@@ -156,13 +145,38 @@ int WordsInLetter(WINDOW* win){
     DisplayList(win,x,y,WORDS,data->nof_Words, 0);
     if(fclose(data->fp) != 0) {
         perror("Error closing Data file");
+        CloseData(data);
         return -1;
     }
-    if (data->fp != NULL) {
-        fclose(data->fp);
-        data->fp = NULL;
-    }
-    free(data->fp);
-    free(data);
+    CloseData(data);
     return returnChoice(win);
+}
+
+int AllWords(WINDOW* win){
+    FILE* fp = fopen(DATA_FILE,"r");
+    if(fp == NULL){
+        perror("Cant open the file in Search");
+        mvwprintw(win,Y-1,X/20,"Cant open the file in Search");
+        wrefresh(win);
+        return -1;
+    }
+    int x = X/20;
+    int y = Y/7;
+    initTemplate(win,"SEARCH ALL WORDS");
+    char WORDS[X][X+X];
+    char p, tmpC;
+    int index = 0;
+    do{
+        p = fgetc(fp);
+        if(p == (int)WORD_SYMBOL){
+            fscanf(fp, "%s-", WORDS[index]);
+            index++;
+        }
+    }while(p != EOF);
+
+    mvwprintw(win, Y-2, X/20, "Number of Words is %d", index);
+    wrefresh(win);      
+    DisplayList(win, x, y, WORDS,index,0);
+    fclose(fp);
+    return returnChoice(win);   
 }

@@ -15,6 +15,10 @@
     #include <io.h>
 #endif
 
+#define LETTER_SYMBOL '@'
+#define WORD_SYMBOL '^'
+#define MEANING_SYMBOL '~'
+
 #define ENTER  10
 #define ESC 27  
 #define BACKSPACE 8
@@ -53,6 +57,7 @@ int maxlenArray(char arr[X][X+X],int arrLen);
 */
 int search(WINDOW* win);
 int WordsInLetter(WINDOW* win);
+int AllWords(WINDOW* win);
 
 /*
     Defined in create.c
